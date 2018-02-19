@@ -1,0 +1,17 @@
+{
+  "name": "figure-bot",
+  "version": "1.0.0",
+  "description": "push figure message and answer figure question",
+  "main": "index.js",
+  "dependencies": {
+    "kw-crawler": "0.0.9",
+    "mongoose": "^5.0.6",
+    "typegoose": "^3.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
