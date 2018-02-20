@@ -4,8 +4,9 @@
   "description": "push figure message and answer figure question",
   "main": "index.js",
   "dependencies": {
-    "kw-crawler": "0.0.9",
+    "kw-crawler": "1.0.1",
     "mongoose": "^5.0.6",
+    "puppeteer": "^1.1.0",
     "typegoose": "^3.9.0"
   },
   "devDependencies": {},
