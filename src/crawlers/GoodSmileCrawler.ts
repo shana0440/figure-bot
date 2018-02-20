@@ -1,6 +1,6 @@
 import { HTMLCrawler } from 'kw-crawler';
 import { Crawler } from './Crawler';
-import { FigureSchema } from '../Figure';
+import { IFigure } from '../Figure';
 import { createHash } from 'crypto';
 
 export class GoodSmileCrawler extends Crawler {
@@ -14,7 +14,7 @@ export class GoodSmileCrawler extends Crawler {
         const results = await crawler.getResults({args: ['--no-sandbox']});
         return results['figures_links'];
     }
-    protected async parseFigurePage(url: string): Promise<FigureSchema> {
+    protected async parseFigurePage(url: string): Promise<IFigure> {
         const crawler = new HTMLCrawler(url);
         crawler.setRule({
             name: 'name',
@@ -74,7 +74,7 @@ export class GoodSmileCrawler extends Crawler {
             value: createHash('md5').update(url).digest('hex'),
         })
 
-        const figure: FigureSchema = await crawler.getResults({args: ['--no-sandbox']});
+        const figure = await crawler.getResults({args: ['--no-sandbox']});
         return figure;
     }
 }

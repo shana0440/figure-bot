@@ -1,4 +1,4 @@
-import { FigureSchema } from "../Figure";
+import { IFigure } from "../Figure";
 import { URL } from 'url';
 
 export abstract class Crawler {
@@ -8,9 +8,9 @@ export abstract class Crawler {
         this.url = new URL(url);
     }
 
-    public async getFigures(): Promise<Array<FigureSchema>> {
+    public async getFigures(): Promise<Array<IFigure>> {
         const productURLs = await this.parseFigureListPage();
-        const figures: Array<FigureSchema> = [];
+        const figures: Array<IFigure> = [];
         for (let url of productURLs) {
             figures.push(await this.parseFigurePage(url));
         }
@@ -18,5 +18,5 @@ export abstract class Crawler {
     }
 
     protected abstract async parseFigureListPage(): Promise<Array<string>>;
-    protected abstract async parseFigurePage(url: string): Promise<FigureSchema>;
+    protected abstract async parseFigurePage(url: string): Promise<IFigure>;
 }

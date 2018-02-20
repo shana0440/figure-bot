@@ -7,9 +7,11 @@
     "kw-crawler": "1.0.1",
     "mongoose": "^5.0.6",
     "puppeteer": "^1.1.0",
-    "typegoose": "^3.9.0"
+    "typescript": "^2.7.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/mongoose": "^5.0.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "crawl": "node bin/crawl.js"
