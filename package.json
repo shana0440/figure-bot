@@ -4,15 +4,19 @@
   "description": "push figure message and answer figure question",
   "main": "index.js",
   "dependencies": {
+    "aws-sdk": "^2.198.0",
     "kw-crawler": "1.0.1",
     "lodash": "^4.17.5",
     "mongoose": "^5.0.6",
-    "puppeteer": "^1.1.0"
+    "puppeteer": "^1.1.0",
+    "request": "^2.83.0"
   },
   "devDependencies": {
-    "typescript": "^2.7.2",
+    "@types/aws-sdk": "^2.7.0",
     "@types/lodash": "^4.14.104",
-    "@types/mongoose": "^5.0.2"
+    "@types/mongoose": "^5.0.2",
+    "@types/request": "^2.47.0",
+    "typescript": "^2.7.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
