@@ -1,9 +1,11 @@
 import * as mongoose from 'mongoose';
+import * as _ from 'lodash';
+import { Model, Document } from 'mongoose';
 
 const mongoConnString = `mongodb://${process.env.MONGO_HOST}:27017/figures_bot`;
 mongoose.connect(mongoConnString);
 
-export interface IFigure {
+export interface IFigure extends Document {
     name:         string,  // 產品名稱
     series:       string,  // 作品名稱
     company:      string,  // 製作商
@@ -24,7 +26,28 @@ const FigureSchema = new mongoose.Schema({
     price:        String,  // 價格
     image:        String,  // 圖片
     url:          String,  // 網址
-    md5_url:      String,  // hash過的網址，用來當作unique index
+    md5_url: {             // hash過的網址，用來當作unique index
+        type: String,
+        unique: true,
+    }
 })
 
-export const Figure = mongoose.model('Figure', FigureSchema);
+const FigureString = 'Figure';
+
+FigureSchema.statics.notInDB = async function(figures: Array<IFigure>): Promise<Array<IFigure>> {
+    const results = await (<mongoose.Model<any>>this.model(FigureString))
+        .where('md5_url').in(figures.map(f => f.md5_url))
+        .exec();
+
+    return _.differenceBy(
+        figures,
+        results,
+        (f1: IFigure, f2: IFigure) => f1.md5_url == (f2 && f2.md5_url || '')
+    );
+}
+
+interface IFigureModel extends Model<IFigure> {
+    notInDB(figures: Array<IFigure>): Promise<Array<IFigure>>;
+}
+
+export const Figure: IFigureModel = mongoose.model<IFigure, IFigureModel>(FigureString, FigureSchema);
