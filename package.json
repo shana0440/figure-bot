@@ -5,8 +5,10 @@
   "main": "index.js",
   "dependencies": {
     "aws-sdk": "^2.199.0",
+    "bottender": "^0.14.22",
     "kw-crawler": "^1.0.2",
     "lodash": "^4.17.5",
+    "moment": "^2.20.1",
     "mongoose": "^5.0.6",
     "puppeteer": "^1.1.0",
     "request": "^2.83.0"
