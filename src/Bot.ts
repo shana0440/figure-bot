@@ -4,7 +4,7 @@ import * as path from 'path';
 import { IFigure } from './Figure';
 import * as moment from 'moment';
 
-const usersFile = `${__dirname}/users.json`;
+const usersFile = `./share/users.json`;
 const users: string[] = fs.existsSync(usersFile) ? JSON.parse(fs.readFileSync(usersFile).toString()) : [];
 
 const bot = new LineBot({
