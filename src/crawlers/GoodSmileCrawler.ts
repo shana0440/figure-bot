@@ -2,10 +2,15 @@ import { HTMLCrawler } from 'kw-crawler';
 import { Crawler } from './Crawler';
 import { IFigure } from '../Figure';
 import { createHash } from 'crypto';
+import { URL } from 'url';
 
 export class GoodSmileCrawler extends Crawler {
     protected async parseFigureListPage(): Promise<Array<string>> {
-        const crawler = new HTMLCrawler(this.url);
+        const year = new Date().getFullYear();
+        const url = `http://www.goodsmile.info/zh/products/category/scale/announced/${year}`;
+        this.url = new URL(url);
+        
+        const crawler = new HTMLCrawler(this.url.href);
         crawler.setRule({
             name: 'figures_links',
             selector: '.hitBox > a',

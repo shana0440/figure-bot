@@ -4,10 +4,6 @@ import { URL } from 'url';
 export abstract class Crawler {
     protected url: URL;
 
-    constructor(url) {
-        this.url = new URL(url);
-    }
-
     public async getFigures(): Promise<Array<IFigure>> {
         const productURLs = await this.parseFigureListPage();
         const figures: Array<IFigure> = [];
