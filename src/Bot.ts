@@ -1,13 +1,31 @@
-import { LineBot } from 'bottender';
+import { LineBot, LineHandler } from 'bottender';
 import * as fs from 'fs';
 import * as path from 'path';
 import { IFigure } from './Figure';
 import * as moment from 'moment';
 
+const usersFile = `${__dirname}/users.json`;
+const users: string[] = fs.existsSync(usersFile) ? JSON.parse(fs.readFileSync(usersFile).toString()) : [];
+
 const bot = new LineBot({
     channelSecret: process.env.LINE_CHANNEL_SECRET,
     accessToken: process.env.LINE_ACCESS_TOKEN,
 });
+
+const handler = new LineHandler()
+    .onFollow(async context => {
+        users.push(context.session.user.id);
+        fs.writeFile(usersFile, JSON.stringify(users), () => {});
+    })
+    .onUnfollow(async context => {
+        const index = users.indexOf(context.session.user.id);
+        users.splice(index, 1);
+        fs.writeFile(usersFile, JSON.stringify(users), () => {});
+    });
+
+bot.onEvent(handler);
+
+export const BotServer = bot;
 
 const splitText = (text, length) => {
     if (text.length > length) {
@@ -18,7 +36,6 @@ const splitText = (text, length) => {
 }
 
 export const multicastFigures = async (figures: IFigure[]) => {
-    const users: JSON = JSON.parse(fs.readFileSync(`${__dirname}/usres.json`).toString());
     for (let figure of figures) {
         const releaseDate = moment(figure.release_date);
         const title = splitText(figure.name, 30);
