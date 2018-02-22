@@ -2,11 +2,19 @@ import * as AWS from 'aws-sdk';
 import * as request from 'request';
 import { createHash } from 'crypto';
 import { PassThrough } from 'stream';
+import { IFigure } from './Figure';
 
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 })
+
+export const uploadFiguresImage = async (figures: IFigure[]): Promise<IFigure[]> => {
+    for (let figure of figures) {
+        figure.image = await uploadByURL(figure.image);
+    }
+    return figures;
+}
 
 export const uploadByURL = (url: string): Promise<string> => {
     const filename = createHash('md5').update(url).digest('hex') + '.' + url.split('.').pop();

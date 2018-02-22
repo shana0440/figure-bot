@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as _ from 'lodash';
 import { Model, Document } from 'mongoose';
+import { createHash } from 'crypto';
 
 const mongoConnString = `mongodb://${process.env.MONGO_HOST}:27017/figures_bot`;
 mongoose.connect(mongoConnString);
@@ -34,7 +35,18 @@ const FigureSchema = new mongoose.Schema({
 
 const FigureString = 'Figure';
 
-FigureSchema.statics.notInDB = async function(figures: Array<IFigure>): Promise<Array<IFigure>> {
+FigureSchema.statics.getUnparsed = async function(urls: string[]): Promise<string[]> {
+    const results: IFigure[] = await (<mongoose.Model<any>>this.model(FigureString))
+        .where('md5_url')
+        .in(
+            urls.map(url => createHash('md5').update(url).digest('hex'))
+        )
+        .exec();
+
+    return _.difference(urls, results.map(r => r.url));
+}
+
+FigureSchema.statics.getUnsaved = async function(figures: Array<IFigure>): Promise<Array<IFigure>> {
     const results = await (<mongoose.Model<any>>this.model(FigureString))
         .where('md5_url').in(figures.map(f => f.md5_url))
         .exec();
@@ -47,7 +59,8 @@ FigureSchema.statics.notInDB = async function(figures: Array<IFigure>): Promise<
 }
 
 interface IFigureModel extends Model<IFigure> {
-    notInDB(figures: Array<IFigure>): Promise<Array<IFigure>>;
+    getUnsaved(figures: Array<IFigure>): Promise<Array<IFigure>>;
+    getUnparsed(urls: string[]): Promise<string[]>;
 }
 
 export const Figure: IFigureModel = mongoose.model<IFigure, IFigureModel>(FigureString, FigureSchema);

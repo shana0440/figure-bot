@@ -4,10 +4,14 @@ import { URL } from 'url';
 export abstract class Crawler {
     protected url: URL;
 
-    public async getFigures(): Promise<Array<IFigure>> {
-        const productURLs = await this.parseFigureListPage();
+    public async getFiguresURL(): Promise<string[]> {
+        const figuresURL = await this.parseFigureListPage();
+        return figuresURL;
+    }
+
+    public async getFigures(urls: string[]): Promise<Array<IFigure>> {
         const figures: Array<IFigure> = [];
-        for (let url of productURLs) {
+        for (let url of urls) {
             figures.push(await this.parseFigurePage(url));
         }
         return figures;
