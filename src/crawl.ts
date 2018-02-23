@@ -5,11 +5,13 @@ import { Model } from 'mongoose';
 import { uploadFiguresImage } from './Storage';
 import * as Bot from './Bot';
 import { Crawler } from './crawlers/Crawler';
+import { AlterCrawler } from './crawlers/AlterCrawler';
 
 class CrawlFlow {
     crawlers: Crawler[] = [];
     constructor() {
         this.crawlers.push(new GoodSmileCrawler());
+        this.crawlers.push(new AlterCrawler());
     }
 
     async start() {

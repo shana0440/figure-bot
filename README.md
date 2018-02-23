@@ -15,3 +15,4 @@ Use **Line** scan QR Code below, and press **Add** button
 ## Figures Information Source
 
 - [x] [GoodSmile](http://www.goodsmile.info/zh)
+- [x] [Alter](https://alter-web.jp)
