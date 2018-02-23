@@ -22,7 +22,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "crawl": "node bin/crawl.js"
+    "crawl": "node bin/crawl.js",
+    "crawl-dev": "node --inspect=0.0.0.0:9229 bin/crawl.js"
   },
   "author": "",
   "license": "ISC"
