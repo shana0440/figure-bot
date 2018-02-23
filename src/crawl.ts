@@ -6,12 +6,14 @@ import { uploadFiguresImage } from './Storage';
 import * as Bot from './Bot';
 import { Crawler } from './crawlers/Crawler';
 import { AlterCrawler } from './crawlers/AlterCrawler';
+import { KotobukiyaCrawler } from './crawlers/KotobukiyaCrawler';
 
 class CrawlFlow {
     crawlers: Crawler[] = [];
     constructor() {
         this.crawlers.push(new GoodSmileCrawler());
         this.crawlers.push(new AlterCrawler());
+        this.crawlers.push(new KotobukiyaCrawler());
     }
 
     async start() {

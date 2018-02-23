@@ -16,3 +16,4 @@ Use **Line** scan QR Code below, and press **Add** button
 
 - [x] [GoodSmile](http://www.goodsmile.info/zh)
 - [x] [Alter](https://alter-web.jp)
+- [x] [壽屋](https://www.kotobukiya.co.jp)
