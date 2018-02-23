@@ -58,12 +58,6 @@ export class GoodSmileCrawler extends Crawler {
         });
 
         crawler.setRule({
-            name: 'price',
-            selector: '.detailBox div > dd',
-            callback: selector => selector.text().replace(/\s/g, ''),
-        });
-
-        crawler.setRule({
             name: 'image',
             selector: '#itemZoom1 img.itemImg',
             callback: selector => this.url.protocol + selector.attr('src'),
