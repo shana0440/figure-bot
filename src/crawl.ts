@@ -7,6 +7,7 @@ import * as Bot from './Bot';
 import { Crawler } from './crawlers/Crawler';
 import { AlterCrawler } from './crawlers/AlterCrawler';
 import { KotobukiyaCrawler } from './crawlers/KotobukiyaCrawler';
+import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
 
 class CrawlFlow {
     crawlers: Crawler[] = [];
@@ -14,6 +15,7 @@ class CrawlFlow {
         this.crawlers.push(new GoodSmileCrawler());
         this.crawlers.push(new AlterCrawler());
         this.crawlers.push(new KotobukiyaCrawler());
+        this.crawlers.push(new TokyofigureCrawler());
     }
 
     async start() {
