@@ -18,3 +18,4 @@ Use **Line** scan QR Code below, and press **Add** button
 - [x] [Alter](https://alter-web.jp)
 - [x] [壽屋](https://www.kotobukiya.co.jp)
 - [x] [東京フィギュア](https://tokyofigure.jp)
+- [x] [F:NEX](https://fnex.jp)
