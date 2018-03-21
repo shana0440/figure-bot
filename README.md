@@ -19,3 +19,4 @@ Use **Line** scan QR Code below, and press **Add** button
 - [x] [壽屋](https://www.kotobukiya.co.jp)
 - [x] [東京フィギュア](https://tokyofigure.jp)
 - [x] [F:NEX](https://fnex.jp)
+- [x] [Aoshima](http://www.aoshima-bk.co.jp)

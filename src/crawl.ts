@@ -9,6 +9,7 @@ import { AlterCrawler } from './crawlers/AlterCrawler';
 import { KotobukiyaCrawler } from './crawlers/KotobukiyaCrawler';
 import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
 import { FnexCrawler } from './crawlers/FnexCrawler';
+import { AoshimaCrawler } from './crawlers/AoshimaCrawler';
 
 class CrawlFlow {
     crawlers: Crawler[] = [];
@@ -18,6 +19,7 @@ class CrawlFlow {
         this.crawlers.push(new KotobukiyaCrawler());
         this.crawlers.push(new TokyofigureCrawler());
         this.crawlers.push(new FnexCrawler());
+        this.crawlers.push(new AoshimaCrawler());
     }
 
     async start() {
