@@ -5,8 +5,13 @@ export abstract class Crawler {
     protected url: URL;
 
     public async getFiguresURL(): Promise<string[]> {
-        const figuresURL = await this.parseFigureListPage();
-        return figuresURL;
+        try {
+            const figuresURL = await this.parseFigureListPage();
+            return figuresURL;
+        } catch (err) {
+            console.error(this.constructor.name, err);
+            return [];
+        }
     }
 
     public async getFigures(urls: string[]): Promise<Array<IFigure>> {
