@@ -21,3 +21,4 @@ Use **Line** scan QR Code below, and press **Add** button
 - [x] [F:NEX](https://fnex.jp)
 - [x] [Aoshima](http://www.aoshima-bk.co.jp)
 - [x] [Alphamax](http://alphamax.jp)
+- [x] [PULCHRA](https://pulc.jp)
