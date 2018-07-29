@@ -11,7 +11,11 @@ AWS.config.update({
 
 export const uploadFiguresImage = async (figures: IFigure[]): Promise<IFigure[]> => {
     for (let figure of figures) {
-        figure.image = await uploadByURL(figure.image);
+        try {
+            figure.image = await uploadByURL(figure.image);
+        } catch (err) {
+            console.log('this figure cant upload image: ', figure);
+        }
     }
     return figures;
 }
