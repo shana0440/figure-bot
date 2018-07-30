@@ -6,7 +6,7 @@
   "dependencies": {
     "aws-sdk": "^2.199.0",
     "bottender": "^0.14.22",
-    "kw-crawler": "^1.0.2",
+    "kw-crawler": "^1.1.0",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "mongoose": "^5.0.6",
@@ -18,10 +18,12 @@
     "@types/lodash": "^4.14.104",
     "@types/mongoose": "^5.0.2",
     "@types/request": "^2.47.0",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
     "typescript": "^2.7.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/mocha/bin/mocha ./tests/",
     "crawl": "node bin/crawl.js",
     "crawl-dev": "node --inspect=0.0.0.0:9229 bin/crawl.js"
   },

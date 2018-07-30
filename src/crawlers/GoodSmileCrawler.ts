@@ -21,6 +21,13 @@ export class GoodSmileCrawler extends Crawler {
     }
     protected async parseFigurePage(url: string): Promise<IFigure> {
         const crawler = new HTMLCrawler(url);
+
+        crawler.setCookie({
+            name: 'age_verification_ok',
+            value: 'true',
+            domain: 'www.goodsmile.info',
+        });
+
         crawler.setRule({
             name: 'name',
             selector: '#itemBox > div.itemInfo > h1',
