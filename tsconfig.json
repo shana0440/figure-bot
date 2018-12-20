@@ -3,7 +3,7 @@
         "target": "es2015",
         "module": "commonjs",
         "lib": [
-            "es2015", "es2016", "es6"
+            "es2015", "es2016", "es6", "esnext"
         ],
         "outDir": "bin",
         "sourceMap": true
