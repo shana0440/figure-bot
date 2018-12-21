@@ -7,6 +7,7 @@ interface AWS {
   accessKeyId: string;
   secretAccessKey: string;
   region: "ap-northeast-1";
+  s3WebURL: string;
 }
 
 interface LINE {
@@ -28,7 +29,8 @@ const config: Config = {
   aws: {
     accessKeyId: "",
     secretAccessKey: "",
-    region: "" as any
+    region: "" as any,
+    s3WebURL: process.env.S3_WEB_URL
   },
   line: {
     accessToken: "",

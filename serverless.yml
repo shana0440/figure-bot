@@ -30,6 +30,8 @@ provider:
         - "Fn::GetAtt": [figuresBucket, Arn]
   environment:
     ENV: ${self:provider.stage}
+    S3_WEB_URL:
+      "Fn::GetAtt": [figuresBucket, WebsiteURL]
 
 functions:
   crawl-schedule:
