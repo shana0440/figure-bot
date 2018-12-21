@@ -28,6 +28,8 @@ provider:
       Resource:
         - "Fn::GetAtt": [figuresTable, Arn]
         - "Fn::GetAtt": [figuresBucket, Arn]
+  environment:
+    ENV: ${self:provider.stage}
 
 functions:
   crawl-schedule:

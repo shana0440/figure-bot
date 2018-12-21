@@ -2,6 +2,7 @@ import { LineBot, LineHandler } from "bottender";
 import * as fs from "fs";
 import { IFigure } from "./Figure";
 import * as moment from "moment";
+import config from "./config";
 
 const usersFile = `./share/users.json`;
 const users: string[] = fs.existsSync(usersFile)
@@ -9,8 +10,8 @@ const users: string[] = fs.existsSync(usersFile)
   : [];
 
 const bot = new LineBot({
-  channelSecret: process.env.LINE_CHANNEL_SECRET,
-  accessToken: process.env.LINE_ACCESS_TOKEN
+  channelSecret: config.line.channelSecret,
+  accessToken: config.line.accessToken
 });
 
 const handler = new LineHandler()

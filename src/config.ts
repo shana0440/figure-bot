@@ -9,9 +9,15 @@ interface AWS {
   region: "ap-northeast-1";
 }
 
+interface LINE {
+  channelSecret: string;
+  accessToken: string;
+}
+
 interface Config {
   app: App;
   aws: AWS;
+  line: LINE;
 }
 
 const config: Config = {
@@ -23,6 +29,10 @@ const config: Config = {
     accessKeyId: "",
     secretAccessKey: "",
     region: "" as any
+  },
+  line: {
+    accessToken: "",
+    channelSecret: ""
   }
 };
 
