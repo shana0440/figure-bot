@@ -24,16 +24,17 @@ provider:
       Action:
         - dynamodb:BatchWriteItem
         - dynamodb:BatchGetItem
+        - s3:PutObject
       Resource:
-        - "Fn:Get": [figuresTable, "Arn"]
-        - "Fn:Get": [usersTable, "Arn"]
+        - "Fn::GetAtt": [figuresTable, Arn]
+        - "Fn::GetAtt": [figuresBucket, Arn]
 
 functions:
   crawl-schedule:
     handler: src/crawl.handler
     timeout: 300
     events:
-      - schedule: rate(8 hours)
+      - schedule: cron(0 12,18 * * *)
 
 resources:
   Resources:
@@ -50,16 +51,16 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-    usersTable:
-      Type: AWS::DynamoDB::Table
+    figuresBucket:
+      Type: AWS::S3::Bucket
       Properties:
-        TableName: users_${self:provider.stage}
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
+        BucketName: figures_${self:provider.stage}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+              MaxAge: 3000
