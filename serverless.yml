@@ -26,6 +26,7 @@ provider:
         - dynamodb:BatchGetItem
       Resource:
         - "Fn:Get": [figuresTable, "Arn"]
+        - "Fn:Get": [usersTable, "Arn"]
 
 functions:
   crawl-schedule:
@@ -39,7 +40,20 @@ resources:
     figuresTable:
       Type: AWS::DynamoDB::Table
       Properties:
-          TableName: figures_${self:provider.stage}
+        TableName: figures_${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: users_${self:provider.stage}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
