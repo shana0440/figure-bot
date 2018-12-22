@@ -1,3 +1,4 @@
+import { Handler } from "aws-lambda";
 import { GoodSmileCrawler } from "./crawlers/GoodSmileCrawler";
 import { Figure } from "./Figure";
 import { uploadFiguresImage } from "./Storage";
@@ -25,37 +26,27 @@ class CrawlFlow {
   }
 
   async start() {
-    console.time("parse figures spend");
-    let parsedFiguresCount = 0;
     for (let crawler of this.crawlers) {
-      console.log(crawler.constructor.name, "crawler figure urls");
       const urls: string[] = await crawler.getFiguresURL();
-      console.log(crawler.constructor.name, "get unparse urls");
       const unParseURLs = await Figure.getUnparsed(urls);
-      console.log(crawler.constructor.name, "get figure url");
       let figures = await crawler.getFigures(unParseURLs);
-      console.log(crawler.constructor.name, "get unsave url");
       figures = await Figure.getUnsaved(figures);
-      console.log(crawler.constructor.name, "upload image");
       figures = await uploadFiguresImage(figures);
-      console.log(crawler.constructor.name, "multicast");
       await Bot.multicastFigures(figures);
       await Figure.insertMany(figures);
-      console.log(crawler.constructor.name, "end");
-      parsedFiguresCount += figures.length;
     }
-    console.timeEnd("parse figures spend");
-    console.log(`parsed ${parsedFiguresCount} figures`);
   }
 }
 
-(async () => {
+export const handler: Handler = async () => {
   try {
+    // TODO: start another lambda to parse figure
     const crawl = new CrawlFlow();
     await crawl.start();
     process.exit();
   } catch (err) {
+    // TODO handler error
     console.error(err);
     process.exit();
   }
-})();
+};

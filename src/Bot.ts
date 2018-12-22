@@ -4,6 +4,7 @@ import { IFigure } from "./Figure";
 import * as moment from "moment";
 import config from "./config";
 
+// TODO: get from s3
 const usersFile = `./share/users.json`;
 const users: string[] = fs.existsSync(usersFile)
   ? JSON.parse(fs.readFileSync(usersFile).toString())
