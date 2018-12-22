@@ -5,7 +5,7 @@ import { createHash } from "crypto";
 import { URL } from "url";
 
 export default class PulchraCrawler extends Crawler {
-  public async getFiguresURL(): Promise<Array<string>> {
+  public async getFiguresURL(): Promise<string[]> {
     const url = `https://pulc.jp/category/select/cid/312/page/1/mode/2/language/ja`;
     this.url = new URL(url);
 
@@ -24,7 +24,10 @@ export default class PulchraCrawler extends Crawler {
     crawler.setRule({
       name: "name",
       selector: ".description",
-      callback: selector => selector.text().match(/【キャラ名】(.*)\B/)[1] || ""
+      callback: selector => {
+        const name = selector.text().match(/【キャラ名】(.*)\B/);
+        return name ? name[1] : "";
+      }
     });
 
     crawler.setRule({
@@ -45,14 +48,12 @@ export default class PulchraCrawler extends Crawler {
       name: "releaseDate",
       selector: ".description",
       callback: selector => {
-        const date = new Date(
-          selector
-            .text()
-            .match(/【発売日】(.*)\B/)[1]
-            .substr(0, 7)
-            .replace(/年|月/g, "/")
-        );
-        return isNaN(date.getTime()) ? new Date("1970/01/01") : date;
+        const dateText = selector.text().match(/【発売日】(.*)\B/);
+        if (dateText) {
+          return new Date(dateText[1].substr(0, 7).replace(/年|月/g, "/"));
+        } else {
+          return new Date("1970/01/01");
+        }
       }
     });
 
