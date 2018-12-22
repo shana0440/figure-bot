@@ -1,10 +1,10 @@
+import { URL } from "url";
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
 import { IFigure } from "../models/figure";
-import { createHash } from "crypto";
-import { URL } from "url";
+import { md5 } from "../utils/hash";
 
-export class FnexCrawler extends Crawler {
+export default class FnexCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
     const url = `https://fnex.jp/products/search.php?categories%5B%5D=14`;
     this.url = new URL(url);
@@ -48,7 +48,7 @@ export class FnexCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: "#form1 > section:nth-child(6) > div > h4",
       callback: selector => {
         const date = new Date(
@@ -64,7 +64,7 @@ export class FnexCrawler extends Crawler {
 
     // no resale information yet
     crawler.setStatic({
-      name: "is_resale",
+      name: "isResale",
       value: false
     });
 
@@ -87,10 +87,8 @@ export class FnexCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
-      value: createHash("md5")
-        .update(url)
-        .digest("hex")
+      name: "id",
+      value: md5(url)
     });
 
     const figure = await crawler.getResults({ args: ["--no-sandbox"] });
