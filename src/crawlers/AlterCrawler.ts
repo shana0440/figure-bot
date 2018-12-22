@@ -1,10 +1,10 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
 import { IFigure } from "../models/figure";
-import { createHash } from "crypto";
 import { URL } from "url";
+import { md5 } from "../utils/hash";
 
-export class AlterCrawler extends Crawler {
+export default class AlterCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
     let figureLinks = [];
     for (let i = 0; i < 2; i++) {
@@ -71,7 +71,7 @@ export class AlterCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".item-mainimg img",
-      callback: selector => this.url.origin + selector.attr("src")
+      callback: selector => new URL(url).origin + selector.attr("src")
     });
 
     crawler.setStatic({
@@ -80,10 +80,8 @@ export class AlterCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
-      value: createHash("md5")
-        .update(url)
-        .digest("hex")
+      name: "id",
+      value: md5(url)
     });
 
     const figure = await crawler.getResults({ args: ["--no-sandbox"] });
