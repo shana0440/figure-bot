@@ -4,7 +4,7 @@ import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
-export class TokyofigureCrawler extends Crawler {
+export default class TokyofigureCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
     const url = `https://tokyofigure.jp/products/list.php?category_id=9&orderby=date&disp_number=50&pageno=1`;
     this.url = new URL(url);
@@ -50,7 +50,7 @@ export class TokyofigureCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: "#rightcolumn > div:nth-child(2) > dl.sale_date > dd",
       callback: selector => {
         const date = new Date(
@@ -66,7 +66,7 @@ export class TokyofigureCrawler extends Crawler {
 
     // no resale information yet
     crawler.setStatic({
-      name: "is_resale",
+      name: "isResale",
       value: false
     });
 
@@ -79,7 +79,7 @@ export class TokyofigureCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".ad-image-wrapper_out .ad-image > img",
-      callback: selector => this.url.origin + selector.attr("src")
+      callback: selector => new URL(url).origin + selector.attr("src")
     });
 
     crawler.setStatic({
@@ -88,7 +88,7 @@ export class TokyofigureCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
+      name: "id",
       value: createHash("md5")
         .update(url)
         .digest("hex")
