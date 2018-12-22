@@ -1,7 +1,7 @@
 import { URL } from "url";
 import { HTMLCrawler } from "kw-crawler";
 import { md5 } from "../utils/hash";
-import { Crawler } from "./Crawler";
+import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
 
 export default class KotobukiyaCrawler extends Crawler {

@@ -1,5 +1,5 @@
 import { HTMLCrawler } from "kw-crawler";
-import { Crawler } from "./Crawler";
+import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";

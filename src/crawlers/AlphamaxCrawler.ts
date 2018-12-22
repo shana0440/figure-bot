@@ -1,7 +1,7 @@
-import { HTMLCrawler } from "kw-crawler";
-import { Crawler } from "./Crawler";
-import { IFigure } from "../models/figure";
 import { URL } from "url";
+import { HTMLCrawler } from "kw-crawler";
+import Crawler from "./Crawler";
+import { IFigure } from "../models/figure";
 import { md5 } from "../utils/hash";
 
 export default class AlphamaxCrawler extends Crawler {
