@@ -1,11 +1,11 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
-import { IFigure } from "../Figure";
+import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
 export class AlterCrawler extends Crawler {
-  protected async parseFigureListPage(): Promise<Array<string>> {
+  public async getFiguresURL(): Promise<Array<string>> {
     let figureLinks = [];
     for (let i = 0; i < 2; i++) {
       const year = new Date().getFullYear() + i;
@@ -24,7 +24,7 @@ export class AlterCrawler extends Crawler {
     return figureLinks;
   }
 
-  protected async parseFigurePage(url: string): Promise<IFigure> {
+  public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
     crawler.setRule({
       name: "name",

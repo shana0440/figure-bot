@@ -1,11 +1,11 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
-import { IFigure } from "../Figure";
+import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
 export class TokyofigureCrawler extends Crawler {
-  protected async parseFigureListPage(): Promise<Array<string>> {
+  public async getFiguresURL(): Promise<Array<string>> {
     const url = `https://tokyofigure.jp/products/list.php?category_id=9&orderby=date&disp_number=50&pageno=1`;
     this.url = new URL(url);
 
@@ -29,7 +29,7 @@ export class TokyofigureCrawler extends Crawler {
     const results = await crawler.getResults({ args: ["--no-sandbox"] });
     return results["figures_links"];
   }
-  protected async parseFigurePage(url: string): Promise<IFigure> {
+  public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
     crawler.setRule({
       name: "name",

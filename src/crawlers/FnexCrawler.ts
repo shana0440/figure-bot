@@ -1,11 +1,11 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
-import { IFigure } from "../Figure";
+import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
 export class FnexCrawler extends Crawler {
-  protected async parseFigureListPage(): Promise<Array<string>> {
+  public async getFiguresURL(): Promise<Array<string>> {
     const url = `https://fnex.jp/products/search.php?categories%5B%5D=14`;
     this.url = new URL(url);
 
@@ -20,7 +20,7 @@ export class FnexCrawler extends Crawler {
     return results["figures_links"];
   }
 
-  protected async parseFigurePage(url: string): Promise<IFigure> {
+  public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
     crawler.setRule({
       name: "name",

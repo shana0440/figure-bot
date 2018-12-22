@@ -1,11 +1,11 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
-import { IFigure } from "../Figure";
+import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
 export class AoshimaCrawler extends Crawler {
-  protected async parseFigureListPage(): Promise<Array<string>> {
+  public async getFiguresURL(): Promise<Array<string>> {
     const url = `http://www.aoshima-bk.co.jp/product/?s=&brand=&category=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2`;
     this.url = new URL(url);
     const crawler = new HTMLCrawler(this.url.href);
@@ -18,7 +18,7 @@ export class AoshimaCrawler extends Crawler {
     return results["figures_links"];
   }
 
-  protected async parseFigurePage(url: string): Promise<IFigure> {
+  public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
     crawler.setRule({
       name: "name",

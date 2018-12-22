@@ -1,13 +1,13 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
-import { IFigure } from "../Figure";
+import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
 export class KotobukiyaCrawler extends Crawler {
   resaleList: { [key: string]: string } = {};
 
-  protected async parseFigureListPage(): Promise<Array<string>> {
+  public async getFiguresURL(): Promise<Array<string>> {
     const url = `https://www.kotobukiya.co.jp/product-series/pvc塗装済み完成品フィギュア/`;
     this.url = new URL(url);
     const crawler = new HTMLCrawler(this.url.href);
@@ -31,7 +31,7 @@ export class KotobukiyaCrawler extends Crawler {
     return results["figures_links"];
   }
 
-  protected async parseFigurePage(url: string): Promise<IFigure> {
+  public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
     crawler.setRule({
       name: "name",

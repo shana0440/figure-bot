@@ -1,27 +1,12 @@
-import { IFigure } from "../Figure";
+import { IFigure } from "../models/figure";
 import { URL } from "url";
 
 export abstract class Crawler {
   protected url: URL;
 
-  public async getFiguresURL(): Promise<string[]> {
-    try {
-      const figuresURL = await this.parseFigureListPage();
-      return figuresURL;
-    } catch (err) {
-      console.error(this.constructor.name, err);
-      return [];
-    }
-  }
+  // TODO: caller should handler error
+  public abstract async getFiguresURL(): Promise<string[]>;
 
-  public async getFigures(urls: string[]): Promise<Array<IFigure>> {
-    const figures: Array<IFigure> = [];
-    for (let url of urls) {
-      figures.push(await this.parseFigurePage(url));
-    }
-    return figures;
-  }
-
-  protected abstract async parseFigureListPage(): Promise<Array<string>>;
-  protected abstract async parseFigurePage(url: string): Promise<IFigure>;
+  // TODO: caller should handler error
+  public abstract async getFigure(url: string): Promise<IFigure>;
 }

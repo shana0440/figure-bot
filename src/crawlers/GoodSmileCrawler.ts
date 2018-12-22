@@ -1,11 +1,11 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
-import { IFigure } from "../Figure";
-import { createHash } from "crypto";
+import { IFigure } from "../models/figure";
 import { URL } from "url";
+import { md5 } from "../utils/hash";
 
-export class GoodSmileCrawler extends Crawler {
-  protected async parseFigureListPage(): Promise<Array<string>> {
+export default class GoodSmileCrawler extends Crawler {
+  public async getFiguresURL(): Promise<string[]> {
     const year = new Date().getFullYear();
     const url = `http://www.goodsmile.info/zh/products/category/scale/announced/${year}`;
     this.url = new URL(url);
@@ -19,7 +19,7 @@ export class GoodSmileCrawler extends Crawler {
     const results = await crawler.getResults({ args: ["--no-sandbox"] });
     return results["figures_links"];
   }
-  protected async parseFigurePage(url: string): Promise<IFigure> {
+  public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
 
     crawler.setCookie({
@@ -76,10 +76,8 @@ export class GoodSmileCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
-      value: createHash("md5")
-        .update(url)
-        .digest("hex")
+      name: "id",
+      value: md5(url)
     });
 
     const figure = await crawler.getResults({ args: ["--no-sandbox"] });

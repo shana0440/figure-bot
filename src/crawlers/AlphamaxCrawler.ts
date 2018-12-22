@@ -1,11 +1,11 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
-import { IFigure } from "../Figure";
+import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
 export class AlphamaxCrawler extends Crawler {
-  protected async parseFigureListPage(): Promise<Array<string>> {
+  public async getFiguresURL(): Promise<Array<string>> {
     const url = `http://alphamax.jp/ja-JP/Categories/index/figure`;
     this.url = new URL(url);
     const crawler = new HTMLCrawler(this.url.href);
@@ -19,7 +19,7 @@ export class AlphamaxCrawler extends Crawler {
     return results["figures_links"];
   }
 
-  protected async parseFigurePage(url: string): Promise<IFigure> {
+  public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
     crawler.setRule({
       name: "name",
