@@ -1,16 +1,15 @@
 import { Handler } from "aws-lambda";
-import { GoodSmileCrawler } from "./crawlers/GoodSmileCrawler";
-import { Figure } from "./Figure";
-import { uploadFiguresImage } from "./Storage";
 import * as Bot from "./Bot";
-import { Crawler } from "./crawlers/Crawler";
-import { AlterCrawler } from "./crawlers/AlterCrawler";
-import { KotobukiyaCrawler } from "./crawlers/KotobukiyaCrawler";
-import { TokyofigureCrawler } from "./crawlers/TokyofigureCrawler";
-import { FnexCrawler } from "./crawlers/FnexCrawler";
-import { AoshimaCrawler } from "./crawlers/AoshimaCrawler";
-import { AlphamaxCrawler } from "./crawlers/AlphamaxCrawler";
-import { PulchraCrawler } from "./crawlers/PulchraCrawler";
+import Crawler from "./crawlers/Crawler";
+import GoodSmileCrawler from "./crawlers/GoodSmileCrawler";
+import AlterCrawler from "./crawlers/AlterCrawler";
+import KotobukiyaCrawler from "./crawlers/KotobukiyaCrawler";
+import TokyofigureCrawler from "./crawlers/TokyofigureCrawler";
+import FnexCrawler from "./crawlers/FnexCrawler";
+import AoshimaCrawler from "./crawlers/AoshimaCrawler";
+import AlphamaxCrawler from "./crawlers/AlphamaxCrawler";
+import PulchraCrawler from "./crawlers/PulchraCrawler";
+import { leaveUnsavedURL, saveFigures } from "./repository/figure";
 
 class CrawlFlow {
   crawlers: Crawler[] = [];
@@ -28,12 +27,10 @@ class CrawlFlow {
   async start() {
     for (let crawler of this.crawlers) {
       const urls: string[] = await crawler.getFiguresURL();
-      const unParseURLs = await Figure.getUnparsed(urls);
-      let figures = await crawler.getFigures(unParseURLs);
-      figures = await Figure.getUnsaved(figures);
-      figures = await uploadFiguresImage(figures);
-      await Bot.multicastFigures(figures);
-      await Figure.insertMany(figures);
+      const unsavedURLs = await leaveUnsavedURL(urls);
+      const figures = await Promise.all(unsavedURLs.map(crawler.getFigure));
+      await saveFigures(figures);
+      // await Bot.multicastFigures(figures);
     }
   }
 }
