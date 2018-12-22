@@ -1,19 +1,19 @@
+import { URL } from "url";
 import { HTMLCrawler } from "kw-crawler";
+import { md5 } from "../utils/hash";
 import { Crawler } from "./Crawler";
 import { IFigure } from "../models/figure";
-import { createHash } from "crypto";
-import { URL } from "url";
 
-export class KotobukiyaCrawler extends Crawler {
+export default class KotobukiyaCrawler extends Crawler {
   resaleList: { [key: string]: string } = {};
 
   public async getFiguresURL(): Promise<Array<string>> {
-    const url = `https://www.kotobukiya.co.jp/product-series/pvc塗装済み完成品フィギュア/`;
+    const url = `https://www.kotobukiya.co.jp/product-category/figure/`;
     this.url = new URL(url);
     const crawler = new HTMLCrawler(this.url.href);
     crawler.setRule({
       name: "figures_links",
-      selector: ".item-bordered",
+      selector: ".product-item",
       callback: links => {
         links = links
           .map(i => ({
@@ -51,7 +51,7 @@ export class KotobukiyaCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: ".product-data dl dd:nth-child(6)",
       callback: selector =>
         new Date(
@@ -63,7 +63,7 @@ export class KotobukiyaCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "is_resale",
+      name: "isResale",
       value: this.resaleList[url]
     });
 
@@ -76,7 +76,7 @@ export class KotobukiyaCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".product-main img",
-      callback: selector => this.url.origin + selector.attr("src")
+      callback: selector => new URL(url).origin + selector.attr("src")
     });
 
     crawler.setStatic({
@@ -85,10 +85,8 @@ export class KotobukiyaCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
-      value: createHash("md5")
-        .update(url)
-        .digest("hex")
+      name: "id",
+      value: md5(url)
     });
 
     const figure = await crawler.getResults({ args: ["--no-sandbox"] });
