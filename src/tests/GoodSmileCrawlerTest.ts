@@ -1,14 +1,21 @@
 import GoodSmileCrawler from "../crawlers/GoodSmileCrawler";
 import "mocha";
-import { expect, assert } from "chai";
+import { expect } from "chai";
 
 describe("parse goodsmile figures", () => {
-  it("parse", async () => {
+  it("parse figure list", async () => {
+    const crawler = new GoodSmileCrawler();
+    const urls = await crawler.getFiguresURL();
+    expect(urls).to.deep.include(
+      "http://www.goodsmile.info/zh/product/3217/Caster+Fate+EXTRA.html"
+    );
+  }).timeout(10000);
+
+  it("parse figure", async () => {
     const crawler = new GoodSmileCrawler();
     const figure = await crawler.getFigure(
       "https://www.goodsmile.info/zh/product/3217/Caster+Fate+EXTRA.html"
     );
-    // assert.equal
     expect(figure).to.deep.equal({
       name: "Caster [Fate/EXTRA]",
       series: "Fate/EXTRA",

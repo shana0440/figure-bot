@@ -7,7 +7,7 @@ import { md5 } from "../utils/hash";
 export default class GoodSmileCrawler extends Crawler {
   public async getFiguresURL(): Promise<string[]> {
     const year = new Date().getFullYear();
-    const url = `http://www.goodsmile.info/zh/products/category/scale/announced/${year}`;
+    const url = `https://www.goodsmile.info/zh/products/category/scale/announced/${year}`;
     this.url = new URL(url);
 
     const crawler = new HTMLCrawler(this.url.href);
