@@ -1,11 +1,11 @@
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
 import { IFigure } from "../models/figure";
-import { createHash } from "crypto";
 import { URL } from "url";
+import { md5 } from "../utils/hash";
 
-export class AlphamaxCrawler extends Crawler {
-  public async getFiguresURL(): Promise<Array<string>> {
+export default class AlphamaxCrawler extends Crawler {
+  public async getFiguresURL(): Promise<string[]> {
     const url = `http://alphamax.jp/ja-JP/Categories/index/figure`;
     this.url = new URL(url);
     const crawler = new HTMLCrawler(this.url.href);
@@ -66,7 +66,7 @@ export class AlphamaxCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".main-image > img",
-      callback: selector => this.url.origin + selector.attr("src")
+      callback: selector => new URL(url).origin + selector.attr("src")
     });
 
     crawler.setStatic({
@@ -75,10 +75,8 @@ export class AlphamaxCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
-      value: createHash("md5")
-        .update(url)
-        .digest("hex")
+      name: "id",
+      value: md5(url)
     });
 
     const figure = await crawler.getResults({ args: ["--no-sandbox"] });
