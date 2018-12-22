@@ -39,7 +39,7 @@ export default class AlphamaxCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: ".info-container > table tr:nth-child(6) > td:nth-child(2)",
       callback: selector =>
         new Date(
@@ -52,7 +52,7 @@ export default class AlphamaxCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "is_resale",
+      name: "isResale",
       selector: ".info-container > table tr:nth-child(6) > td:nth-child(2)",
       callback: selector => selector.text().indexOf("再販") !== -1
     });

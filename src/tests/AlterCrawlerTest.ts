@@ -17,8 +17,8 @@ describe("parse alter figures", () => {
     expect(figure).to.deep.equal({
       name: "ライダー／アルトリア・ペンドラゴン［サンタオルタ］",
       series: "Fate/Grand Order",
-      release_date: new Date("2018-01-31T16:00:00.000Z"),
-      is_resale: false,
+      releaseDate: new Date("2018-01-31T16:00:00.000Z"),
+      isResale: false,
       price: "13,800円+税",
       image:
         "https://alter-web.jp/uploads/products/20170315134156_a7MDZrfC.jpg",

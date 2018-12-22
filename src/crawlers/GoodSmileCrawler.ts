@@ -48,13 +48,13 @@ export default class GoodSmileCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: ".detailBox dd.release_date",
       callback: selector => new Date(selector.text().trim())
     });
 
     crawler.setRule({
-      name: "is_resale",
+      name: "isResale",
       selector: ".detailBox dd:nth-child(16)",
       callback: selector => selector.length === 1
     });

@@ -44,7 +44,7 @@ export default class AlterCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: ".cells > div:nth-child(1) > table tr:nth-child(2) > td",
       callback: selector =>
         new Date(
@@ -57,7 +57,7 @@ export default class AlterCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "is_resale",
+      name: "isResale",
       selector: ".cells > div:nth-child(1) > table tr:nth-child(2) > td",
       callback: selector => selector.text().indexOf("再販") !== -1
     });

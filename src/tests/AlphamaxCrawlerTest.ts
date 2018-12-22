@@ -9,7 +9,7 @@ describe("parse alphamax figures", () => {
     expect(urls).to.deep.include(
       "http://alphamax.jp/ja-JP/Products/detail/ax0161kurisu"
     );
-  }).timeout(20000);
+  }).timeout(30000);
 
   it("parse figure", async () => {
     const crawler = new AlphamaxCrawler();
@@ -20,12 +20,12 @@ describe("parse alphamax figures", () => {
       name: "牧瀬紅莉栖",
       series: "STEINS;GATE",
       company: "Alphamax",
-      release_date: new Date("2018-07-31T16:00:00.000Z"),
-      is_resale: false,
+      releaseDate: new Date("2018-07-31T16:00:00.000Z"),
+      isResale: false,
       price: "13,800円（税抜）",
       image: "http://alphamax.jp/files/IMG_1621_0.jpg",
       url: "http://alphamax.jp/ja-JP/Products/detail/ax0161kurisu",
       id: "a6e86fd8879a4e21a606db3d079fec37"
     });
-  }).timeout(20000);
+  }).timeout(30000);
 });

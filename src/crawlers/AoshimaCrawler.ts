@@ -43,7 +43,7 @@ export default class AoshimaCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: "div.itemData.clearfix > dl > dd:nth-child(8)",
       callback: selector =>
         new Date(
@@ -56,7 +56,7 @@ export default class AoshimaCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "is_resale",
+      name: "isResale",
       selector: "h1",
       callback: selector => selector.text().indexOf("再生產") !== -1
     });

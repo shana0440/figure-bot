@@ -20,8 +20,8 @@ describe("parse goodsmile figures", () => {
       name: "Caster [Fate/EXTRA]",
       series: "Fate/EXTRA",
       company: "Phat!",
-      release_date: new Date("2019-06-30T16:00:00.000Z"),
-      is_resale: false,
+      releaseDate: new Date("2019-06-30T16:00:00.000Z"),
+      isResale: false,
       price: "11,000日圓+消費稅",
       image:
         "https://images.goodsmile.info/cgm/images/product/20110711/3217/14586/large/ef03642293da5e567fb1a8585c56fa39.jpg",

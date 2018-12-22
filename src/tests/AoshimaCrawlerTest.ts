@@ -19,8 +19,8 @@ describe("parse aoshima figures", () => {
     expect(figure).to.deep.equal({
       name: "玉藻の前 サマー・ヴァカンスver.",
       series: "Fate/EXTELLA",
-      release_date: new Date("2018-04-30T16:00:00.000Z"),
-      is_resale: false,
+      releaseDate: new Date("2018-04-30T16:00:00.000Z"),
+      isResale: false,
       price: "12,800円（税別）",
       image:
         "http://www.aoshima-bk.co.jp/wp/wp-content/uploads/2018/01/4905083099551_pkg-500x480.jpg",
