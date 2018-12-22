@@ -1,7 +1,8 @@
 import { LineBot, LineHandler } from "bottender";
 import * as fs from "fs";
-import { IFigure } from "./Figure";
+import * as _ from "lodash";
 import * as moment from "moment";
+import { IFigure } from "./models/figure";
 import config from "./config";
 
 // TODO: get from s3
@@ -30,21 +31,13 @@ bot.onEvent(handler);
 
 export const BotServer = bot;
 
-const splitText = (text, length) => {
-  if (text.length > length) {
-    return text.substr(0, length - 3) + "...";
-  } else {
-    return text;
-  }
-};
-
 export const multicastFigures = async (figures: IFigure[]) => {
   for (let figure of figures) {
-    const releaseDate = moment(figure.release_date);
-    const title = splitText(figure.name, 30);
-    const text = splitText(
+    const releaseDate = moment(figure.releaseDate);
+    const title = _.truncate(figure.name, { length: 30 });
+    const text = _.truncate(
       `${releaseDate.format("YYYY年MM月")}發售\n${figure.price}`,
-      60
+      { length: 60 }
     );
     const template = {
       type: "buttons",
