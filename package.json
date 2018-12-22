@@ -18,7 +18,9 @@
   "devDependencies": {
     "@types/aws-lambda": "^8.10.15",
     "@types/aws-sdk": "^2.7.0",
+    "@types/chai": "^4.1.7",
     "@types/lodash": "^4.14.104",
+    "@types/mocha": "^5.2.5",
     "@types/mongoose": "^5.0.2",
     "@types/request": "^2.47.0",
     "chai": "^4.1.2",
@@ -27,11 +29,12 @@
     "serverless-offline": "^3.31.3",
     "serverless-webpack": "^5.1.1",
     "ts-loader": "^4.2.0",
+    "ts-node": "^7.0.1",
     "typescript": "^2.7.2",
     "webpack": "^4.26.1"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./tests/",
+    "test": "./node_modules/mocha/bin/mocha -r ts-node/register src/tests/*.ts",
     "crawl": "node bin/crawl.js",
     "crawl-dev": "node --inspect=0.0.0.0:9229 bin/crawl.js"
   },

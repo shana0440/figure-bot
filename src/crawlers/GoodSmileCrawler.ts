@@ -19,6 +19,7 @@ export default class GoodSmileCrawler extends Crawler {
     const results = await crawler.getResults({ args: ["--no-sandbox"] });
     return results["figures_links"];
   }
+
   public async getFigure(url: string): Promise<IFigure> {
     const crawler = new HTMLCrawler(url);
 
@@ -67,7 +68,7 @@ export default class GoodSmileCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: "#itemZoom1 img.itemImg",
-      callback: selector => this.url.protocol + selector.attr("src")
+      callback: selector => new URL(url).protocol + selector.attr("src")
     });
 
     crawler.setStatic({
