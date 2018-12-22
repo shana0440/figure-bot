@@ -8,7 +8,7 @@
     "aws-sdk": "^2.199.0",
     "bottender": "^0.14.22",
     "dynamoose": "^1.3.0",
-    "kw-crawler": "^1.1.0",
+    "kw-crawler": "^1.2.1",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "mongoose": "^5.0.6",

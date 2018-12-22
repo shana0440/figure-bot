@@ -9,7 +9,7 @@ export default class FnexCrawler extends Crawler {
     const url = `https://fnex.jp/products/search.php?categories%5B%5D=14`;
     this.url = new URL(url);
 
-    const crawler = new HTMLCrawler(this.url.href);
+    const crawler = new HTMLCrawler(this.url.href, { usePuppeteer: true });
     crawler.setRule({
       name: "figures_links",
       selector: ".item",
