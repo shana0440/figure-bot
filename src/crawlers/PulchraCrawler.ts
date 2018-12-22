@@ -4,7 +4,7 @@ import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 
-export class PulchraCrawler extends Crawler {
+export default class PulchraCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
     const url = `https://pulc.jp/category/select/cid/312/page/1/mode/2/language/ja`;
     this.url = new URL(url);
@@ -42,7 +42,7 @@ export class PulchraCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "release_date",
+      name: "releaseDate",
       selector: ".description",
       callback: selector => {
         const date = new Date(
@@ -57,7 +57,7 @@ export class PulchraCrawler extends Crawler {
     });
 
     crawler.setRule({
-      name: "is_resale",
+      name: "isResale",
       selector: ".textFrame h1",
       callback: selector => selector.text().indexOf("再販") !== -1
     });
@@ -71,7 +71,7 @@ export class PulchraCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: "#zoom_09",
-      callback: selector => `${this.url.origin}/${selector.attr("src")}`
+      callback: selector => `${new URL(url).origin}/${selector.attr("src")}`
     });
 
     crawler.setStatic({
@@ -80,7 +80,7 @@ export class PulchraCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
+      name: "id",
       value: createHash("md5")
         .update(url)
         .digest("hex")
