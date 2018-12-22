@@ -1,10 +1,10 @@
+import { URL } from "url";
 import { HTMLCrawler } from "kw-crawler";
 import { Crawler } from "./Crawler";
 import { IFigure } from "../models/figure";
-import { createHash } from "crypto";
-import { URL } from "url";
+import { md5 } from "../utils/hash";
 
-export class AoshimaCrawler extends Crawler {
+export default class AoshimaCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
     const url = `http://www.aoshima-bk.co.jp/product/?s=&brand=&category=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2`;
     this.url = new URL(url);
@@ -80,9 +80,7 @@ export class AoshimaCrawler extends Crawler {
 
     crawler.setStatic({
       name: "md5_url",
-      value: createHash("md5")
-        .update(url)
-        .digest("hex")
+      value: md5(url)
     });
 
     const figure = await crawler.getResults({ args: ["--no-sandbox"] });
