@@ -10,6 +10,7 @@ import AoshimaCrawler from "./crawlers/AoshimaCrawler";
 import AlphamaxCrawler from "./crawlers/AlphamaxCrawler";
 import PulchraCrawler from "./crawlers/PulchraCrawler";
 import { leaveUnsavedURL, saveFigures } from "./repository/figure";
+import { validateFigure } from "./validators/figure";
 
 class CrawlFlow {
   crawlers: Crawler[] = [];
@@ -25,12 +26,14 @@ class CrawlFlow {
   }
 
   async start() {
-    for (let crawler of this.crawlers) {
+    for (const crawler of this.crawlers) {
       const urls: string[] = await crawler.getFiguresURL();
       const unsavedURLs = await leaveUnsavedURL(urls);
       const figures = await Promise.all(unsavedURLs.map(crawler.getFigure));
-      await saveFigures(figures);
-      // await Bot.multicastFigures(figures);
+      const { validated, invalidated } = validateFigure(figures);
+      // TODO: alert invalidated figures
+      await Bot.multicastFigures(validated);
+      await saveFigures(validated);
     }
   }
 }
@@ -43,7 +46,7 @@ export const handler: Handler = async () => {
     process.exit();
   } catch (err) {
     // TODO handler error
-    console.error(err);
+    console.log("err", err);
     process.exit();
   }
 };

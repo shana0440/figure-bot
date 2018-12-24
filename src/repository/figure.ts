@@ -45,13 +45,5 @@ export const leaveUnsavedURL = async (urls: string[]): Promise<string[]> => {
 };
 
 export const saveFigures = async (figures: IFigure[]): Promise<void> => {
-  // TODO: validate the data in better place
-  await Figure.batchPut(
-    figures.filter(figure => {
-      if (figure.name === "") {
-        console.log("this figure have some error", figure);
-      }
-      return figure.name !== "";
-    })
-  );
+  await Figure.batchPut(figures);
 };
