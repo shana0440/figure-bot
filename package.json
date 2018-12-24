@@ -4,9 +4,9 @@
   "description": "push figure message",
   "main": "index.js",
   "dependencies": {
+    "@line/bot-sdk": "^6.4.0",
     "aws-lambda": "^0.1.2",
     "aws-sdk": "^2.199.0",
-    "bottender": "^0.14.22",
     "dynamoose": "^1.3.0",
     "kw-crawler": "^1.2.1",
     "lodash": "^4.17.5",
