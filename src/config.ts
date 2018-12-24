@@ -27,14 +27,14 @@ const config: Config = {
     env: process.env.ENV as "dev" | "prod"
   },
   aws: {
-    accessKeyId: "",
-    secretAccessKey: "",
-    region: "" as any,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_ACCESS_REGION as any,
     s3WebURL: process.env.S3_WEB_URL
   },
   line: {
-    accessToken: "",
-    channelSecret: ""
+    accessToken: process.env.LINE_ACCESS_TOKEN,
+    channelSecret: process.env.LINE_CHANNEL_SECRET
   }
 };
 
