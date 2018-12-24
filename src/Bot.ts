@@ -1,37 +1,27 @@
-import { LineBot, LineHandler } from "bottender";
 import * as fs from "fs";
 import * as _ from "lodash";
+import { Client, TemplateButtons, TemplateMessage } from "@line/bot-sdk";
 import * as moment from "moment";
 import { IFigure } from "./models/figure";
 import config from "./config";
 
-// TODO: get from s3
-const usersFile = `./share/users.json`;
-const users: string[] = fs.existsSync(usersFile)
-  ? JSON.parse(fs.readFileSync(usersFile).toString())
-  : [];
-
-const bot = new LineBot({
-  channelSecret: config.line.channelSecret,
-  accessToken: config.line.accessToken
+const client = new Client({
+  channelAccessToken: config.line.accessToken,
+  channelSecret: config.line.channelSecret
 });
 
-const handler = new LineHandler()
-  .onFollow(async context => {
-    users.push(context.session.user.id);
-    fs.writeFile(usersFile, JSON.stringify(users), () => {});
-  })
-  .onUnfollow(async context => {
-    const index = users.indexOf(context.session.user.id);
-    users.splice(index, 1);
-    fs.writeFile(usersFile, JSON.stringify(users), () => {});
-  });
+const getUsers = (): string[] => {
+  // TODO: get user from somewhere
+  return [];
+};
 
 bot.onEvent(handler);
 
 export const BotServer = bot;
 
 export const multicastFigures = async (figures: IFigure[]) => {
+  const users = getUsers();
+
   for (let figure of figures) {
     const releaseDate = moment(figure.releaseDate);
     const title = _.truncate(figure.name, { length: 30 });
@@ -39,11 +29,12 @@ export const multicastFigures = async (figures: IFigure[]) => {
       `${releaseDate.format("YYYY年MM月")}發售\n${figure.price}`,
       { length: 60 }
     );
-    const template = {
+
+    const content: TemplateButtons = {
       type: "buttons",
       thumbnailImageUrl: figure.image,
-      title: title,
-      text: text,
+      title,
+      text,
       actions: [
         {
           type: "uri",
@@ -52,6 +43,13 @@ export const multicastFigures = async (figures: IFigure[]) => {
         }
       ]
     };
-    await bot._connector._client.multicastTemplate(users, title, template);
+
+    const template: TemplateMessage = {
+      type: "template",
+      altText: text,
+      template: content
+    };
+
+    await client.multicast(users, template);
   }
 };
