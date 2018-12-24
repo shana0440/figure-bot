@@ -3,6 +3,7 @@ import { HTMLCrawler } from "kw-crawler";
 import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
 import { md5 } from "../utils/hash";
+import { encodeURL } from "../utils/url";
 
 export default class AoshimaCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
@@ -70,7 +71,7 @@ export default class AoshimaCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".img > img",
-      callback: selector => selector.attr("src")
+      callback: selector => encodeURL(selector.attr("src"))
     });
 
     crawler.setStatic({

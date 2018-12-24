@@ -3,6 +3,7 @@ import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
 import { URL } from "url";
 import { md5 } from "../utils/hash";
+import { encodeURL } from "../utils/url";
 
 export default class GoodSmileCrawler extends Crawler {
   public async getFiguresURL(): Promise<string[]> {
@@ -68,7 +69,8 @@ export default class GoodSmileCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: "#itemZoom1 img.itemImg",
-      callback: selector => new URL(url).protocol + selector.attr("src")
+      callback: selector =>
+        encodeURL(new URL(url).protocol + selector.attr("src"))
     });
 
     crawler.setStatic({

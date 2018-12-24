@@ -3,6 +3,7 @@ import { HTMLCrawler } from "kw-crawler";
 import { md5 } from "../utils/hash";
 import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
+import { encodeURL } from "../utils/url";
 
 export default class KotobukiyaCrawler extends Crawler {
   resaleList: { [key: string]: string } = {};
@@ -76,7 +77,8 @@ export default class KotobukiyaCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".product-main img",
-      callback: selector => new URL(url).origin + selector.attr("src")
+      callback: selector =>
+        encodeURL(new URL(url).origin + selector.attr("src"))
     });
 
     crawler.setStatic({

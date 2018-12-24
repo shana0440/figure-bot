@@ -3,6 +3,7 @@ import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
+import { encodeURL } from "../utils/url";
 
 export default class PulchraCrawler extends Crawler {
   public async getFiguresURL(): Promise<string[]> {
@@ -72,7 +73,8 @@ export default class PulchraCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: "#zoom_09",
-      callback: selector => `${new URL(url).origin}/${selector.attr("src")}`
+      callback: selector =>
+        encodeURL(`${new URL(url).origin}/${selector.attr("src")}`)
     });
 
     crawler.setStatic({

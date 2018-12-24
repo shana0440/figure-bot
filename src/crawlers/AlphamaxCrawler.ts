@@ -3,6 +3,7 @@ import { HTMLCrawler } from "kw-crawler";
 import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
 import { md5 } from "../utils/hash";
+import { encodeURL } from "../utils/url";
 
 export default class AlphamaxCrawler extends Crawler {
   public async getFiguresURL(): Promise<string[]> {
@@ -66,7 +67,8 @@ export default class AlphamaxCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".main-image > img",
-      callback: selector => new URL(url).origin + selector.attr("src")
+      callback: selector =>
+        encodeURL(new URL(url).origin + selector.attr("src"))
     });
 
     crawler.setStatic({
