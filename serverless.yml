@@ -41,7 +41,8 @@ resources:
     figuresTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: figures_${self:provider.stage}
+        TableName: figure_bot_figures_${self:provider.stage}
+        AttributeDefinitions:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S

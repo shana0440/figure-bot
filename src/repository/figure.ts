@@ -1,8 +1,8 @@
 import * as _ from "lodash";
 import dynamoose from "./dynamoose";
 import { IFigure } from "../models/figure";
-import config from "../config";
 import { md5 } from "../utils/hash";
+import { getTableName } from "../utils/table";
 
 const FiguresSchema = new dynamoose.Schema({
   // md5 hash過的網址，用來當作primary index
@@ -30,7 +30,7 @@ interface FiguresKeySchema {
 }
 
 const Figure = dynamoose.model<IFigure, FiguresKeySchema>(
-  `figures_${config.app.env}`,
+  getTableName("figures"),
   FiguresSchema
 );
 
