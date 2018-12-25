@@ -24,8 +24,12 @@ provider:
       Action:
         - dynamodb:BatchWriteItem
         - dynamodb:BatchGetItem
+        - dynamodb:Scan
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
       Resource:
         - "Fn::GetAtt": [figuresTable, Arn]
+        - "Fn::GetAtt": [usersTable, Arn]
   environment:
     ENV: ${self:provider.stage}
 
@@ -43,6 +47,18 @@ resources:
       Properties:
         TableName: figure_bot_figures_${self:provider.stage}
         AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: figure_bot_users_${self:provider.stage}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
