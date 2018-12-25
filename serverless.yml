@@ -1,6 +1,6 @@
-service: u-jobs
+service: figure-bot
 
-app: u-jobs
+app: figure-bot
 tenant: kwguo
 
 custom:
