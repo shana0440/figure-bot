@@ -36,9 +36,8 @@ provider:
 functions:
   crawl-schedule:
     handler: src/crawl.handler
-    timeout: 300
     events:
-      - schedule: cron(0 12,18 * * *)
+      - schedule: cron(0 12,18 * * ? *)
   bot:
     handler: src/server.handler
     events:
