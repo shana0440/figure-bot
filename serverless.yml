@@ -39,6 +39,12 @@ functions:
     timeout: 300
     events:
       - schedule: cron(0 12,18 * * *)
+  bot:
+    handler: src/server.handler
+    events:
+      - http:
+          method: POST
+          path: /
 
 resources:
   Resources:
