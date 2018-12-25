@@ -3,12 +3,6 @@ interface App {
   env: "dev" | "prod";
 }
 
-interface AWS {
-  accessKeyId: string;
-  secretAccessKey: string;
-  region: "ap-northeast-1";
-}
-
 interface LINE {
   channelSecret: string;
   accessToken: string;
@@ -16,7 +10,6 @@ interface LINE {
 
 interface Config {
   app: App;
-  aws: AWS;
   line: LINE;
 }
 
@@ -24,11 +17,6 @@ const config: Config = {
   app: {
     isOffline: !!process.env.IS_OFFLINE,
     env: process.env.ENV as "dev" | "prod"
-  },
-  aws: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_ACCESS_REGION as any
   },
   line: {
     accessToken: process.env.LINE_ACCESS_TOKEN,
