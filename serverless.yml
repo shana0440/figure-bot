@@ -24,14 +24,10 @@ provider:
       Action:
         - dynamodb:BatchWriteItem
         - dynamodb:BatchGetItem
-        - s3:PutObject
       Resource:
         - "Fn::GetAtt": [figuresTable, Arn]
-        - "Fn::GetAtt": [figuresBucket, Arn]
   environment:
     ENV: ${self:provider.stage}
-    S3_WEB_URL:
-      "Fn::GetAtt": [figuresBucket, WebsiteURL]
 
 functions:
   crawl-schedule:
@@ -55,16 +51,3 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
-    figuresBucket:
-      Type: AWS::S3::Bucket
-      Properties:
-        BucketName: figures_${self:provider.stage}
-        CorsConfiguration:
-          CorsRules:
-            - AllowedOrigins:
-                - "*"
-              AllowedHeaders:
-                - "*"
-              AllowedMethods:
-                - GET
-              MaxAge: 3000
