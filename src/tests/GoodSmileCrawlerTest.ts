@@ -7,7 +7,7 @@ describe("parse goodsmile figures", () => {
     const crawler = new GoodSmileCrawler();
     const urls = await crawler.getFiguresURL();
     expect(urls).to.deep.include(
-      "http://www.goodsmile.info/zh/product/3217/Caster+Fate+EXTRA.html"
+      "https://www.goodsmile.info/zh/product/3217/Caster+Fate+EXTRA.html"
     );
   }).timeout(10000);
 

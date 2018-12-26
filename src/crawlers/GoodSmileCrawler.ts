@@ -18,7 +18,9 @@ export default class GoodSmileCrawler extends Crawler {
       callback: links => links.map(i => links.eq(i).attr("href")).toArray()
     });
     const results = await crawler.getResults({ args: ["--no-sandbox"] });
-    return results["figures_links"];
+    return results["figures_links"].map((link: string) =>
+      link.replace("http", "https")
+    );
   }
 
   public async getFigure(url: string): Promise<IFigure> {
