@@ -22,7 +22,8 @@ describe("parse tokyofigure figures", () => {
       company: "株式会社プラスワン",
       releaseDate: new Date("2019-01-31T16:00:00.000Z"),
       price: "12,800円",
-      image: "https://tokyofigure.jpundefined",
+      image:
+        "https://tokyofigure.jp/upload/save_image/07280640_5b5b91387a95e.jpg",
       isResale: false,
       url: "https://tokyofigure.jp/products/detail.php?product_id=57",
       id: "18aac1cef07dfee8229b022fcc11e9d8"

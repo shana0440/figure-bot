@@ -31,7 +31,7 @@ export default class TokyofigureCrawler extends Crawler {
     return results["figures_links"];
   }
   public async getFigure(url: string): Promise<IFigure> {
-    const crawler = new HTMLCrawler(url);
+    const crawler = new HTMLCrawler(url, { usePuppeteer: true });
     crawler.setRule({
       name: "name",
       selector: ".title",
