@@ -13,6 +13,7 @@ plugins:
   - serverless-webpack
   - serverless-offline
   - serverless-dynamodb-local
+  - serverless-iam-roles-per-function
 
 provider:
   name: aws
@@ -37,11 +38,31 @@ provider:
     LINE_ACCESS_TOKEN: ${env:LINE_ACCESS_TOKEN}
 
 functions:
-  crawl-schedule:
+  CrawlSchedule:
     handler: src/crawl.handler
     events:
       - schedule: cron(0 12,18 * * ? *)
-  bot:
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - lambda:InvokeFunction
+        Resource:
+          - "Fn::GetAtt": [CrawlPageLambdaFunction, Arn]
+  CrawlPage:
+    handler: src/crawl.handlePage
+    timeout: 300
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - lambda:InvokeFunction
+        Resource:
+          - "Fn::GetAtt": [CrawlFigureLambdaFunction, Arn]
+  CrawlFigure:
+    handler: src/crawl.handleFigure
+    timeout: 300
+  Bot:
     handler: src/server.handler
     events:
       - http:

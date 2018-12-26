@@ -23,6 +23,7 @@
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "serverless-dynamodb-local": "^0.2.35",
+    "serverless-iam-roles-per-function": "^1.0.4",
     "serverless-offline": "^3.31.3",
     "serverless-webpack": "^5.1.1",
     "ts-loader": "^4.2.0",

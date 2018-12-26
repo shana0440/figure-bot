@@ -3191,6 +3191,12 @@ serverless-dynamodb-local@^0.2.35:
     dynamodb-localhost "^0.0.6"
     lodash "^4.17.0"
 
+serverless-iam-roles-per-function@^1.0.4:
+  version "1.0.4"
+  resolved "http://registry.npm.taobao.org/serverless-iam-roles-per-function/download/serverless-iam-roles-per-function-1.0.4.tgz#7a182c5e148bee4b67b64a96b4f09f7cf86fb0b4"
+  dependencies:
+    lodash "^4.17.10"
+
 serverless-offline@^3.31.3:
   version "3.31.3"
   resolved "https://registry.yarnpkg.com/serverless-offline/-/serverless-offline-3.31.3.tgz#ccab814cc97e59dc6cf6cfbcb5dd04ec5f1dc481"
