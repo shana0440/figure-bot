@@ -24,7 +24,7 @@ describe("parse kotobukiya figures", () => {
       image:
         "https://www.kotobukiya.co.jp/wp-content/uploads/2014/12/kurumi_web.jpg",
       company: "壽屋",
-      isResale: undefined,
+      isResale: true,
       url: "https://www.kotobukiya.co.jp/product/product-0000001552/",
       id: "87389ee9ca831865cb63323c325dcf0f"
     });

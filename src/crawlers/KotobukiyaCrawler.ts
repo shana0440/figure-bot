@@ -6,8 +6,6 @@ import { IFigure } from "../models/figure";
 import { encodeURL } from "../utils/url";
 
 export default class KotobukiyaCrawler extends Crawler {
-  resaleList: { [key: string]: string } = {};
-
   public async getFiguresURL(): Promise<Array<string>> {
     const url = `https://www.kotobukiya.co.jp/product-category/figure/`;
     this.url = new URL(url);
@@ -22,9 +20,6 @@ export default class KotobukiyaCrawler extends Crawler {
             resale: links.eq(i).find(".reproduct").length > 0
           }))
           .toArray();
-        links.forEach(link => {
-          this.resaleList[link.href] = link.resale;
-        });
         return links.map(link => link.href);
       }
     });
@@ -63,9 +58,14 @@ export default class KotobukiyaCrawler extends Crawler {
         )
     });
 
-    crawler.setStatic({
+    // TODO: should resolve this field by crawl figures list page
+    // the figure page not always have 再生産 in the page
+    // for example, the following link don't have the 再生産 in the page
+    // https://www.kotobukiya.co.jp/product/product-0000002255/
+    crawler.setRule({
       name: "isResale",
-      value: this.resaleList[url]
+      selector: "body",
+      callback: selector => /再生産/.test(selector.text())
     });
 
     crawler.setRule({
