@@ -7,14 +7,14 @@ describe("parse alphamax figures", () => {
     const crawler = new AlphamaxCrawler();
     const urls = await crawler.getFiguresURL();
     expect(urls).to.deep.include(
-      "http://alphamax.jp/ja-JP/Products/detail/ax0161kurisu"
+      "https://alphamax.jp/ja-JP/Products/detail/ax0161kurisu"
     );
   }).timeout(30000);
 
   it("parse figure", async () => {
     const crawler = new AlphamaxCrawler();
     const figure = await crawler.getFigure(
-      "http://alphamax.jp/ja-JP/Products/detail/ax0161kurisu"
+      "https://alphamax.jp/ja-JP/Products/detail/ax0161kurisu"
     );
     expect(figure).to.deep.equal({
       name: "牧瀬紅莉栖",
@@ -23,9 +23,9 @@ describe("parse alphamax figures", () => {
       releaseDate: new Date("2018-07-31T16:00:00.000Z"),
       isResale: false,
       price: "13,800円（税抜）",
-      image: "http://alphamax.jp/files/IMG_1621_0.jpg",
-      url: "http://alphamax.jp/ja-JP/Products/detail/ax0161kurisu",
-      id: "a6e86fd8879a4e21a606db3d079fec37"
+      image: "https://alphamax.jp/files/IMG_1621_0.jpg",
+      url: "https://alphamax.jp/ja-JP/Products/detail/ax0161kurisu",
+      id: "30f1cdcd0733935921f10369c64664dc"
     });
   }).timeout(30000);
 });

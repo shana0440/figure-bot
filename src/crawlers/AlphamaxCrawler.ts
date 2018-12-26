@@ -7,7 +7,7 @@ import { encodeURL } from "../utils/url";
 
 export default class AlphamaxCrawler extends Crawler {
   public async getFiguresURL(): Promise<string[]> {
-    const url = `http://alphamax.jp/ja-JP/Categories/index/figure`;
+    const url = `https://alphamax.jp/ja-JP/Categories/index/figure`;
     this.url = new URL(url);
     const crawler = new HTMLCrawler(this.url.href);
     crawler.setRule({
