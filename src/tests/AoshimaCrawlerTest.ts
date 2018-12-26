@@ -23,7 +23,7 @@ describe("parse aoshima figures", () => {
       isResale: false,
       price: "12,800円（税別）",
       image:
-        "http://www.aoshima-bk.co.jp/wp/wp-content/uploads/2018/01/4905083099551_pkg-500x480.jpg",
+        "https://www.aoshima-bk.co.jp/wp/wp-content/uploads/2018/01/4905083099551_pkg-500x480.jpg",
       company: "Aoshima",
       url: "http://www.aoshima-bk.co.jp/product/4905083099551/",
       md5_url: "d6b63f4c89e6376fbdc3149d571e7b0d"

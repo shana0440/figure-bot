@@ -71,7 +71,8 @@ export default class AoshimaCrawler extends Crawler {
     crawler.setRule({
       name: "image",
       selector: ".img > img",
-      callback: selector => encodeURL(selector.attr("src"))
+      callback: selector =>
+        encodeURL(selector.attr("src").replace("http://", "https://"))
     });
 
     crawler.setStatic({
