@@ -36,7 +36,14 @@ const Figure = dynamoose.model<IFigure, FiguresKeySchema>(
 
 export const leaveUnsavedURL = async (urls: string[]): Promise<string[]> => {
   const md5URL = urls.map(md5);
-  const saved = await Figure.batchGet(md5URL.map(id => ({ id })));
+  // batchGet must have length less or equal 100
+  const md5URLChunks = _.chunk(md5URL, 100);
+  const savedChunks = await Promise.all(
+    md5URLChunks.map(chunk => {
+      return Figure.batchGet(chunk.map(id => ({ id })));
+    })
+  );
+  const saved: IFigure[] = _.flatten(savedChunks);
   return _.differenceWith<string, IFigure>(
     urls,
     saved,
