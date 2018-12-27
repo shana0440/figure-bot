@@ -76,6 +76,6 @@ export const handleFigure: Handler = async (event: CrawlFigureEvent) => {
   const figure = await crawler.getFigure(event.url);
   const { validated, invalidated } = validateFigure([figure]);
   // TODO: alert invalidated figures
-  await Bot.multicastFigures(validated);
-  return await saveFigures(validated);
+  await saveFigures(validated);
+  return await Bot.multicastFigures(validated);
 };
