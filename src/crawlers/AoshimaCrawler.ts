@@ -81,7 +81,7 @@ export default class AoshimaCrawler extends Crawler {
     });
 
     crawler.setStatic({
-      name: "md5_url",
+      name: "id",
       value: md5(url)
     });
 
