@@ -7,6 +7,14 @@ custom:
   dynamodb:
     start:
       migrate: true
+  assets:
+    targets:
+      - bucket:
+          Ref: figureBucket
+        files:
+          - source: ./chrome/
+            globs:
+              - "*"
 
 # Add the serverless-webpack plugin
 plugins:
@@ -14,6 +22,7 @@ plugins:
   - serverless-offline
   - serverless-dynamodb-local
   - serverless-iam-roles-per-function
+  - serverless-s3-deploy
 
 provider:
   name: aws
@@ -29,13 +38,17 @@ provider:
         - dynamodb:Scan
         - dynamodb:PutItem
         - dynamodb:DeleteItem
+        - s3:GetObject
       Resource:
         - "Fn::GetAtt": [figuresTable, Arn]
         - "Fn::GetAtt": [usersTable, Arn]
+        - "Fn::GetAtt": [figureBucket, Arn]
   environment:
     ENV: ${self:provider.stage}
     LINE_CHANNEL_SECRET: ${env:LINE_CHANNEL_SECRET}
     LINE_ACCESS_TOKEN: ${env:LINE_ACCESS_TOKEN}
+    S3_BUCKET:
+      Ref: figureBucket
 
 functions:
   CrawlSchedule:
@@ -97,3 +110,5 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    figureBucket:
+      Type: AWS::S3::Bucket
