@@ -35,9 +35,7 @@
     "webpack": "^4.26.1"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -r ts-node/register src/tests/*.ts",
-    "crawl": "node bin/crawl.js",
-    "crawl-dev": "node --inspect=0.0.0.0:9229 bin/crawl.js"
+    "test": "./node_modules/mocha/bin/mocha -r ts-node/register src/tests/*.ts"
   },
   "author": "",
   "license": "MIT"
