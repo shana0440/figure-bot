@@ -14,7 +14,7 @@ const validate = (figure: IFigure): boolean => {
     return false;
   }
 
-  if (isNaN(parseInt(figure.price))) {
+  if (!/\d/.test(figure.price)) {
     return false;
   }
 
