@@ -1,5 +1,6 @@
 import { Handler } from "aws-lambda";
 import * as AWS from "aws-sdk";
+import * as _ from "lodash";
 import * as Bot from "./Bot";
 import Crawler from "./crawlers/Crawler";
 import GoodSmileCrawler from "./crawlers/GoodSmileCrawler";
@@ -60,7 +61,8 @@ export const handler: Handler = async () => {
 
 export const handlePage: Handler = async (event: CrawlPageEvent) => {
   const crawler: Crawler = crawlers[event.crawler];
-  const urls: string[] = await crawler.getFiguresURL();
+  // dynamodb don't allow get duplicate key
+  const urls: string[] = _.uniq(await crawler.getFiguresURL());
   const unsavedURLs = await leaveUnsavedURL(urls);
   const invoke = unsavedURLs.map(url => {
     return invokeLambda(getFunctionName("CrawlFigure"), {
