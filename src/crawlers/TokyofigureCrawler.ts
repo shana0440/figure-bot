@@ -27,7 +27,7 @@ export default class TokyofigureCrawler extends Crawler {
           )
           .toArray()
     });
-    const results = await crawler.getResults({ args: ["--no-sandbox"] });
+    const results = await crawler.getResults();
     return results["figures_links"];
   }
   public async getFigure(url: string): Promise<IFigure> {

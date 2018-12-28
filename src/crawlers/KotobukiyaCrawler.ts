@@ -23,7 +23,7 @@ export default class KotobukiyaCrawler extends Crawler {
         return links.map(link => link.href);
       }
     });
-    const results = await crawler.getResults({ args: ["--no-sandbox"] });
+    const results = await crawler.getResults();
     return results["figures_links"];
   }
 
@@ -91,7 +91,7 @@ export default class KotobukiyaCrawler extends Crawler {
       value: md5(url)
     });
 
-    const figure = await crawler.getResults({ args: ["--no-sandbox"] });
+    const figure = await crawler.getResults();
     return figure;
   }
 }

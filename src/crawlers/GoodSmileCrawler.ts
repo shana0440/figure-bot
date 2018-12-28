@@ -17,7 +17,7 @@ export default class GoodSmileCrawler extends Crawler {
       selector: ".hitBox > a",
       callback: links => links.map(i => links.eq(i).attr("href")).toArray()
     });
-    const results = await crawler.getResults({ args: ["--no-sandbox"] });
+    const results = await crawler.getResults();
     return results["figures_links"].map((link: string) =>
       link.replace("http", "https")
     );
@@ -85,7 +85,7 @@ export default class GoodSmileCrawler extends Crawler {
       value: md5(url)
     });
 
-    const figure = await crawler.getResults({ args: ["--no-sandbox"] });
+    const figure = await crawler.getResults();
     return figure;
   }
 }

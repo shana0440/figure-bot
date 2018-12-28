@@ -16,7 +16,7 @@ export default class AlphamaxCrawler extends Crawler {
       callback: links =>
         links.map(i => this.url.origin + links.eq(i).attr("href")).toArray()
     });
-    const results = await crawler.getResults({ args: ["--no-sandbox"] });
+    const results = await crawler.getResults();
     return results["figures_links"];
   }
 
@@ -81,7 +81,7 @@ export default class AlphamaxCrawler extends Crawler {
       value: md5(url)
     });
 
-    const figure = await crawler.getResults({ args: ["--no-sandbox"] });
+    const figure = await crawler.getResults();
     return figure;
   }
 }

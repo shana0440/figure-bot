@@ -92,7 +92,7 @@ export default class FnexCrawler extends Crawler {
       value: md5(url)
     });
 
-    const figure = await crawler.getResults({ args: ["--no-sandbox"] });
+    const figure = await crawler.getResults();
     return figure;
   }
 }
