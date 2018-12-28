@@ -14,6 +14,7 @@ import PulchraCrawler from "./crawlers/PulchraCrawler";
 import { leaveUnsavedURL, saveFigures } from "./repository/figure";
 import { validateFigure } from "./validators/figure";
 import { getFunctionName } from "./utils/function";
+import { setupChrome } from "./utils/chrome";
 
 interface CrawlPageEvent {
   crawler: string;
@@ -60,6 +61,7 @@ export const handler: Handler = async () => {
 };
 
 export const handlePage: Handler = async (event: CrawlPageEvent) => {
+  await setupChrome();
   const crawler: Crawler = crawlers[event.crawler];
   // dynamodb don't allow get duplicate key
   const urls: string[] = _.uniq(await crawler.getFiguresURL());
@@ -74,6 +76,7 @@ export const handlePage: Handler = async (event: CrawlPageEvent) => {
 };
 
 export const handleFigure: Handler = async (event: CrawlFigureEvent) => {
+  await setupChrome();
   const crawler: Crawler = crawlers[event.crawler];
   const figure = await crawler.getFigure(event.url);
   const { validated, invalidated } = validateFigure([figure]);

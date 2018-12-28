@@ -4,6 +4,7 @@ import { IFigure } from "../models/figure";
 import { createHash } from "crypto";
 import { URL } from "url";
 import { encodeURL } from "../utils/url";
+import { puppeteerOptions } from "../utils/chrome";
 
 export default class TokyofigureCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
@@ -96,7 +97,7 @@ export default class TokyofigureCrawler extends Crawler {
         .digest("hex")
     });
 
-    const figure = await crawler.getResults({ args: ["--no-sandbox"] });
+    const figure = await crawler.getResults(puppeteerOptions);
     return figure;
   }
 }

@@ -4,6 +4,7 @@ import Crawler from "./Crawler";
 import { IFigure } from "../models/figure";
 import { md5 } from "../utils/hash";
 import { encodeURL } from "../utils/url";
+import { puppeteerOptions } from "../utils/chrome";
 
 export default class FnexCrawler extends Crawler {
   public async getFiguresURL(): Promise<Array<string>> {
@@ -17,7 +18,7 @@ export default class FnexCrawler extends Crawler {
       callback: links =>
         links.map(i => this.url.origin + links.eq(i).attr("href")).toArray()
     });
-    const results = await crawler.getResults({ args: ["--no-sandbox"] });
+    const results = await crawler.getResults(puppeteerOptions);
     return results["figures_links"];
   }
 
