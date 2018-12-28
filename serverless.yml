@@ -1,0 +1,114 @@
+service: figure-bot
+
+app: figure-bot
+tenant: kwguo
+
+custom:
+  dynamodb:
+    start:
+      migrate: true
+  assets:
+    targets:
+      - bucket:
+          Ref: figureBucket
+        files:
+          - source: ./chrome/
+            globs:
+              - "*"
+
+# Add the serverless-webpack plugin
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dynamodb-local
+  - serverless-iam-roles-per-function
+  - serverless-s3-deploy
+
+provider:
+  name: aws
+  stage: dev
+  runtime: nodejs8.10
+  region: ap-northeast-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:BatchWriteItem
+        - dynamodb:BatchGetItem
+        - dynamodb:Scan
+        - dynamodb:PutItem
+        - dynamodb:DeleteItem
+        - s3:GetObject
+      Resource:
+        - "Fn::GetAtt": [figuresTable, Arn]
+        - "Fn::GetAtt": [usersTable, Arn]
+        - "Fn::GetAtt": [figureBucket, Arn]
+  environment:
+    ENV: ${self:provider.stage}
+    LINE_CHANNEL_SECRET: ${env:LINE_CHANNEL_SECRET}
+    LINE_ACCESS_TOKEN: ${env:LINE_ACCESS_TOKEN}
+    S3_BUCKET:
+      Ref: figureBucket
+
+functions:
+  CrawlSchedule:
+    handler: src/crawl.handler
+    events:
+      - schedule: cron(0 12,18 * * ? *)
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - lambda:InvokeFunction
+        Resource:
+          - "Fn::GetAtt": [CrawlPageLambdaFunction, Arn]
+  CrawlPage:
+    handler: src/crawl.handlePage
+    timeout: 300
+    iamRoleStatementsInherit: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - lambda:InvokeFunction
+        Resource:
+          - "Fn::GetAtt": [CrawlFigureLambdaFunction, Arn]
+  CrawlFigure:
+    handler: src/crawl.handleFigure
+    timeout: 300
+  Bot:
+    handler: src/server.handler
+    events:
+      - http:
+          method: POST
+          path: /
+
+resources:
+  Resources:
+    figuresTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: figure_bot_figures_${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: figure_bot_users_${self:provider.stage}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    figureBucket:
+      Type: AWS::S3::Bucket

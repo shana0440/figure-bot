@@ -1,63 +1,86 @@
-import * as mongoose from 'mongoose';
-import { GoodSmileCrawler } from "./crawlers/GoodSmileCrawler";
-import { Figure } from "./Figure";
-import { Model } from 'mongoose';
-import { uploadFiguresImage } from './Storage';
-import * as Bot from './Bot';
-import { Crawler } from './crawlers/Crawler';
-import { AlterCrawler } from './crawlers/AlterCrawler';
-import { KotobukiyaCrawler } from './crawlers/KotobukiyaCrawler';
-import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
-import { FnexCrawler } from './crawlers/FnexCrawler';
-import { AoshimaCrawler } from './crawlers/AoshimaCrawler';
-import { AlphamaxCrawler } from './crawlers/AlphamaxCrawler';
-import { PulchraCrawler } from './crawlers/PulchraCrawler';
+import { Handler } from "aws-lambda";
+import * as AWS from "aws-sdk";
+import * as _ from "lodash";
+import * as Bot from "./Bot";
+import Crawler from "./crawlers/Crawler";
+import GoodSmileCrawler from "./crawlers/GoodSmileCrawler";
+import AlterCrawler from "./crawlers/AlterCrawler";
+import KotobukiyaCrawler from "./crawlers/KotobukiyaCrawler";
+import TokyofigureCrawler from "./crawlers/TokyofigureCrawler";
+import FnexCrawler from "./crawlers/FnexCrawler";
+import AoshimaCrawler from "./crawlers/AoshimaCrawler";
+import AlphamaxCrawler from "./crawlers/AlphamaxCrawler";
+import PulchraCrawler from "./crawlers/PulchraCrawler";
+import { leaveUnsavedURL, saveFigures } from "./repository/figure";
+import { validateFigure } from "./validators/figure";
+import { getFunctionName } from "./utils/function";
+import { setupChrome } from "./utils/chrome";
 
-class CrawlFlow {
-    crawlers: Crawler[] = [];
-    constructor() {
-        this.crawlers.push(new GoodSmileCrawler());
-        this.crawlers.push(new AlterCrawler());
-        this.crawlers.push(new KotobukiyaCrawler());
-        this.crawlers.push(new TokyofigureCrawler());
-        this.crawlers.push(new FnexCrawler());
-        this.crawlers.push(new AoshimaCrawler());
-        this.crawlers.push(new AlphamaxCrawler());
-        this.crawlers.push(new PulchraCrawler());
-    }
-
-    async start() {
-        console.time("parse figures spend");
-        let parsedFiguresCount = 0;
-        for (let crawler of this.crawlers) {
-            console.log(crawler.constructor.name, 'crawler figure urls');
-            const urls: string[] = await crawler.getFiguresURL();
-            console.log(crawler.constructor.name, 'get unparse urls');
-            const unParseURLs = await Figure.getUnparsed(urls);
-            console.log(crawler.constructor.name, 'get figure url');
-            let figures = await crawler.getFigures(unParseURLs);
-            console.log(crawler.constructor.name, 'get unsave url');
-            figures = await Figure.getUnsaved(figures);
-            console.log(crawler.constructor.name, 'upload image');
-            figures = await uploadFiguresImage(figures);
-            console.log(crawler.constructor.name, 'multicast');
-            await Bot.multicastFigures(figures);
-            await Figure.insertMany(figures);
-            console.log(crawler.constructor.name, 'end');
-            parsedFiguresCount += figures.length;
-        }
-        console.timeEnd("parse figures spend");
-        console.log(`parsed ${parsedFiguresCount} figures`);
-    }
+interface CrawlPageEvent {
+  crawler: string;
 }
 
-(async () => {
-    try {
-        const crawl = new CrawlFlow();
-        await crawl.start();
-        process.exit();
-    } catch (err) {
-        console.error(err);
-        process.exit();
-    }
-})();
+interface CrawlFigureEvent {
+  crawler: string;
+  url: string;
+}
+
+const lambda = new AWS.Lambda();
+
+const crawlers: { [key: string]: Crawler } = {
+  GoodSmileCrawler: new GoodSmileCrawler(),
+  AlterCrawler: new AlterCrawler(),
+  KotobukiyaCrawler: new KotobukiyaCrawler(),
+  TokyofigureCrawler: new TokyofigureCrawler(),
+  FnexCrawler: new FnexCrawler(),
+  AoshimaCrawler: new AoshimaCrawler(),
+  AlphamaxCrawler: new AlphamaxCrawler(),
+  PulchraCrawler: new PulchraCrawler()
+};
+
+const invokeLambda = (
+  fn: string,
+  payload: CrawlPageEvent | CrawlFigureEvent
+) => {
+  return lambda
+    .invoke({
+      FunctionName: fn,
+      InvocationType: "Event",
+      Payload: JSON.stringify(payload)
+    })
+    .promise();
+};
+
+export const handler: Handler = async () => {
+  const invoke = Object.keys(crawlers).map(crawler => {
+    return invokeLambda(getFunctionName("CrawlPage"), {
+      crawler
+    });
+  });
+  return await Promise.all(invoke);
+};
+
+export const handlePage: Handler = async (event: CrawlPageEvent) => {
+  await setupChrome();
+  const crawler: Crawler = crawlers[event.crawler];
+  // dynamodb don't allow get duplicate key
+  const urls: string[] = _.uniq(await crawler.getFiguresURL());
+  const unsavedURLs = await leaveUnsavedURL(urls);
+  const invoke = unsavedURLs.map(url => {
+    return invokeLambda(getFunctionName("CrawlFigure"), {
+      crawler: event.crawler,
+      url
+    });
+  });
+  return await Promise.all(invoke);
+};
+
+export const handleFigure: Handler = async (event: CrawlFigureEvent) => {
+  await setupChrome();
+  const crawler: Crawler = crawlers[event.crawler];
+  const figure = await crawler.getFigure(event.url);
+  const { validated, invalidated } = validateFigure([figure]);
+  // TODO: alert invalidated figures
+  await saveFigures(validated);
+  return await Bot.multicastFigures(validated);
+};

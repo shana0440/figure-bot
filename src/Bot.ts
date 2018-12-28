@@ -1,56 +1,66 @@
-import { LineBot, LineHandler } from 'bottender';
-import * as fs from 'fs';
-import * as path from 'path';
-import { IFigure } from './Figure';
-import * as moment from 'moment';
+import * as fs from "fs";
+import * as _ from "lodash";
+import {
+  Client,
+  TemplateButtons,
+  TemplateMessage,
+  WebhookEvent
+} from "@line/bot-sdk";
+import * as moment from "moment";
+import { IFigure } from "./models/figure";
+import config from "./config";
+import { addUser, removeUser, getAllUsers } from "./repository/user";
 
-const usersFile = `./share/users.json`;
-const users: string[] = fs.existsSync(usersFile) ? JSON.parse(fs.readFileSync(usersFile).toString()) : [];
-
-const bot = new LineBot({
-    channelSecret: process.env.LINE_CHANNEL_SECRET,
-    accessToken: process.env.LINE_ACCESS_TOKEN,
+const client = new Client({
+  channelAccessToken: config.line.accessToken,
+  channelSecret: config.line.channelSecret
 });
 
-const handler = new LineHandler()
-    .onFollow(async context => {
-        users.push(context.session.user.id);
-        fs.writeFile(usersFile, JSON.stringify(users), () => {});
-    })
-    .onUnfollow(async context => {
-        const index = users.indexOf(context.session.user.id);
-        users.splice(index, 1);
-        fs.writeFile(usersFile, JSON.stringify(users), () => {});
-    });
+const getUsers = async (): Promise<string[]> => {
+  const users = await getAllUsers();
+  return users.map(user => user.id);
+};
 
-bot.onEvent(handler);
-
-export const BotServer = bot;
-
-const splitText = (text, length) => {
-    if (text.length > length) {
-        return text.substr(0, length - 3) + '...';
-    } else {
-        return text;
-    }
-}
+export const handleEvent = async (event: WebhookEvent): Promise<void> => {
+  switch (event.type) {
+    case "follow":
+      return await addUser({ id: event.source.userId });
+    case "unfollow":
+      return await removeUser({ id: event.source.userId });
+  }
+};
 
 export const multicastFigures = async (figures: IFigure[]) => {
-    for (let figure of figures) {
-        const releaseDate = moment(figure.release_date);
-        const title = splitText(figure.name, 30);
-        const text = splitText(`${releaseDate.format('YYYY年MM月')}發售\n${figure.price}`, 60);
-        const template = {
-            type: 'buttons',
-            thumbnailImageUrl: figure.image,
-            title: title,
-            text: text,
-            actions: [{
-                type: 'uri',
-                label: 'Open Browser',
-                uri: figure.url,
-            }]
+  const users = await getUsers();
+
+  for (let figure of figures) {
+    const releaseDate = moment(figure.releaseDate);
+    const title = _.truncate(figure.name, { length: 30 });
+    const text = _.truncate(
+      `${releaseDate.format("YYYY年MM月")}發售\n${figure.price}`,
+      { length: 60 }
+    );
+
+    const content: TemplateButtons = {
+      type: "buttons",
+      thumbnailImageUrl: figure.image,
+      title,
+      text,
+      actions: [
+        {
+          type: "uri",
+          label: "Open Browser",
+          uri: figure.url
         }
-        await bot._connector._client.multicastTemplate(users, title, template);
-    }
-}
+      ]
+    };
+
+    const template: TemplateMessage = {
+      type: "template",
+      altText: text,
+      template: content
+    };
+
+    await client.multicast(users, template);
+  }
+};
