@@ -23,7 +23,7 @@ describe("parse pulchra figures", () => {
       isResale: false,
       price: "14,904円",
       image:
-        "https://pulc.jp/resources/upload/products/thumbnail2/20181220_origami hannnugi_shop_shiro.jpg",
+        "https://pulc.jp/resources/upload/products/thumbnail2/20181220_origami%20hannnugi_shop_shiro.jpg",
       company: "PULCHRA",
       url: "https://pulc.jp/category/select/cid/312/pid/8938",
       id: "7a1ab2f0bc5f2ddb870b4d184a31c386"
