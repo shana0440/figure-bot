@@ -12,10 +12,15 @@ interface LINE {
   accessToken: string;
 }
 
+interface Sentry {
+  dsn: string;
+}
+
 interface Config {
   app: App;
   aws: AWS;
   line: LINE;
+  sentry: Sentry;
 }
 
 const config: Config = {
@@ -29,6 +34,9 @@ const config: Config = {
   line: {
     accessToken: process.env.LINE_ACCESS_TOKEN,
     channelSecret: process.env.LINE_CHANNEL_SECRET
+  },
+  sentry: {
+    dsn: process.env.SENTRY_DSN
   }
 };
 

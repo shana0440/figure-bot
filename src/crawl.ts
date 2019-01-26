@@ -15,6 +15,7 @@ import { leaveUnsavedURL, saveFigures } from "./repository/figure";
 import { validateFigure } from "./validators/figure";
 import { getFunctionName } from "./utils/function";
 import { setupChrome } from "./utils/chrome";
+import { sentryLambdaWrapper } from "./utils/sentry";
 
 interface CrawlPageEvent {
   crawler: string;
@@ -51,36 +52,40 @@ const invokeLambda = (
     .promise();
 };
 
-export const handler: Handler = async () => {
+export const handler: Handler = sentryLambdaWrapper(async () => {
   const invoke = Object.keys(crawlers).map(crawler => {
     return invokeLambda(getFunctionName("CrawlPage"), {
       crawler
     });
   });
   return await Promise.all(invoke);
-};
+});
 
-export const handlePage: Handler = async (event: CrawlPageEvent) => {
-  await setupChrome();
-  const crawler: Crawler = crawlers[event.crawler];
-  // dynamodb don't allow get duplicate key
-  const urls: string[] = _.uniq(await crawler.getFiguresURL());
-  const unsavedURLs = await leaveUnsavedURL(urls);
-  const invoke = unsavedURLs.map(url => {
-    return invokeLambda(getFunctionName("CrawlFigure"), {
-      crawler: event.crawler,
-      url
+export const handlePage: Handler = sentryLambdaWrapper(
+  async (event: CrawlPageEvent) => {
+    await setupChrome();
+    const crawler: Crawler = crawlers[event.crawler];
+    // dynamodb don't allow get duplicate key
+    const urls: string[] = _.uniq(await crawler.getFiguresURL());
+    const unsavedURLs = await leaveUnsavedURL(urls);
+    const invoke = unsavedURLs.map(url => {
+      return invokeLambda(getFunctionName("CrawlFigure"), {
+        crawler: event.crawler,
+        url
+      });
     });
-  });
-  return await Promise.all(invoke);
-};
+    return await Promise.all(invoke);
+  }
+);
 
-export const handleFigure: Handler = async (event: CrawlFigureEvent) => {
-  await setupChrome();
-  const crawler: Crawler = crawlers[event.crawler];
-  const figure = await crawler.getFigure(event.url);
-  const { validated, invalidated } = validateFigure([figure]);
-  // TODO: alert invalidated figures
-  await saveFigures(validated);
-  return await Bot.multicastFigures(validated);
-};
+export const handleFigure: Handler = sentryLambdaWrapper(
+  async (event: CrawlFigureEvent) => {
+    await setupChrome();
+    const crawler: Crawler = crawlers[event.crawler];
+    const figure = await crawler.getFigure(event.url);
+    const { validated, invalidated } = validateFigure([figure]);
+    // TODO: alert invalidated figures
+    await saveFigures(validated);
+    return await Bot.multicastFigures(validated);
+  }
+);
