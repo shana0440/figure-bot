@@ -15,7 +15,8 @@ import { leaveUnsavedURL, saveFigures } from "./repository/figure";
 import { validateFigure } from "./validators/figure";
 import { getFunctionName } from "./utils/function";
 import { setupChrome } from "./utils/chrome";
-import { sentryLambdaWrapper } from "./utils/sentry";
+import Sentry, { sentryLambdaWrapper } from "./utils/sentry";
+import { Severity } from "@sentry/node";
 
 interface CrawlPageEvent {
   crawler: string;
@@ -85,6 +86,11 @@ export const handleFigure: Handler = sentryLambdaWrapper(
     const figure = await crawler.getFigure(event.url);
     const { validated, invalidated } = validateFigure([figure]);
     // TODO: alert invalidated figures
+    Sentry.captureEvent({
+      message: "Cannot parse those figures",
+      level: Severity.Warning,
+      contexts: { figures: invalidated }
+    });
     await saveFigures(validated);
     return await Bot.multicastFigures(validated);
   }
