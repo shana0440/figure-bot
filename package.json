@@ -4,7 +4,7 @@
   "description": "push figure message",
   "main": "index.js",
   "dependencies": {
-    "@line/bot-sdk": "6.5.0",
+    "@line/bot-sdk": "^6.5.0",
     "@sentry/node": "4.6.1",
     "aws-lambda": "^0.1.2",
     "aws-sdk": "2.404.0",
@@ -25,7 +25,7 @@
     "@types/tar": "^4.0.0",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
-    "serverless-dynamodb-local": "0.2.36",
+    "serverless-dynamodb-local": "0.2.38",
     "serverless-iam-roles-per-function": "^1.0.4",
     "serverless-offline": "4.4.2",
     "serverless-s3-deploy": "^0.8.0",
