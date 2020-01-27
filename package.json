@@ -1,0 +1,21 @@
+{
+  "name": "figure-bot",
+  "version": "0.0.1",
+  "main": "dist/app.js",
+  "author": "shana0440@gmail.com",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint '**/*.ts'",
+    "clean": "rm -rf dist/"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
+    "eslint": "^6.8.0",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
