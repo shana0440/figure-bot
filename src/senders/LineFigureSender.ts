@@ -45,9 +45,11 @@ export class LineFigureSender implements FigureSender {
 
   async send(figures: Figure[]) {
     const userIds = this.userRepo.list(TYPE).map((it) => it.id);
-    figures.map<FlexMessage>(generateFlexMessage).map((msg) => {
-      this.client.multicast(userIds, msg);
-    });
+    await Promise.all(
+      figures.map<FlexMessage>(generateFlexMessage).map(async (msg) => {
+        await this.client.multicast(userIds, msg);
+      })
+    );
   }
 }
 
