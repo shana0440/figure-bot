@@ -25,7 +25,9 @@ export class AoshimaCrawler implements FigureCrawler {
         map(($figures) => {
           return $figures.map(([url, $]) => {
             const name = $('.mainContents > h1:nth-child(2)').text();
-            const cover = $('.img > img:nth-child(1)').attr('src');
+            const cover = $('.img > img:nth-child(1)')
+              .attr('src')
+              .replace('http', 'https');
             const price = $('.itemData > dl:nth-child(2) > dd:nth-child(10)').text();
             const publishAt = $('.itemData > dl:nth-child(2) > dd:nth-child(8)')
               .text()
