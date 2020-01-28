@@ -14,7 +14,7 @@ const app = new Koa();
 const morganOptiosn = config.isProduction()
   ? {
       stream: rfs.createStream('access.log', {
-        interval: '1m',
+        interval: '1M',
         path: resolve(__dirname, '../logs'),
       }),
     }
