@@ -15,6 +15,9 @@
     "@types/chai": "^4.2.7",
     "@types/cheerio": "^0.22.15",
     "@types/dotenv": "^8.2.0",
+    "@types/koa": "^2.11.0",
+    "@types/koa-bodyparser": "^4.3.0",
+    "@types/koa-morgan": "^1.0.4",
     "@types/lowdb": "^1.0.9",
     "@types/mocha": "^5.2.7",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
@@ -30,7 +33,11 @@
     "@line/bot-sdk": "^6.8.4",
     "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.2.0",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-morgan": "^1.0.1",
     "lowdb": "^1.0.0",
+    "rotating-file-stream": "^2.0.2",
     "rxjs": "^6.5.4",
     "xmlhttprequest-ts": "^1.0.1"
   }

@@ -2,14 +2,24 @@ import { resolve } from 'path';
 
 import { config as dotConfig } from 'dotenv';
 
-export interface Config {
-  lineAccessToken: string;
-  lineChannelSecret: string;
-}
-
 dotConfig({ path: resolve(__dirname, '../../.env') });
 
-export const config: Config = {
-  lineAccessToken: process.env.LINE_ACCESS_TOKEN || '',
-  lineChannelSecret: process.env.LINE_CHANNEL_SECRET || '',
-};
+export class Config {
+  env: string;
+  port: number;
+  lineAccessToken: string;
+  lineChannelSecret: string;
+
+  constructor() {
+    this.env = process.env.ENV || 'development';
+    this.port = parseInt(process.env.PORT || '3000');
+    this.lineAccessToken = process.env.LINE_ACCESS_TOKEN || '';
+    this.lineChannelSecret = process.env.LINE_CHANNEL_SECRET || '';
+  }
+
+  isProduction(): boolean {
+    return this.env === 'production';
+  }
+}
+
+export const config = new Config();

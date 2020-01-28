@@ -8,7 +8,7 @@ export interface UserSchema {
 
 export class UserRepository {
   private db: Lowdb.LowdbSync<UserSchema>;
-  constructor(db: Lowdb.LowdbSync<UserSchema>) {
+  constructor(db: Lowdb.LowdbSync<any>) {
     this.db = db;
     db.defaults({ users: [] }).write();
   }

@@ -2,13 +2,13 @@ import * as Lowdb from 'lowdb';
 
 import { Figure } from '../models/Figure';
 
-interface Schema {
+export interface FigureSchema {
   figures: Figure[];
 }
 
 export class FigureRepository {
-  private db: Lowdb.LowdbSync<Schema>;
-  constructor(db: Lowdb.LowdbSync<Schema>) {
+  private db: Lowdb.LowdbSync<FigureSchema>;
+  constructor(db: Lowdb.LowdbSync<any>) {
     this.db = db;
     db.defaults({ figures: [] }).write();
   }
