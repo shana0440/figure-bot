@@ -14,6 +14,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.7",
     "@types/cheerio": "^0.22.15",
+    "@types/dotenv": "^8.2.0",
     "@types/lowdb": "^1.0.9",
     "@types/mocha": "^5.2.7",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "dotenv": "^8.2.0",
     "lowdb": "^1.0.0",
     "rxjs": "^6.5.4",
     "xmlhttprequest-ts": "^1.0.1"
