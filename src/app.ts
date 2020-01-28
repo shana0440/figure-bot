@@ -4,6 +4,7 @@ import * as Koa from 'koa';
 import * as morgan from 'koa-morgan';
 import * as rfs from 'rotating-file-stream';
 import * as bodyParser from 'koa-bodyparser';
+import * as route from 'koa-route';
 
 import { config } from './config/Config';
 import { Container } from './Container';
@@ -24,16 +25,25 @@ app.use(bodyParser());
 
 const container = new Container(config);
 
-app.use(async (ctx) => {
-  const body = ctx.request.body;
-  try {
-    await container.lineFigureSender.handleRequestBody(body);
+app.use(
+  route.all('/line', async (ctx) => {
+    const body = ctx.request.body;
+    try {
+      await container.lineFigureSender.handleRequestBody(body);
+      ctx.status = 200;
+      ctx.body = { ok: true };
+    } catch (e) {
+      // FIXME: error handling
+    }
+  })
+);
+
+app.use(
+  route.all('/ping', (ctx) => {
     ctx.status = 200;
-    ctx.body = { ok: true };
-  } catch (e) {
-    // FIXME: error handling
-  }
-});
+    ctx.body = 'pong';
+  })
+);
 
 app.listen(config.port, () => {
   console.log(`start listen at ${config.port}`);
