@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>F:NEX(フェネクス) / 商品検索ページ</title>
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+    <meta name="author" content="フリュー株式会社" />
+<link rel="shortcut icon" href="/user_data/packages/default/img/common/favicon.ico" />
+<link rel="icon" type="image/vnd.microsoft.icon" href="/user_data/packages/default/img/common/favicon.ico" />
+<link rel="stylesheet" href="/js/jquery.colorbox/colorbox.css" type="text/css" media="all" />
+<link rel="stylesheet" href="/user_data/packages/default/css/import.css" type="text/css" media="all" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="https://fnex.jp/rss/" />
+<!--[if lt IE 9]>
+<script src="/js/jquery-1.11.1.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script src="/js/jquery-2.1.1.min.js"></script>
+<!--<![endif]-->
+<script type="text/javascript" src="/js/eccube.js"></script>
+<!-- #2342 次期メジャーバージョン(2.14)にてeccube.legacy.jsは削除予定.モジュール、プラグインの互換性を考慮して2.13では残します. -->
+<script type="text/javascript" src="/js/eccube.legacy.js"></script>
+<script type="text/javascript" src="/js/jquery.colorbox/jquery.colorbox-min.js"></script>
+
+<script type="text/javascript">//<![CDATA[
+    
+    $(function(){
+        
+    });
+//]]></script>
+
+
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-96089987-2', 'auto');
+ ga('send', 'pageview');
+
+</script>
+<script src="//statics.a8.net/a8sales/a8sales.js"></script>
+<script type="text/javascript">
+var tag_id = 20199;
+var nend_domain = "https://s.nend.net";
+</script>
+<script type="text/javascript" src="https://s2.nend.net/js/nendRt.js"></script>
+</head>
+
+<!-- ▼BODY部 スタート -->
+
+<body class="LC_Page_Products_Search"><noscript><p>JavaScript を有効にしてご利用下さい.</p></noscript><div id="container"><a name="top" id="top"></a>
+<!--▼HEADER-->
+<header id="header"><div class="bar"><div class="in-wrap"><h1 class="logo logo_vert"><a href="https://fnex.jp/"><img src="/user_data/packages/default/img/common/logo_head_subpage.png" alt="F:NEXフェネクス"></a></h1><div class="ctt"><nav class="nav" id="gnav"><!-- ▼ログイン -->
+<div class="login"><ul><li><a href="#" class="show-login">ログイン</a></li><li><a href="#" class="show-login">新規登録</a></li></ul></div><div class="login-wrapper"><div class="overlay"></div><div class="pcommon_login"><form name="login_form" id="login_form" method="post" action="https://fnex.jp/frontparts/login_check.php" onsubmit="return eccube.checkLoginFormInputted('login_form')"><input type="hidden" name="transactionid" value="fad320aa83f72968790dfe483729d214fb4126ac" /><input type="hidden" name="mode" value="login" /><input type="hidden" name="url" value="/products/search.php?categories[]=14&amp;page=1" /><div class="panel-login"><div class="loading"></div><h4>会員登録がお済みの方</h4><p class="alert" style="display:none">メールアドレスかパスワードが<br>間違っています</p><p><input type="text" value="" class="text" name="login_email" placeholder="メールアドレス" maxlength="256"></p><p><input type="password" class="text" name="login_pass" placeholder="パスワード" maxlength="100"></p><p><input type="submit" value="ログイン" class="button button-active button-m over"></p><p class="reminder"><a href="https://fnex.jp/forgot/" onclick="eccube.openWindow('https://fnex.jp/forgot/','forget','600','400',{scrollbars:'no',resizable:'no'}); return false;" target="_blank">パスワードを忘れた方はこちら</a></p></div></form><div class="panel-register"><div class="loading"></div><h4>会員登録がお済みでない方</h4><p><a class="button button-active button-m over" href="/entry/kiyaku.php">会員登録する</a></p></div></div></div><!-- ▲ログイン --><!-- ▼商品検索 -->
+<!--検索フォーム--><div class="pcommon_nav"><ul><li class="cat"><a href="/products/search.php"><span class="text">商品一覧</span></a></li><li class="search"><a href="#"><span class="text">商品検索</span></a><div class="field"><form name="search_form" id="search_form" method="post" action="/products/search.php"><input type="hidden" name="transactionid" value="fad320aa83f72968790dfe483729d214fb4126ac" /><input type="text" name="name" maxlength="100" ><input type="submit" name="search" value="検索" ></form><ul class="search-list"></ul></div></li></ul></div><!-- ▲商品検索 --></nav>
+<div class="show-cart cart"><a href="#"><span class="icon"></span></a></div><div class="cart-wrapper"><div class="overlay"></div><div class="in-wrap"><div class="common-cart"><div class="inner"><div class="frame"><ul id="cart-contents"><li class="noitem">現在、カート内に商品はありません。</li></ul></div><p class="total" style="display:none">合計金額（税込）<span>¥0</span></p><p class="action"><input type="submit" id="go-cart" class="button button-pnk button-m" disabled="disabled" onclick="javascript:location.href='https://fnex.jp/cart/'" value="現在のカートの中"></p></div></div></div></div><div id="gnav_btn"><a href="#"><span></span></a></div></div></div></div></header>
+<!--▲HEADER-->
+<div class="clearfix"><div id="main_column" class="colnum1"><!-- ▼メイン --><script type="text/javascript">
+$(function () {
+    var $form = $('#search-form');
+    var $result = $('#search-result-list');
+    var $count = $('#search-count');
+    var $more = $('#search-more');
+    var $page = $form.find(':input[name="page"]');
+
+    $form.find(':input').on('change', function () {
+        setKeywordConditions('#conditions-keyword', '.keyword');
+        setCheckConditions('#conditions-category', '.category');
+        setCheckConditions('#conditions-option', '.option');
+        setSelectConditions('#conditions-title', '.title');
+        searchProducts();
+        var nextPage = $form.attr('action') + $form.serialize();
+        window.history.replaceState(null, null, nextPage);
+    }).filter(':first').trigger('change');
+
+    $more.on('click', function () {
+        loadMoreProducts();
+    });
+
+    function setKeywordConditions(target, filter) {
+        if (typeof filter === 'undefined') {
+            filter = '*';
+        }
+        var text = $(':input.condition').filter(filter).map(function (i, e) {
+            return $(e).val();
+        }).get().join(' ');
+        $(target).text(text);
+    }
+
+    function setSelectConditions(target, filter) {
+        if (typeof filter === 'undefined') {
+            filter = '*';
+        }
+        var text = $('select.condition').filter(filter).find('option:selected').map(function (i, e) {
+            return $(e).text();
+        }).get().join(' ');
+        $(target).text(text);
+    }
+
+    function setCheckConditions(target, filter) {
+        if (typeof filter === 'undefined') {
+            filter = '*';
+        }
+        var text = $(':input.condition').filter(filter + ':checked').map(function (i, e) {
+            return $(e).data().condition;
+        }).get().join(' ');
+        text = text.length ? text : '全て';
+        $(target).text(text);
+    }
+
+    function searchProducts() {
+        $result.empty();
+        $count.empty();
+        $page.val('');
+        sendRequest(
+            function (data) {
+                var errors = Object.keys(data.errors).map(function (k) {return data.errors[k]});
+                if (!errors.length) {
+                    $count.text(data.count);
+                } else {
+                    alert(errors.join("\n"));
+                }
+                $result.html(data.html).find('a:first').addClass('first');
+            }
+        );
+    }
+
+    function loadMoreProducts() {
+        sendRequest(
+            function (data) {
+                var errors = Object.keys(data.errors).map(function (k) {return data.errors[k]});
+                if (errors.length) {
+                    alert(errors.join("\n"));
+                }
+                $result.append($(data.html));
+            }
+        );
+    }
+
+    function sendRequest(success, error) {
+        $.ajax($form.attr('action'), {
+            type: $form.attr('method'),
+            data: $form.serialize(),
+            dataType: 'json',
+            success: function (data) {
+                if ($.isFunction(success)) {
+                    success(data);
+                }
+                if (!data.errors.length) {
+                    $page.val(data.next_page);
+                    (data.max_page == 0 || data.current_page == data.max_page) ?
+                        $more.hide() :
+                        $more.show();
+                }
+            },
+            error: function () {
+                if ($.isFunction(error)) {
+                    error();
+                }
+            }
+        });
+    }
+});
+</script>
+
+<script type="text/javascript">
+$(function() {
+
+  // ------------------------------------------
+  // form
+
+  $(".search-status .btn-refine").on("click",function(){$(".search-refine").addClass("show");});
+  $(".search-refine .btn-close").on("click",function(){$(".search-refine").removeClass("show");});
+  $(".search-refine .btn-submit").on("click",function(){
+    $(".search-refine").removeClass("show");
+    return false;
+  });
+  $(".search-refine .btn-clear").on("click",function(){
+    $(".search-refine .search-box").val("").trigger("change");
+    $(".search-refine .search-box").parent().find(".search-list").removeClass("show");
+    return false;
+  });
+
+});
+</script>
+
+<div id="breadcrumbs">
+  <ul class="in-wrap">
+    <li><a href="https://fnex.jp/">トップ</a></li>
+    <li>検索結果</li>
+  </ul>
+</div>
+
+<div class="search-wrap in-wrap">
+    <div class="search-status">
+        <div class="search-overview">
+            <p class="ttl">該当商品</p>
+            <p class="number"><span id="search-count" class="main"></span><span class="sub">件</span></p>
+        </div>
+        <div class="head">
+            <ul class="cf">
+                <li class="keyword">
+                    <span class="key only-sp">キーワード：</span><span id="conditions-keyword" class="val"></span>
+                </li>
+                <li class="category">
+                    <span class="key">カテゴリ：</span><span id="conditions-category" class="val"></span>
+                </li>
+                <li class="option">
+                    <span class="key">オプション：</span><span id="conditions-option" class="val"></span>
+                </li>
+                <li class="title">
+                    <span class="key">作品名：</span><span id="conditions-title" class="val"></span>
+                </li>
+            </ul>
+            <button class="only-sp btn-refine">絞り込み検索</button>
+        </div>
+    </div>
+    <div class="search-refine">
+        <h2 class="ttl only-sp">商品検索</h2><button class="btn-close only-sp"></button>
+        <form id="search-form" method="post" action="?">
+            <input type="hidden" name="transactionid" value="fad320aa83f72968790dfe483729d214fb4126ac" />
+            <input type="hidden" name="page" value="" />
+            <div class="inner only-sp">
+                <h4>キーワード</h4>
+                <div class="search-holder">
+                    <div>
+                        <input name="dummy" style="display:none;">
+                        <input autocomplete="off" class="search-box condition keyword" name="name" placeholder="商品検索" size="10" type="text" maxlength="100" value="">
+                        <button type="button" class="btn-clear"></button>
+                    </div>
+                    <ul class="search-list"></ul>
+                </div>
+            </div>
+            <div class="inner search-category">
+                <h4>カテゴリー</h4>
+                <ul class="category-list cf" id="search-category-list">
+                                            <li>
+                            <input class="category-search condition category" id="input-category-14" name="categories[]" type="checkbox" value="14" data-condition="	フィギュア" checked="checked">
+                            <label for="input-category-14">
+                                	フィギュア(34件)
+                            </label>
+                        </li>
+                                            <li>
+                            <input class="category-search condition category" id="input-category-25" name="categories[]" type="checkbox" value="25" data-condition="ぬいぐるみ" >
+                            <label for="input-category-25">
+                                ぬいぐるみ(1件)
+                            </label>
+                        </li>
+                                            <li>
+                            <input class="category-search condition category" id="input-category-18" name="categories[]" type="checkbox" value="18" data-condition="グッズ" >
+                            <label for="input-category-18">
+                                グッズ(11件)
+                            </label>
+                        </li>
+                                    </ul>
+            </div>
+            <div class="inner optionList">
+                <h4>オプション</h4>
+                <ul class="option-list cf" id="search-option-list">
+                                            <li>
+                            <input class="option-search condition option" id="input-option-12" name="options[]" type="checkbox" value="12" data-condition="受注終了" >
+                            <label for="input-option-12">
+                                受注終了(42件)
+                            </label>
+                        </li>
+                                            <li>
+                            <input class="option-search condition option" id="input-option-9" name="options[]" type="checkbox" value="9" data-condition="	受注受付中" >
+                            <label for="input-option-9">
+                                	受注受付中(4件)
+                            </label>
+                        </li>
+                                    </ul>
+            </div>
+            <div class="inner title-list">
+                <h4>作品名</h4>
+                <select name="title" id="search-title-list" class="title-search condition title">
+                    <option value="">全て</option>
+                    <option label="俺を好きなのはお前だけかよ" value="34">俺を好きなのはお前だけかよ</option>
+<option label="Shadowverse" value="33">Shadowverse</option>
+<option label="やはり俺の青春ラブコメはまちがっている。完" value="32">やはり俺の青春ラブコメはまちがっている。完</option>
+<option label="物語シリーズ" value="31">物語シリーズ</option>
+<option label="Re:ゼロから始める異世界生活" value="13">Re:ゼロから始める異世界生活</option>
+<option label="初音ミク" value="16">初音ミク</option>
+<option label="ゾンビランドサガ" value="24">ゾンビランドサガ</option>
+<option label="ソードアート・オンライン" value="23">ソードアート・オンライン</option>
+<option label="モンスターハンター" value="30">モンスターハンター</option>
+<option label="ゆるキャン△" value="28">ゆるキャン△</option>
+<option label="ダンジョンに出会いを求めるのは間違っているだろうか" value="29">ダンジョンに出会いを求めるのは間違っているだろうか</option>
+<option label="ご注文はうさぎですか??" value="22">ご注文はうさぎですか??</option>
+<option label="オーバーロード" value="19">オーバーロード</option>
+<option label="続『刀剣乱舞-花丸-』" value="20">続『刀剣乱舞-花丸-』</option>
+<option label="エロマンガ先生" value="21">エロマンガ先生</option>
+<option label="恋愛幕末カレシ外伝 BAKUMATSU" value="26">恋愛幕末カレシ外伝 BAKUMATSU</option>
+<option label="はるかなレシーブ" value="27">はるかなレシーブ</option>
+<option label="ガールズ&amp;パンツァー 劇場版" value="15">ガールズ&amp;パンツァー 劇場版</option>
+<option label="甲鉄城のカバネリ" value="17">甲鉄城のカバネリ</option>
+
+                </select>
+                <button type="button" class="btn-submit only-sp">閉じる</button>
+            </div>
+        </form>
+    </div>
+    <div class="search-result">
+        <div class="section">
+            <div class="list-2 cf more-items" data-pc-col="5" data-pc-def="20" data-sp-def="20" id="search-result-list"></div>
+            <button id="search-more" type="button" class="btn btn-more" data-start="20">もっと見る</button>
+        </div>
+    </div>
+</div><!-- ▲メイン --></div><div id="bottomcolumn"><!-- ▼おすすめ商品 -->
+<script type="text/javascript">
+$(function() {
+
+  // global var
+  $.breakpoint = {
+    wrap: 996,
+    tab: 767,
+    sp: 640
+  };
+
+  // ------------------------------------------
+  // .ptop_itemlist
+
+  $('.islider').slick({
+    slidesToShow: 4,
+    autoplay: true,
+    responsive: [
+    {
+      breakpoint: $.breakpoint.tab,
+      settings: {
+        slidesToShow: 3
+      }
+    },
+    {
+      breakpoint: $.breakpoint.sp,
+      settings: {
+        slidesToShow: 2
+      }
+    }
+    ]
+  });
+
+});
+</script>
+<section class="ptop_itemlist"><div class="in-wrap"><h2 class="hl">ITEM LIST</h2><div class="islider"><div class="list-2"><a class="item" href="/products/detail.php?product_id=52"><p class="badge"><img alt="限定販典" src="/user_data/packages/default/img/list/badge_sale.png" /></p><p class="visual"><img data-pin-nopin="true" src="https://df73htivstjso.cloudfront.net/upload/save_image/fnx165_01s.jpg"></p><h3 class="ttl">やはり俺の青春ラブコメはまちがっている。完 雪ノ下雪乃 -白無垢- 1/7スケールフィギュア</h3></a></div><div class="list-2"><a class="item" href="/products/detail.php?product_id=51"><p class="badge"><img alt="限定販典" src="/user_data/packages/default/img/list/badge_sale.png" /></p><p class="visual"><img data-pin-nopin="true" src="https://df73htivstjso.cloudfront.net/upload/save_image/fnx164_01s.jpg"></p><h3 class="ttl">〈物語〉シリーズ 忍野忍 1/2スケール PVC製フィギュア</h3></a></div><div class="list-2"><a class="item" href="/products/detail.php?product_id=53"><p class="badge"><img alt="限定販典" src="/user_data/packages/default/img/list/badge_sale.png" /></p><p class="visual"><img data-pin-nopin="true" src="https://df73htivstjso.cloudfront.net/upload/save_image/fnx167_01s.jpg"></p><h3 class="ttl">Shadowverse【シャドウバース】 ルナ 1/7スケールフィギュア</h3></a></div><div class="list-2"><a class="item" href="/products/detail.php?product_id=54"><p class="badge"><img alt="限定販典" src="/user_data/packages/default/img/list/badge_sale.png" /></p><p class="visual"><img data-pin-nopin="true" src="https://df73htivstjso.cloudfront.net/upload/save_image/fnx168_01m.jpg"></p><h3 class="ttl">俺を好きなのはお前だけかよ パンジー／三色院菫子 1/7スケールフィギュア</h3></a></div></div></div></section>
+<!-- ▲おすすめ商品 --><!-- ▼スタッフ募集 --><div style="text-align:center; padding-top:20px; padding-bottom:10px; background:#FFF;">
+<a href="http://www.furyu.jp/recruit/career.html" target="_blank" style="color:#FF0000; font-size:130%;">フィギュアの企画開発スタッフ（正社員）募集！</a>
+</div><!-- ▲スタッフ募集 --></div></div>
+<!--▼FOOTER-->
+<script type="text/javascript">$(function () {$footerLogin = $('#footer .footer-login');$('#login_form').length > 0 ?$footerLogin.show() :$footerLogin.hide();});</script><footer id="footer"><div class="nav"><div class="list"><div class="footer-login"><a href="#" class="show-login">ログイン</a></div><div class="footer-login"><a href="#" class="show-login">会員登録</a></div><div><a href="/user_data/guide.php">ご利用ガイド</a></div><div><a href="/entry/kiyaku.php">利用規約</a></div><div><a href="http://www.furyu.jp/privacy.html" target="_blank">プライバシーポリシー</a></div><div><a href="/order/">特定商取引に関する法律に基づく表記</a></div><div><a href="http://www.furyu.jp/" target="_blank">運営会社</a></div><div><a href="https://fnex.jp/contact/">お問い合わせ</a></div></div><div class="logo"><a href="http://www.furyu.jp/" target="_blank"><img src="/user_data/packages/default/img/common/logo_footer.png" alt="FuRyu logo"></a></div><div class="copyright">&copy; FURYU Corporation. All Rights Reserved.</div></div></footer>
+<!--▲FOOTER--></div><div id="fb-root"></div><script src="/user_data/packages/default/js/common.js"></script><script src="/user_data/packages/default/js/vendor/slick.min.js"></script><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script><script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/ja_JP/sdk.js#xfbml=1&version=v2.9";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script><script id="tagjs" type="text/javascript">(function () {var tagjs = document.createElement("script");var s = document.getElementsByTagName("script")[0];tagjs.async = true;tagjs.src = "//s.yjtag.jp/tag.js#site=j0IF5fV";s.parentNode.insertBefore(tagjs, s);}());</script><noscript><iframe src="//b.yjtag.jp/iframe?c=j0IF5fV" width="1" height="1" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></noscript><!-- Yahoo Code for your Target List --><script type="text/javascript" language="javascript">/* <![CDATA[ */var yahoo_retargeting_id = 'P0624HQKS8';var yahoo_retargeting_label = '';var yahoo_retargeting_page_type = '';var yahoo_retargeting_items = [{item_id: '', category_id: '', price: '', quantity: ''}];/* ]]> */</script><script type="text/javascript" language="javascript" src="//b92.yahoo.co.jp/js/s_retargeting.js"></script><!-- リマーケティング タグの Google コード --><!--------------------------------------------------リマーケティング タグは、個人を特定できる情報と関連付けることも、デリケートなカテゴリに属するページに設置することも許可されません。タグの設定方法については、こちらのページをご覧ください。http://google.com/ads/remarketingsetup---------------------------------------------------><script type="text/javascript">/* <![CDATA[ */var google_conversion_id = 844914584;var google_custom_params = window.google_tag_params;var google_remarketing_only = true;/* ]]> */</script><script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script><noscript><div style="display:inline;"><img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/844914584/?guid=ON&amp;script=0"/></div></noscript><script type="text/javascript">$('iframe[name="google_conversion_frame"]').css({position: 'fixed',top: '-13px'});</script></body><!-- ▲BODY部 エンド -->
+
+</html>
