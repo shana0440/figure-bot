@@ -73,7 +73,7 @@ export class Container {
 
   get alphamaxCrawler(): AlphamaxCrawler {
     if (!this.crawlers.alphamax) {
-      this.crawlers.alphamax = new AlphamaxCrawler(this.htmlRequest);
+      this.crawlers.alphamax = new AlphamaxCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.alphamax;
   }
