@@ -108,7 +108,7 @@ export class Container {
 
   get kotobukiyaCrawler(): KotobukiyaCrawler {
     if (!this.crawlers.kotobukiya) {
-      this.crawlers.kotobukiya = new KotobukiyaCrawler(this.htmlRequest);
+      this.crawlers.kotobukiya = new KotobukiyaCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.kotobukiya;
   }
