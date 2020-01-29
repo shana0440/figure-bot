@@ -13,6 +13,24 @@ export class FigureRepository {
     db.defaults({ figures: [] }).write();
   }
 
+  filterSavedFigureURLs(urls: string[]): string[] {
+    const urlSet = urls.reduce<Set<string>>((acc, it) => {
+      acc.add(it);
+      return acc;
+    }, new Set());
+
+    const savedFigures = this.db
+      .read()
+      .get('figures')
+      .filter((it) => urlSet.has(it.url))
+      .value();
+
+    savedFigures.forEach((figure) => {
+      urlSet.delete(figure.url);
+    });
+    return Array.from(urlSet);
+  }
+
   filterSavedFigures(figures: Figure[]): Figure[] {
     const urlFigureMap = figures.reduce<{ [key: string]: Figure }>(
       (acc, it) => ({

@@ -47,4 +47,15 @@ describe('FigureRepository', () => {
 
     expect(nonSavedFigures).deep.equals([figures[1]]);
   });
+
+  it('filter saved figure urls', () => {
+    const memory = new Memory('db.json');
+    const db = Lowdb(memory);
+    const repo = new FigureRepository(db);
+    repo.save([figures[0]]);
+    const urls = figures.map((it) => it.url);
+    const nonSavedFigureURLs = repo.filterSavedFigureURLs(urls);
+
+    expect(nonSavedFigureURLs).deep.equals([figures[1].url]);
+  });
 });
