@@ -1,15 +1,18 @@
-import { concat, queueScheduler } from 'rxjs';
+import { concat, queueScheduler, Observable } from 'rxjs';
 import { mergeMap, map, reduce, mergeAll, observeOn } from 'rxjs/operators';
 
 import { FigureCrawler } from './FigureCrawler';
 import { Request } from '../request/Request';
 import { Figure } from '../models/Figure';
+import { FigureRepository } from '../repositories/FigureRepository';
 
 export class AlterCrawler implements FigureCrawler {
   private request: Request;
+  private figureRepo: FigureRepository;
 
-  constructor(request: Request) {
+  constructor(request: Request, figureRepo: FigureRepository) {
     this.request = request;
+    this.figureRepo = figureRepo;
   }
 
   async fetchFigures() {
@@ -23,13 +26,15 @@ export class AlterCrawler implements FigureCrawler {
           const links = $('figure a')
             .map((i, it) => host + $(it).attr('href'))
             .get();
-          return links;
+
+          return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),
-        mergeMap((url) => this.request.request(url)),
+        mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
+          this.request.request(url).pipe(map(($) => [url, $]))
+        ),
         observeOn(queueScheduler),
-        map(($) => {
-          const url = host + $('#topicpath li:last-child a').attr('href');
+        map(([url, $]) => {
           const name = $('#topicpath li:last-child a').text();
           const cover = host + $('.item-mainimg > figure > img').attr('src');
           const price = $(
