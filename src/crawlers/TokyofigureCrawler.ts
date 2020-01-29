@@ -1,6 +1,5 @@
-// https://tokyofigure.jp/products/list.php?category_id=9&orderby=date&disp_number=50&pageno=1
-import { forkJoin } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
+import { queueScheduler, Observable } from 'rxjs';
+import { mergeMap, map, reduce, mergeAll, observeOn } from 'rxjs/operators';
 
 import { FigureCrawler } from './FigureCrawler';
 import { Request } from '../request/Request';
@@ -18,7 +17,7 @@ export class TokyofigureCrawler implements FigureCrawler {
     return this.request
       .request(`${host}/products/list.php?category_id=9&orderby=date&disp_number=10&pageno=1`)
       .pipe(
-        mergeMap(($) => {
+        map(($) => {
           const links = $('.list_area img')
             .map((i, it) => {
               const onclick = $(it).attr('onclick') || '';
@@ -26,25 +25,28 @@ export class TokyofigureCrawler implements FigureCrawler {
               return host + link;
             })
             .get();
-
-          return forkJoin(links.map((it) => this.request.request(it).pipe(map((x) => [it, x]))));
+          return links;
         }),
-        map(($figures) => {
-          return $figures.map(([url, $]) => {
-            const name = $('.title').text();
-            const cover = `${host}` + $('.products_subimg_in:first-child img').attr('src');
-            const price = $('.normal_price > dd:nth-child(2)').text();
-            const publishAt = $('.sale_date > dd:nth-child(2)').text();
-            const figure: Figure = {
-              url,
-              name,
-              cover,
-              price,
-              publishAt,
-            };
-            return figure;
-          });
-        })
+        mergeAll<string>(),
+        mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
+          this.request.request(url).pipe(map(($) => [url, $]))
+        ),
+        observeOn(queueScheduler),
+        map(([url, $]) => {
+          const name = $('.title').text();
+          const cover = `${host}` + $('.products_subimg_in:first-child img').attr('src');
+          const price = $('.normal_price > dd:nth-child(2)').text();
+          const publishAt = $('.sale_date > dd:nth-child(2)').text();
+          const figure: Figure = {
+            url,
+            name,
+            cover,
+            price,
+            publishAt,
+          };
+          return figure;
+        }),
+        reduce<Figure, Figure[]>((acc, it) => [...acc, it], [])
       )
       .toPromise();
   }
