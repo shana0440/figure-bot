@@ -11,6 +11,7 @@
     "lint": "eslint '**/*.ts'",
     "clean": "rm -rf dist/",
     "test": "mocha --diff -r ts-node/register 'src/tests/**/*.ts'",
+    "coverage": "nyc mocha -r ts-node/register 'src/tests/**/*.ts'",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
@@ -28,6 +29,7 @@
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "mocha": "^7.0.1",
+    "nyc": "^15.0.0",
     "prettier": "^1.19.1",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
