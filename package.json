@@ -10,7 +10,8 @@
     "build": "tsc -p tsconfig.json",
     "lint": "eslint '**/*.ts'",
     "clean": "rm -rf dist/",
-    "test": "mocha --diff -r ts-node/register 'src/tests/**/*.ts'"
+    "test": "mocha --diff -r ts-node/register 'src/tests/**/*.ts'",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",

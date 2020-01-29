@@ -80,14 +80,14 @@ export class Container {
 
   get alterCrawler(): AlterCrawler {
     if (!this.crawlers.alter) {
-      this.crawlers.alter = new AlterCrawler(this.htmlRequest);
+      this.crawlers.alter = new AlterCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.alter;
   }
 
   get aoshimaCrawler(): AoshimaCrawler {
     if (!this.crawlers.aoshima) {
-      this.crawlers.aoshima = new AoshimaCrawler(this.htmlRequest);
+      this.crawlers.aoshima = new AoshimaCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.aoshima;
   }

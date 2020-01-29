@@ -4,12 +4,15 @@ import { mergeMap, map, reduce, mergeAll, observeOn } from 'rxjs/operators';
 import { FigureCrawler } from './FigureCrawler';
 import { Request } from '../request/Request';
 import { Figure } from '../models/Figure';
+import { FigureRepository } from '../repositories/FigureRepository';
 
 export class AoshimaCrawler implements FigureCrawler {
   private request: Request;
+  private figureRepo: FigureRepository;
 
-  constructor(request: Request) {
+  constructor(request: Request, figureRepo: FigureRepository) {
     this.request = request;
+    this.figureRepo = figureRepo;
   }
 
   async fetchFigures() {
@@ -20,7 +23,8 @@ export class AoshimaCrawler implements FigureCrawler {
           const links = $('.item-list > li > a:nth-child(1)')
             .map((i, it) => $(it).attr('href'))
             .get();
-          return links;
+
+          return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
