@@ -1,5 +1,6 @@
-import { Observable, queueScheduler } from 'rxjs';
-import { mergeMap, map, mergeAll, reduce, observeOn } from 'rxjs/operators';
+import { Observable, queueScheduler, of } from 'rxjs';
+import { mergeMap, map, mergeAll, reduce, observeOn, catchError, filter } from 'rxjs/operators';
+import * as Sentry from '@sentry/node';
 
 import { FigureCrawler } from './FigureCrawler';
 import { Request } from '../request/Request';
@@ -48,6 +49,11 @@ export class PulchraCrawler implements FigureCrawler {
           };
           return figure;
         }),
+        catchError((err) => {
+          Sentry.captureException(err);
+          return of(null);
+        }),
+        filter((it): it is Figure => it != null),
         reduce<Figure, Figure[]>((acc, it) => [...acc, it], [])
       )
       .toPromise();

@@ -1,5 +1,6 @@
-import { queueScheduler, Observable } from 'rxjs';
-import { mergeMap, map, mergeAll, observeOn, reduce } from 'rxjs/operators';
+import { queueScheduler, Observable, of } from 'rxjs';
+import { mergeMap, map, mergeAll, observeOn, reduce, filter, catchError } from 'rxjs/operators';
+import * as Sentry from '@sentry/node';
 
 import { FigureCrawler } from './FigureCrawler';
 import { Request } from '../request/Request';
@@ -48,6 +49,11 @@ export class GoodSmileCrawler implements FigureCrawler {
           };
           return figure;
         }),
+        catchError((err) => {
+          Sentry.captureException(err);
+          return of(null);
+        }),
+        filter((it): it is Figure => it != null),
         reduce<Figure, Figure[]>((acc, it) => [...acc, it], [])
       )
       .toPromise();

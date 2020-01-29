@@ -1,5 +1,6 @@
 import { of, queueScheduler, Observable } from 'rxjs';
 import { mergeMap, map, catchError, mergeAll, reduce, filter, observeOn } from 'rxjs/operators';
+import * as Sentry from '@sentry/node';
 
 import { FigureCrawler } from './FigureCrawler';
 import { Request } from '../request/Request';
@@ -51,8 +52,7 @@ export class AlphamaxCrawler implements FigureCrawler {
           return figure;
         }),
         catchError((err) => {
-          // FIXME: record error
-          console.error(err);
+          Sentry.captureException(err);
           return of(null);
         }),
         filter((it): it is Figure => it != null),
