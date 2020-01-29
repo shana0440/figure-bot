@@ -122,7 +122,7 @@ export class Container {
 
   get tokyofigureCrawler(): TokyofigureCrawler {
     if (!this.crawlers.tokyofigure) {
-      this.crawlers.tokyofigure = new TokyofigureCrawler(this.htmlRequest);
+      this.crawlers.tokyofigure = new TokyofigureCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.tokyofigure;
   }
