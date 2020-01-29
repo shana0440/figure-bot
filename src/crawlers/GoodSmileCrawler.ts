@@ -18,7 +18,7 @@ export class GoodSmileCrawler implements FigureCrawler {
       .request(url)
       .pipe(
         map(($) => {
-          const links = $('.hitBox > a')
+          const links = $('.hitBox a:not([target="_blank"])')
             .map((i, it) => $(it).attr('href'))
             .get();
           return links;
