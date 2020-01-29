@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/node';
+
 import { config } from './config/Config';
 import { Container } from './Container';
 
@@ -17,6 +19,8 @@ const crawlers = [
 const lineSender = container.lineFigureSender;
 const figureRepo = container.figureRepository;
 
+Sentry.init({ dsn: config.sentryDSN });
+
 console.log('start fetch');
 Promise.all(
   crawlers.map(async (it) => {
@@ -31,5 +35,5 @@ Promise.all(
     console.log('done');
   })
   .catch((err) => {
-    console.error(err);
+    Sentry.captureException(err);
   });

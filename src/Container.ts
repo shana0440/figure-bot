@@ -21,7 +21,7 @@ type Schema = UserSchema & FigureSchema;
 
 export class Container {
   config: Config;
-  db: Lowdb.LowdbSync<Schema>;
+  private db: Lowdb.LowdbSync<Schema>;
   private userRepo?: UserRepository;
   private figureRepo?: FigureRepository;
   private lineSender?: LineFigureSender;

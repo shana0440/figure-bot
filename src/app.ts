@@ -5,6 +5,7 @@ import * as morgan from 'koa-morgan';
 import * as rfs from 'rotating-file-stream';
 import * as bodyParser from 'koa-bodyparser';
 import * as route from 'koa-route';
+import * as Sentry from '@sentry/node';
 
 import { config } from './config/Config';
 import { Container } from './Container';
@@ -47,6 +48,12 @@ app.use(
     ctx.body = 'pong';
   })
 );
+
+Sentry.init({ dsn: config.sentryDSN });
+
+app.on('error', (err) => {
+  Sentry.captureException(err);
+});
 
 app.listen(config.port, () => {
   console.log(`start listen at ${config.port}`);

@@ -29,7 +29,7 @@ export class AoshimaCrawler implements FigureCrawler {
         observeOn(queueScheduler),
         map(([url, $]) => {
           const name = $('.mainContents > h1:nth-child(2)').text();
-	  // FIXME: should show not found image
+          // FIXME: should show not found image
           const coverSrc = $('.img > img:nth-child(1)').attr('src') || '';
           const cover = coverSrc.replace('http', 'https');
           const price = $('.itemData > dl:nth-child(2) > dd:nth-child(10)').text();
