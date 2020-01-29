@@ -1,5 +1,5 @@
-import { forkJoin } from 'rxjs';
-import { mergeMap, map } from 'rxjs/operators';
+import { queueScheduler, Observable } from 'rxjs';
+import { mergeMap, map, reduce, observeOn, mergeAll } from 'rxjs/operators';
 
 import { FigureCrawler } from './FigureCrawler';
 import { Request } from '../request/Request';
@@ -17,28 +17,33 @@ export class FnexCrawler implements FigureCrawler {
     return this.request
       .request(`${host}/products/search.php?categories[]=14&page=1`)
       .pipe(
-        mergeMap(($) => {
+        map(($) => {
           const links = $('.item')
             .map((i, it) => host + $(it).attr('href'))
             .get();
-          return forkJoin(links.map((it) => this.request.request(it).pipe(map((x) => [it, x]))));
+          return links;
         }),
-        map(($figures) => {
-          return $figures.map(([url, $]) => {
-            const name = $('.name').text();
-            const cover = $('#tlarge > div.active > img').attr('src');
-            const price = $('.num').text();
-            const publishAt = $('#form1 > section:nth-child(6) > div > h4').text();
-            const figure: Figure = {
-              url,
-              name,
-              cover,
-              price,
-              publishAt,
-            };
-            return figure;
-          });
-        })
+        mergeAll<string>(),
+        mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
+          this.request.request(url).pipe(map(($) => [url, $]))
+        ),
+        observeOn(queueScheduler),
+        map(([url, $]) => {
+          const name = $('.name').text();
+          // FIXME: should show not found file image
+          const cover = $('#tlarge > div.active > img').attr('src') || '';
+          const price = $('.num').text();
+          const publishAt = $('#form1 > section:nth-child(6) > div > h4').text();
+          const figure: Figure = {
+            url,
+            name,
+            cover,
+            price,
+            publishAt,
+          };
+          return figure;
+        }),
+        reduce<Figure, Figure[]>((acc, it) => [...acc, it], [])
       )
       .toPromise();
   }
