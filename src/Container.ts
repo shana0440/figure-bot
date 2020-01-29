@@ -101,7 +101,7 @@ export class Container {
 
   get goodsmileCrawler(): GoodSmileCrawler {
     if (!this.crawlers.goodsmile) {
-      this.crawlers.goodsmile = new GoodSmileCrawler(this.htmlRequest);
+      this.crawlers.goodsmile = new GoodSmileCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.goodsmile;
   }
