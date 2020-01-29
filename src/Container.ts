@@ -94,7 +94,7 @@ export class Container {
 
   get fnexCrawler(): FnexCrawler {
     if (!this.crawlers.fnex) {
-      this.crawlers.fnex = new FnexCrawler(this.htmlRequest);
+      this.crawlers.fnex = new FnexCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.fnex;
   }
