@@ -115,7 +115,7 @@ export class Container {
 
   get pulchraCrawler(): PulchraCrawler {
     if (!this.crawlers.pulchra) {
-      this.crawlers.pulchra = new PulchraCrawler(this.htmlRequest);
+      this.crawlers.pulchra = new PulchraCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.pulchra;
   }
