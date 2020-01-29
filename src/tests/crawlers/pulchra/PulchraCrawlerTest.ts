@@ -30,7 +30,7 @@ describe('PulchraCrawler', () => {
           {
             url: 'https://pulc.jp/category/select/cid/312/pid/8961',
             name: '盾の勇者の成り上がり「ラフタリア&フィーロ（フィロリアルver.）」',
-            cover: 'https://pulc.jp/resources/upload/products/thumbnail2/190617_rahu_firo _shop_shiro.jpg',
+            cover: 'https://pulc.jp/resources/upload/products/thumbnail2/190617_rahu_firo%20_shop_shiro.jpg',
             price: '17,280円',
             publishAt: '2019年12月末発売予定',
           },

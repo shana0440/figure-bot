@@ -30,7 +30,7 @@ export class PulchraCrawler implements FigureCrawler {
         observeOn(queueScheduler),
         map(([url, $]) => {
           const name = $('div.title:nth-child(1) > h1:nth-child(1)').text();
-          const cover = `${host}/` + $('#zoom_09').attr('src');
+          const cover = encodeURI(`${host}/` + $('#zoom_09').attr('src'));
           const price = $('.price > h3').text();
           const description = $('.description').text() || '';
           const match = description.match(/【発売日】(.*)\B/);
