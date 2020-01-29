@@ -6,7 +6,7 @@ import { GoodSmileMockHTMLRequest } from './GoodSmileMockHTMLRequest';
 
 const request = new GoodSmileMockHTMLRequest();
 
-describe('FnexCrawler', () => {
+describe('GoodSmileCrawler', () => {
   it('fetch figures', (done) => {
     const crawler = new GoodSmileCrawler(request);
     crawler
