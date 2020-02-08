@@ -5,6 +5,10 @@ import { HTMLRequest } from '../../request/HTMLRequest';
 
 describe('HTML Request', function() {
   it('fetch html as cheerio', function(done) {
+    if (process.env.CI) {
+      done();
+      return;
+    }
     const request = new HTMLRequest();
     const url = 'https://www.google.com.tw';
     const headers = {
