@@ -51,7 +51,7 @@ app.use(
 
 Sentry.init({ dsn: config.sentryDSN });
 
-app.on('error', (err) => {
+app.on('error', (err: Error) => {
   Sentry.captureException(err);
 });
 
