@@ -15,6 +15,7 @@ import { GoodSmileCrawler } from './crawlers/GoodSmileCrawler';
 import { KotobukiyaCrawler } from './crawlers/KotobukiyaCrawler';
 import { PulchraCrawler } from './crawlers/PulchraCrawler';
 import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
+import { BroccoliCrawler } from './crawlers/BroccoliCrawler';
 import { HTMLRequest } from './request/HTMLRequest';
 
 type Schema = UserSchema & FigureSchema;
@@ -35,6 +36,7 @@ export class Container {
     kotobukiya?: KotobukiyaCrawler;
     pulchra?: PulchraCrawler;
     tokyofigure?: TokyofigureCrawler;
+    broccoli?: BroccoliCrawler;
   } = {};
 
   constructor(config: Config) {
@@ -125,5 +127,12 @@ export class Container {
       this.crawlers.tokyofigure = new TokyofigureCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.tokyofigure;
+  }
+
+  get broccoliCrawler(): BroccoliCrawler {
+    if (!this.crawlers.broccoli) {
+      this.crawlers.broccoli = new BroccoliCrawler(this.htmlRequest, this.figureRepository);
+    }
+    return this.crawlers.broccoli;
   }
 }
