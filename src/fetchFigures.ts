@@ -15,6 +15,7 @@ const crawlers = [
   container.pulchraCrawler,
   container.tokyofigureCrawler,
   container.broccoliCrawler,
+  container.hobbyjapanCrawler,
 ];
 
 const lineSender = container.lineFigureSender;
