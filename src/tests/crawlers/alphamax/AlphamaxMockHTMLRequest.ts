@@ -1,27 +1,14 @@
-import { readFileSync } from 'fs';
+import { MockRequest } from '../MockRequest';
 
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as Cheerio from 'cheerio';
-
-import { Request } from '../../../request/Request';
-
-export class AlphamaxMockHTMLRequest implements Request {
-  htmls: string[];
-
+export class AlphamaxMockHTMLRequest extends MockRequest {
   constructor() {
-    this.htmls = [
-      readFileSync(`${__dirname}/ax0112asuna.html`).toString(),
-      readFileSync(`${__dirname}/ax0165jeanne.html`).toString(),
-      readFileSync(`${__dirname}/ax0224dai-yu_std.html`).toString(),
-      readFileSync(`${__dirname}/ax0227vanilla.html`).toString(),
-      readFileSync(`${__dirname}/ax0226chocola.html`).toString(),
-      readFileSync(`${__dirname}/figure_list.html`).toString(),
-    ];
-  }
-
-  request() {
-    const html = this.htmls.pop() || '';
-    return of(html).pipe(map((it) => Cheerio.load(it)));
+    super([
+      `${__dirname}/ax0112asuna.html`,
+      `${__dirname}/ax0165jeanne.html`,
+      `${__dirname}/ax0224dai-yu_std.html`,
+      `${__dirname}/ax0227vanilla.html`,
+      `${__dirname}/ax0226chocola.html`,
+      `${__dirname}/figure_list.html`,
+    ]);
   }
 }

@@ -21,6 +21,7 @@ export class BroccoliCrawler implements FigureCrawler {
     return this.request
       .request(`${host}/hobby_index/`)
       .pipe(
+        map((resp) => resp.asHTML()),
         map(($) => {
           const links = $('.pre a,.def a')
             .map((i, it) => host + $(it).attr('href'))
@@ -30,7 +31,7 @@ export class BroccoliCrawler implements FigureCrawler {
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
-          this.request.request(url).pipe(map(($) => [url, $]))
+          this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {

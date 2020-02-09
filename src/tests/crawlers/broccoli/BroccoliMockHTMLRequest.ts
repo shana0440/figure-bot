@@ -1,24 +1,11 @@
-import { readFileSync } from 'fs';
+import { MockRequest } from '../MockRequest';
 
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as Cheerio from 'cheerio';
-
-import { Request } from '../../../request/Request';
-
-export class BroccoliMockHTMLRequest implements Request {
-  htmls: string[];
-
+export class BroccoliMockHTMLRequest extends MockRequest {
   constructor() {
-    this.htmls = [
-      readFileSync(`${__dirname}/figure42_ga_mint.html`).toString(),
-      readFileSync(`${__dirname}/figure47_zx_azumi.html`).toString(),
-      readFileSync(`${__dirname}/figure_list.html`).toString(),
-    ];
-  }
-
-  request() {
-    const html = this.htmls.pop() || '';
-    return of(html).pipe(map((it) => Cheerio.load(it)));
+    super([
+      `${__dirname}/figure42_ga_mint.html`,
+      `${__dirname}/figure47_zx_azumi.html`,
+      `${__dirname}/figure_list.html`,
+    ]);
   }
 }

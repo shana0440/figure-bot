@@ -18,7 +18,7 @@ import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
 import { BroccoliCrawler } from './crawlers/BroccoliCrawler';
 import { HobbyjapanCrawler } from './crawlers/HobbyjapanCrawler';
 import { HakomusuCrawler } from './crawlers/HakomusuCrawler';
-import { HTMLRequest } from './request/HTMLRequest';
+import { Request } from './request/Request';
 
 type Schema = UserSchema & FigureSchema;
 
@@ -28,7 +28,7 @@ export class Container {
   private userRepo?: UserRepository;
   private figureRepo?: FigureRepository;
   private lineSender?: LineFigureSender;
-  private htmlReq?: HTMLRequest;
+  private req?: Request;
   private crawlers: {
     alphamax?: AlphamaxCrawler;
     alter?: AlterCrawler;
@@ -70,86 +70,86 @@ export class Container {
     return this.lineSender;
   }
 
-  get htmlRequest(): HTMLRequest {
-    if (!this.htmlReq) {
-      this.htmlReq = new HTMLRequest();
+  get request(): Request {
+    if (!this.req) {
+      this.req = new Request();
     }
-    return this.htmlReq;
+    return this.req;
   }
 
   get alphamaxCrawler(): AlphamaxCrawler {
     if (!this.crawlers.alphamax) {
-      this.crawlers.alphamax = new AlphamaxCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.alphamax = new AlphamaxCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.alphamax;
   }
 
   get alterCrawler(): AlterCrawler {
     if (!this.crawlers.alter) {
-      this.crawlers.alter = new AlterCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.alter = new AlterCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.alter;
   }
 
   get aoshimaCrawler(): AoshimaCrawler {
     if (!this.crawlers.aoshima) {
-      this.crawlers.aoshima = new AoshimaCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.aoshima = new AoshimaCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.aoshima;
   }
 
   get fnexCrawler(): FnexCrawler {
     if (!this.crawlers.fnex) {
-      this.crawlers.fnex = new FnexCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.fnex = new FnexCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.fnex;
   }
 
   get goodsmileCrawler(): GoodSmileCrawler {
     if (!this.crawlers.goodsmile) {
-      this.crawlers.goodsmile = new GoodSmileCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.goodsmile = new GoodSmileCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.goodsmile;
   }
 
   get kotobukiyaCrawler(): KotobukiyaCrawler {
     if (!this.crawlers.kotobukiya) {
-      this.crawlers.kotobukiya = new KotobukiyaCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.kotobukiya = new KotobukiyaCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.kotobukiya;
   }
 
   get pulchraCrawler(): PulchraCrawler {
     if (!this.crawlers.pulchra) {
-      this.crawlers.pulchra = new PulchraCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.pulchra = new PulchraCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.pulchra;
   }
 
   get tokyofigureCrawler(): TokyofigureCrawler {
     if (!this.crawlers.tokyofigure) {
-      this.crawlers.tokyofigure = new TokyofigureCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.tokyofigure = new TokyofigureCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.tokyofigure;
   }
 
   get broccoliCrawler(): BroccoliCrawler {
     if (!this.crawlers.broccoli) {
-      this.crawlers.broccoli = new BroccoliCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.broccoli = new BroccoliCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.broccoli;
   }
 
   get hobbyjapanCrawler(): HobbyjapanCrawler {
     if (!this.crawlers.hobbyjapan) {
-      this.crawlers.hobbyjapan = new HobbyjapanCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.hobbyjapan = new HobbyjapanCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.hobbyjapan;
   }
 
   get hakomusuCrawler(): HakomusuCrawler {
     if (!this.crawlers.hakomusu) {
-      this.crawlers.hakomusu = new HakomusuCrawler(this.htmlRequest, this.figureRepository);
+      this.crawlers.hakomusu = new HakomusuCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.hakomusu;
   }

@@ -21,6 +21,7 @@ export class KotobukiyaCrawler implements FigureCrawler {
     return this.request
       .request(`${host}/product-category/figure/`)
       .pipe(
+        map((resp) => resp.asHTML()),
         map(($) => {
           const links = $('.product-item')
             .map((i, it) => host + $(it).attr('href'))
@@ -30,7 +31,7 @@ export class KotobukiyaCrawler implements FigureCrawler {
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
-          this.request.request(url).pipe(map(($) => [url, $]))
+          this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {

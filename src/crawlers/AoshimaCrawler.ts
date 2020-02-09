@@ -20,6 +20,7 @@ export class AoshimaCrawler implements FigureCrawler {
     return this.request
       .request('http://www.aoshima-bk.co.jp/product/?s=&brand=&category=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2')
       .pipe(
+        map((resp) => resp.asHTML()),
         map(($) => {
           const links = $('.item-list > li > a:nth-child(1)')
             .map((i, it) => $(it).attr('href'))
@@ -29,7 +30,7 @@ export class AoshimaCrawler implements FigureCrawler {
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
-          this.request.request(url).pipe(map(($) => [url, $]))
+          this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {

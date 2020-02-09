@@ -21,6 +21,7 @@ export class GoodSmileCrawler implements FigureCrawler {
     return this.request
       .request(url)
       .pipe(
+        map((resp) => resp.asHTML()),
         map(($) => {
           const links = $('.hitBox a:not([target="_blank"])')
             .map((i, it) => $(it).attr('href'))
@@ -30,7 +31,7 @@ export class GoodSmileCrawler implements FigureCrawler {
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
-          this.request.request(url).pipe(map(($) => [url, $]))
+          this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {

@@ -21,6 +21,7 @@ export class TokyofigureCrawler implements FigureCrawler {
     return this.request
       .request(`${host}/products/list.php?category_id=9&orderby=date&disp_number=10&pageno=1`)
       .pipe(
+        map((resp) => resp.asHTML()),
         map(($) => {
           const links = $('.list_area img')
             .map((i, it) => {
@@ -34,7 +35,7 @@ export class TokyofigureCrawler implements FigureCrawler {
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
-          this.request.request(url).pipe(map(($) => [url, $]))
+          this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {

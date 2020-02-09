@@ -1,24 +1,7 @@
-import { readFileSync } from 'fs';
+import { MockRequest } from '../MockRequest';
 
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as Cheerio from 'cheerio';
-
-import { Request } from '../../../request/Request';
-
-export class TokyofigureMockHTMLRequest implements Request {
-  private htmls: string[];
-
+export class TokyofigureMockHTMLRequest extends MockRequest {
   constructor() {
-    this.htmls = [
-      readFileSync(`${__dirname}/133.html`).toString(),
-      readFileSync(`${__dirname}/134.html`).toString(),
-      readFileSync(`${__dirname}/figure_list.html`).toString(),
-    ];
-  }
-
-  request() {
-    const html = this.htmls.pop() || '';
-    return of(html).pipe(map((it) => Cheerio.load(it)));
+    super([`${__dirname}/133.html`, `${__dirname}/134.html`, `${__dirname}/figure_list.html`]);
   }
 }

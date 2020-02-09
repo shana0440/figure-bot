@@ -23,6 +23,7 @@ export class AlterCrawler implements FigureCrawler {
     for (let i = 0; i < 2; i++) {
       const year = thisYear + i;
       const request = this.request.request(`${host}/figure/?yy=${year}&mm=`).pipe(
+        map((resp) => resp.asHTML()),
         map(($) => {
           const links = $('figure a')
             .map((i, it) => host + $(it).attr('href'))
@@ -32,7 +33,7 @@ export class AlterCrawler implements FigureCrawler {
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
-          this.request.request(url).pipe(map(($) => [url, $]))
+          this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {
