@@ -17,6 +17,7 @@ import { PulchraCrawler } from './crawlers/PulchraCrawler';
 import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
 import { BroccoliCrawler } from './crawlers/BroccoliCrawler';
 import { HobbyjapanCrawler } from './crawlers/HobbyjapanCrawler';
+import { HakomusuCrawler } from './crawlers/HakomusuCrawler';
 import { HTMLRequest } from './request/HTMLRequest';
 
 type Schema = UserSchema & FigureSchema;
@@ -39,6 +40,7 @@ export class Container {
     tokyofigure?: TokyofigureCrawler;
     broccoli?: BroccoliCrawler;
     hobbyjapan?: HobbyjapanCrawler;
+    hakomusu?: HakomusuCrawler;
   } = {};
 
   constructor(config: Config) {
@@ -143,5 +145,12 @@ export class Container {
       this.crawlers.hobbyjapan = new HobbyjapanCrawler(this.htmlRequest, this.figureRepository);
     }
     return this.crawlers.hobbyjapan;
+  }
+
+  get hakomusuCrawler(): HakomusuCrawler {
+    if (!this.crawlers.hakomusu) {
+      this.crawlers.hakomusu = new HakomusuCrawler(this.htmlRequest, this.figureRepository);
+    }
+    return this.crawlers.hakomusu;
   }
 }
