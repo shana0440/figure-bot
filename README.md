@@ -22,3 +22,6 @@ Use **Line** scan QR Code below, and press **Add** button
 - [x] [Aoshima](http://www.aoshima-bk.co.jp)
 - [x] [Alphamax](http://alphamax.jp)
 - [x] [PULCHRA](https://pulc.jp)
+- [x] [Broccoli](https://www.broccoli.co.jp)
+- [x] [Hobbyjapn](https://hobbyjapan.co.jp)
+- [x] [Hakomusu](https://www.hakomusu.jp/index.html)
