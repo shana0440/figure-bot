@@ -18,6 +18,7 @@ import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
 import { BroccoliCrawler } from './crawlers/BroccoliCrawler';
 import { HobbyjapanCrawler } from './crawlers/HobbyjapanCrawler';
 import { HakomusuCrawler } from './crawlers/HakomusuCrawler';
+import { AniplexPlusCrawler } from './crawlers/AniplexPlusCrawler';
 import { Request } from './request/Request';
 
 type Schema = UserSchema & FigureSchema;
@@ -41,6 +42,7 @@ export class Container {
     broccoli?: BroccoliCrawler;
     hobbyjapan?: HobbyjapanCrawler;
     hakomusu?: HakomusuCrawler;
+    aniplexplus?: AniplexPlusCrawler;
   } = {};
 
   constructor(config: Config) {
@@ -152,5 +154,12 @@ export class Container {
       this.crawlers.hakomusu = new HakomusuCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.hakomusu;
+  }
+
+  get aniplexplusCrawler(): AniplexPlusCrawler {
+    if (!this.crawlers.aniplexplus) {
+      this.crawlers.aniplexplus = new AniplexPlusCrawler(this.request, this.figureRepository);
+    }
+    return this.crawlers.aniplexplus;
   }
 }

@@ -1,0 +1,31 @@
+{
+  "found": 2,
+  "start": 1,
+  "hit": [
+    {
+      "id": "WkMOjdyq",
+      "fields": {
+        "order_start_at": ["2019-07-28T01:00:00Z"],
+        "image": ["/res/hPU64v"],
+        "news_date": ["1970-01-01T00:00:00Z"],
+        "sku_item_category_codes": ["e38395e382a3e382aee383a5e382a2"],
+        "title": ["Fate/EXTRA Last Encore"],
+        "sku_item_category_names": ["\u30d5\u30a3\u30ae\u30e5\u30a2"],
+        "end_at": ["2032-07-17T15:00:00Z"],
+        "recommended": ["0"],
+        "badge": ["e99990e5ae9ae8b2a9e5a3b2"],
+        "sku_item_prices": ["17380"],
+        "start_at": ["2019-07-26T10:00:00Z"],
+        "enabled": ["1"],
+        "updated_at": ["2020-02-09T11:00:05Z"],
+        "badge_code": ["sale"],
+        "order_end_at": ["2019-12-01T15:00:00Z"],
+        "name": [
+          "\u9060\u5742\u30ea\u30f3(\u6226\u95d8\u6642) 1/7\u30b9\u30b1\u30fc\u30eb\u30d5\u30a3\u30ae\u30e5\u30a2"
+        ],
+        "created_at": ["1970-01-01T00:00:00Z"],
+        "title_code": ["466174652f4558545241204c61737420456e636f7265"]
+      }
+    }
+  ]
+}
