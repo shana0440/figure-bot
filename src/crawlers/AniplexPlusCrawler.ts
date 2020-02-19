@@ -53,7 +53,7 @@ export class AniplexPlusCrawler implements FigureCrawler {
         }),
         observeOn<[string, CheerioStatic]>(queueScheduler),
         map<[string, CheerioStatic], Figure>(([url, $]) => {
-          const name = $('.fz24').text();
+          const name = $('.fz24,.fz18').text();
           const cover = host + $('.current > img:nth-child(1)').attr('data-src_normal');
           const price = $('.itemPrice').text();
           const publishAt = $('.itemDate').text();
