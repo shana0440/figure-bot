@@ -32,7 +32,7 @@ Promise.all(
     const nonSavedFigures = figureRepo.filterSavedFigures(figures);
     console.log(nonSavedFigures);
     await lineSender.send(nonSavedFigures);
-    figureRepo.save(figures);
+    figureRepo.save(nonSavedFigures);
   })
 )
   .then(() => {
