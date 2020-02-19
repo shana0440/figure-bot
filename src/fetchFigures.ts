@@ -39,5 +39,6 @@ Promise.all(
     console.log('done');
   })
   .catch((err) => {
+    console.error(err);
     Sentry.captureException(err);
   });
