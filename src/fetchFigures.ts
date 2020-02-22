@@ -3,6 +3,8 @@ import * as Sentry from '@sentry/node';
 import { config } from './config/Config';
 import { Container } from './Container';
 import { Figure } from './models/Figure';
+import { figureSchema } from './schemas/figureSchema';
+import { InvalidFiguresError } from './errors/InvalidFiguresError';
 
 const container = new Container(config);
 
@@ -31,8 +33,18 @@ Promise.all(
   crawlers.map(async (it) => {
     const figures = await it.fetchFigures();
     const nonSavedFigures = figureRepo.filterSavedFigures(figures);
-    console.log(nonSavedFigures);
-    const chunks = nonSavedFigures.reduce<Figure[][]>(
+    const [valid, invalid] = nonSavedFigures.reduce<[Figure[], Figure[]]>(
+      ([valid, invalid], it) => {
+        if (figureSchema.isValidSync(it)) {
+          valid = [...valid, it];
+        } else {
+          invalid = [...invalid, it];
+        }
+        return [valid, invalid];
+      },
+      [[], []]
+    );
+    const chunks = valid.reduce<Figure[][]>(
       (acc, it) => {
         if (acc[acc.length - 1].length > 10) {
           acc = [...acc, []];
@@ -45,6 +57,9 @@ Promise.all(
     for (let chunk of chunks) {
       await lineSender.send(chunk);
       figureRepo.save(chunk);
+    }
+    if (invalid.length) {
+      throw new InvalidFiguresError(invalid);
     }
   })
 )
