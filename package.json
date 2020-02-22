@@ -24,6 +24,7 @@
     "@types/koa-route": "^3.2.4",
     "@types/lowdb": "^1.0.9",
     "@types/mocha": "^5.2.7",
+    "@types/yup": "^0.26.32",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
     "@typescript-eslint/parser": "^2.17.0",
     "chai": "^4.2.0",
@@ -46,6 +47,7 @@
     "lowdb": "^1.0.0",
     "rotating-file-stream": "^2.0.2",
     "rxjs": "^6.5.4",
-    "xmlhttprequest-ts": "^1.0.1"
+    "xmlhttprequest-ts": "^1.0.1",
+    "yup": "^0.28.1"
   }
 }
