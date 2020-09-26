@@ -23,7 +23,7 @@ export class Response {
     return JSON.parse(this.resp);
   }
 
-  asHTML(): CheerioStatic {
+  asHTML(): cheerio.Root {
     return Cheerio.load(this.resp);
   }
 }

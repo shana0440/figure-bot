@@ -32,7 +32,7 @@ export class AlterCrawler implements FigureCrawler {
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),
-        mergeMap<string, Observable<[string, CheerioStatic]>>((url) =>
+        mergeMap<string, Observable<[string, cheerio.Root]>>((url) =>
           this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),

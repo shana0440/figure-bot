@@ -45,14 +45,14 @@ export class AniplexPlusCrawler implements FigureCrawler {
           return this.figureRepo.filterSavedFigureURLs(urls);
         }),
         mergeAll<string>(),
-        mergeMap<string, Observable<[string, CheerioStatic]>>((url) => {
+        mergeMap<string, Observable<[string, cheerio.Root]>>((url) => {
           return this.request.request(url).pipe(
             map((resp) => resp.asHTML()),
             map(($) => [url, $])
           );
         }),
-        observeOn<[string, CheerioStatic]>(queueScheduler),
-        map<[string, CheerioStatic], Figure>(([url, $]) => {
+        observeOn<[string, cheerio.Root]>(queueScheduler),
+        map<[string, cheerio.Root], Figure>(([url, $]) => {
           const name = $('.fz24,.fz18,.fz22,.fz20,.fz14').text();
           const cover = host + $('.current > img:nth-child(1)').attr('data-src_normal');
           const price = $('.itemPrice').text();
