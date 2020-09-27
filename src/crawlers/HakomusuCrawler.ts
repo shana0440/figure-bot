@@ -39,9 +39,9 @@ export class HakomusuCrawler implements FigureCrawler {
           // FIXME: should show not found image
           const coverSrc = $('#photo > img:nth-child(1)').attr('src') || '';
           const cover = `${host}/${coverSrc}`;
-          const price = $('li:contains("価格")')
+          const price = $('li:contains("価格"), li:contains("価　格")')
             .text()
-            .replace('価格', '')
+            .replace(/[価|格]/g, '')
             .trim();
           const publishAt = $('li:contains("発売")')
             .first()
