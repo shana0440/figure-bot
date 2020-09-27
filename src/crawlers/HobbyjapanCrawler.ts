@@ -26,7 +26,9 @@ export class HobbyjapanCrawler implements FigureCrawler {
         map(($) => {
           const links = $('.list_img a')
             .map((i, it) => `${host}/${$(it).attr('href')}`)
-            .get();
+            .get()
+            // not interested in dolls yet.
+            .filter((it: string) => !it.includes('dollybird.shopinfo.jp'));
 
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
