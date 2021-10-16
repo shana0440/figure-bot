@@ -54,7 +54,7 @@ Promise.all(
       },
       [[]]
     );
-    for (let chunk of chunks) {
+    for (const chunk of chunks) {
       await lineSender.send(chunk);
       figureRepo.save(chunk);
     }
