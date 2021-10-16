@@ -8,6 +8,7 @@ import { Figure } from '../models/Figure';
 import { FigureRepository } from '../repositories/FigureRepository';
 
 export class GoodSmileCrawler implements FigureCrawler {
+  name = 'GoodSmile';
   private request: Request;
   private figureRepo: FigureRepository;
 

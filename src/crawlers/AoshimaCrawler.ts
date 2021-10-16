@@ -8,6 +8,7 @@ import { Figure } from '../models/Figure';
 import { FigureRepository } from '../repositories/FigureRepository';
 
 export class AoshimaCrawler implements FigureCrawler {
+  name = 'Aoshima';
   private request: Request;
   private figureRepo: FigureRepository;
 

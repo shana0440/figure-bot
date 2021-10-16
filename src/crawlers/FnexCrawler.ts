@@ -8,6 +8,7 @@ import { Figure } from '../models/Figure';
 import { FigureRepository } from '../repositories/FigureRepository';
 
 export class FnexCrawler implements FigureCrawler {
+  name = 'Fnex';
   private request: Request;
   private figureRepo: FigureRepository;
 

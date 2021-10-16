@@ -8,6 +8,7 @@ import { Figure } from '../models/Figure';
 import { FigureRepository } from '../repositories/FigureRepository';
 
 export class PulchraCrawler implements FigureCrawler {
+  name = 'Pulchra';
   private request: Request;
   private figureRepo: FigureRepository;
 

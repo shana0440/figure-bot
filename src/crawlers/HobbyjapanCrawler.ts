@@ -8,6 +8,7 @@ import { Figure } from '../models/Figure';
 import { FigureRepository } from '../repositories/FigureRepository';
 
 export class HobbyjapanCrawler implements FigureCrawler {
+  name = 'Hobbyjapan';
   private request: Request;
   private figureRepo: FigureRepository;
 

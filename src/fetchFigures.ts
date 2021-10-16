@@ -28,9 +28,9 @@ const figureRepo = container.figureRepository;
 
 Sentry.init({ dsn: config.sentryDSN });
 
-console.log('start fetch');
-Promise.all(
-  crawlers.map(async (it) => {
+async function main() {
+  for (const it of crawlers) {
+    console.log(`${it.name}: start fetching`);
     const figures = await it.fetchFigures();
     const nonSavedFigures = figureRepo.filterSavedFigures(figures);
     const [valid, invalid] = nonSavedFigures.reduce<[Figure[], Figure[]]>(
@@ -61,12 +61,11 @@ Promise.all(
     if (invalid.length) {
       throw new InvalidFiguresError(invalid);
     }
-  })
-)
-  .then(() => {
-    console.log('done');
-  })
-  .catch((err) => {
-    console.error(err);
-    Sentry.captureException(err);
-  });
+    console.log(`${it.name}: fetched ${valid.length} figure`);
+  }
+}
+
+main().catch((err) => {
+  console.error(err);
+  Sentry.captureException(err);
+});

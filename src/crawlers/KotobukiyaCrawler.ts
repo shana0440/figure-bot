@@ -8,6 +8,7 @@ import { Figure } from '../models/Figure';
 import { FigureRepository } from '../repositories/FigureRepository';
 
 export class KotobukiyaCrawler implements FigureCrawler {
+  name = 'Kotobukiya';
   private request: Request;
   private figureRepo: FigureRepository;
 

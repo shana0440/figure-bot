@@ -14,6 +14,7 @@ interface ItemsResponse {
 }
 
 export class AniplexPlusCrawler implements FigureCrawler {
+  name = 'AniplexPlus';
   private request: Request;
   private figureRepo: FigureRepository;
 
