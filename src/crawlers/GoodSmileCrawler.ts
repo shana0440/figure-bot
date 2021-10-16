@@ -37,7 +37,8 @@ export class GoodSmileCrawler implements FigureCrawler {
         map(([url, $]) => {
           const name = $('.title').text();
           const cover = 'https:' + $('#itemZoom1 > div:nth-child(1) > a:nth-child(2) > img:nth-child(1)').attr('src');
-          const price = $('dd[itemprop=price]')
+          const price = $('#itemBox dt:contains("價格")')
+            .next()
             .text()
             .replace(/\s/g, '');
           const publishAt = $('dd.release_date').text();
