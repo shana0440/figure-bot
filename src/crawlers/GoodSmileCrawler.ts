@@ -20,7 +20,9 @@ export class GoodSmileCrawler implements FigureCrawler {
   async fetchFigures() {
     const url = 'https://www.goodsmile.info/zh/products/category/scale/announced';
     return this.request
-      .request(url)
+      .request(url, {
+        cookie: 'age_verification_ok=true;',
+      })
       .pipe(
         map((resp) => resp.asHTML()),
         map(($) => {
@@ -32,7 +34,11 @@ export class GoodSmileCrawler implements FigureCrawler {
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, cheerio.Root]>>((url) =>
-          this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
+          this.request
+            .request(url, {
+              cookie: 'age_verification_ok=true;',
+            })
+            .pipe(map((resp) => [url, resp.asHTML()]))
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {
