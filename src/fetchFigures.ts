@@ -4,7 +4,6 @@ import { config } from './config/Config';
 import { Container } from './Container';
 import { Figure } from './models/Figure';
 import { figureSchema } from './schemas/figureSchema';
-import { InvalidFiguresError } from './errors/InvalidFiguresError';
 
 const container = new Container(config);
 
@@ -59,7 +58,7 @@ async function main() {
       figureRepo.save(chunk);
     }
     if (invalid.length) {
-      throw new InvalidFiguresError(invalid);
+      Sentry.captureMessage(JSON.stringify(invalid));
     }
     console.log(`${it.name}: fetched ${valid.length} figure`);
   }
