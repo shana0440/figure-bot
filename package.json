@@ -38,6 +38,7 @@
   "dependencies": {
     "@line/bot-sdk": "^6.8.4",
     "@sentry/node": "^5.11.1",
+    "axios": "^0.23.0",
     "cheerio": "^1.0.0-rc.3",
     "dotenv": "^8.2.0",
     "koa": "^2.11.0",
@@ -47,7 +48,6 @@
     "lowdb": "^1.0.0",
     "rotating-file-stream": "^2.0.2",
     "rxjs": "^6.5.4",
-    "xmlhttprequest-ts": "^1.0.1",
     "yup": "^0.28.1"
   }
 }
