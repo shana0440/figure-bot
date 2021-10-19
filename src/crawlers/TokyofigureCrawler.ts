@@ -20,14 +20,13 @@ export class TokyofigureCrawler implements FigureCrawler {
   async fetchFigures() {
     const host = 'https://tokyofigure.jp';
     return this.request
-      .request(`${host}/products/list.php?category_id=9&orderby=date&disp_number=10&pageno=1`)
+      .request(`${host}/products/list.php?category_id=9&disp_number=148&pageno=1wovn=ja`)
       .pipe(
         map((resp) => resp.asHTML()),
         map(($) => {
-          const links = $('.list_area img')
+          const links = $('.productlist_l > a')
             .map((i, it) => {
-              const onclick = $(it).attr('onclick') || '';
-              const link = (onclick.match(/jumpDetail\('(.*)'\)/) || []).pop();
+              const link = $(it).attr('href') || '';
               return host + link;
             })
             .get();
@@ -41,10 +40,14 @@ export class TokyofigureCrawler implements FigureCrawler {
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {
-          const name = $('.title').text();
-          const cover = `${host}` + $('.products_subimg_in:first-child img').attr('src');
-          const price = $('.normal_price > dd:nth-child(2)').text();
-          const publishAt = $('.sale_date > dd:nth-child(2)').text();
+          const name = $('.name:first').text();
+          const cover = `${host}` + $('.ad-thumb-list img:first').attr('src');
+          const price = $('.sale_price_value')
+            .text()
+            .replace(/\n|\s/g, '');
+          const publishAt = $('.sale_date > dd')
+            .text()
+            .replace(/\n|\s/g, '');
           const figure: Figure = {
             url,
             name,
