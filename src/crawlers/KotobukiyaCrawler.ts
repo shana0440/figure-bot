@@ -28,6 +28,7 @@ export class KotobukiyaCrawler implements FigureCrawler {
             .map((i, it) => host + $(it).attr('href'))
             .get();
 
+          console.info(`${this.name}: fetch ${links.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),

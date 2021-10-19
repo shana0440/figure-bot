@@ -43,6 +43,7 @@ export class AniplexPlusCrawler implements FigureCrawler {
         }),
         reduce<string[], string[]>((acc, urls) => [...acc, ...urls], []),
         map<string[], string[]>((urls) => {
+          console.info(`${this.name}: fetch ${urls.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(urls);
         }),
         mergeAll<string>(),

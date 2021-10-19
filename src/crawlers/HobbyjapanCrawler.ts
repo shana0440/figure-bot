@@ -31,6 +31,7 @@ export class HobbyjapanCrawler implements FigureCrawler {
             // not interested in dolls yet.
             .filter((it: string) => !it.includes('dollybird.shopinfo.jp'));
 
+          console.info(`${this.name}: fetch ${links.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),

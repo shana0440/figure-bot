@@ -28,6 +28,7 @@ export class PulchraCrawler implements FigureCrawler {
             .map((i, it) => $(it).attr('href'))
             .get();
 
+          console.info(`${this.name}: fetch ${links.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),

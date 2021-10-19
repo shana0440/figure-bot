@@ -29,7 +29,7 @@ Sentry.init({ dsn: config.sentryDSN });
 
 async function main() {
   for (const it of crawlers) {
-    console.log(`${it.name}: start fetching`);
+    console.info(`${it.name}: start fetching`);
     const figures = await it.fetchFigures();
     const nonSavedFigures = figureRepo.filterSavedFigures(figures);
     const [valid, invalid] = nonSavedFigures.reduce<[Figure[], Figure[]]>(
@@ -60,7 +60,7 @@ async function main() {
     if (invalid.length) {
       Sentry.captureMessage(JSON.stringify(invalid));
     }
-    console.log(`${it.name}: fetched ${valid.length} figure`);
+    console.info(`${it.name}: saved ${valid.length} figures.`);
   }
 }
 

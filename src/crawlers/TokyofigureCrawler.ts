@@ -32,6 +32,7 @@ export class TokyofigureCrawler implements FigureCrawler {
             })
             .get();
 
+          console.info(`${this.name}: fetch ${links.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),
