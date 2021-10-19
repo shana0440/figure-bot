@@ -1,17 +1,11 @@
-import { of, queueScheduler, Observable, interval } from 'rxjs';
-import { mergeMap, map, catchError, mergeAll, reduce, filter, observeOn, takeWhile } from 'rxjs/operators';
+import { of, queueScheduler, Observable } from 'rxjs';
+import { mergeMap, map, catchError, mergeAll, reduce, filter, observeOn } from 'rxjs/operators';
 import * as Sentry from '@sentry/node';
 
 import { FigureCrawler } from './FigureCrawler';
-import { Request, Response } from '../request/Request';
+import { Request } from '../request/Request';
 import { Figure } from '../models/Figure';
 import { FigureRepository } from '../repositories/FigureRepository';
-
-interface ItemsResponse {
-  found: number;
-  start: number;
-  hit: { id: string }[];
-}
 
 export class AniplexPlusCrawler implements FigureCrawler {
   name = 'AniplexPlus';
@@ -25,26 +19,20 @@ export class AniplexPlusCrawler implements FigureCrawler {
 
   async fetchFigures() {
     const host = 'https://www.aniplexplus.com';
-    return interval()
+    const url = `${host}/on/demandware.store/Sites-ANX-Site/ja_JP/Search-UpdateGrid?cgid=titlelist&prefn1=productMediaCode&prefv1=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2&start=0&sz=365&selectedUrl=${host}/on/demandware.store/Sites-ANX-Site/ja_JP/Search-UpdateGrid?cgid=titlelist&prefn1=productMediaCode&prefv1=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2&start=0&sz=365`;
+    return this.request
+      .request(url)
       .pipe(
-        mergeMap((i) => {
-          const start = i * 20;
-          const url = `${host}/search/items?keyword=&start=${start}&category[]=e38395e382a3e382aee383a5e382a2`;
-          return this.request.request(url);
-        }),
-        map<Response, ItemsResponse>((resp) => resp.asJSON<ItemsResponse>()),
-        takeWhile((resp) => resp.start < resp.found),
-        map<ItemsResponse, string[]>((resp) => {
-          const links = resp.hit.map((it) => {
-            const id = it.id;
-            return `${host}/item${id}`;
-          });
-          return links;
-        }),
-        reduce<string[], string[]>((acc, urls) => [...acc, ...urls], []),
-        map<string[], string[]>((urls) => {
-          console.info(`${this.name}: fetch ${urls.length} figures.`);
-          return this.figureRepo.filterSavedFigureURLs(urls);
+        map((resp) => resp.asHTML()),
+        map(($) => {
+          const links = $('article.c-mid-tile > a')
+            .map((_, it) => {
+              const href = $(it).attr('href');
+              return host + href;
+            })
+            .get();
+          console.info(`${this.name}: fetch ${links.length} figures.`);
+          return this.figureRepo.filterSavedFigureURLs(links);
         }),
         mergeAll<string>(),
         mergeMap<string, Observable<[string, cheerio.Root]>>((url) => {
@@ -55,10 +43,17 @@ export class AniplexPlusCrawler implements FigureCrawler {
         }),
         observeOn<[string, cheerio.Root]>(queueScheduler),
         map<[string, cheerio.Root], Figure>(([url, $]) => {
-          const name = $('.fz24,.fz18,.fz22,.fz20,.fz14').text();
-          const cover = host + $('.current > img:nth-child(1)').attr('data-src_normal');
-          const price = $('.itemPrice').text();
-          const publishAt = $('.itemDate').text();
+          const name = $('.product-details .product-name').text();
+          const cover = host + $('.product__image img:first').attr('src');
+          const price = $('.price')
+            .text()
+            .replace(/\n|\s/g, '');
+          const publishAt =
+            $('.footer-item__title > span:contains(お届け時期)')
+              .parents('.detail__footer-item')
+              .find('.itemDetail :contains(お届け予定):first')
+              .text()
+              .replace(/\s/g, '') || $('.salesStartDate__txt:first').text();
           const figure: Figure = {
             url,
             name,
