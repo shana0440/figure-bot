@@ -13,7 +13,6 @@ import { AoshimaCrawler } from './crawlers/AoshimaCrawler';
 import { FnexCrawler } from './crawlers/FnexCrawler';
 import { GoodSmileCrawler } from './crawlers/GoodSmileCrawler';
 import { KotobukiyaCrawler } from './crawlers/KotobukiyaCrawler';
-import { PulchraCrawler } from './crawlers/PulchraCrawler';
 import { TokyofigureCrawler } from './crawlers/TokyofigureCrawler';
 import { BroccoliCrawler } from './crawlers/BroccoliCrawler';
 import { HobbyjapanCrawler } from './crawlers/HobbyjapanCrawler';
@@ -37,7 +36,6 @@ export class Container {
     fnex?: FnexCrawler;
     goodsmile?: GoodSmileCrawler;
     kotobukiya?: KotobukiyaCrawler;
-    pulchra?: PulchraCrawler;
     tokyofigure?: TokyofigureCrawler;
     broccoli?: BroccoliCrawler;
     hobbyjapan?: HobbyjapanCrawler;
@@ -119,13 +117,6 @@ export class Container {
       this.crawlers.kotobukiya = new KotobukiyaCrawler(this.request, this.figureRepository);
     }
     return this.crawlers.kotobukiya;
-  }
-
-  get pulchraCrawler(): PulchraCrawler {
-    if (!this.crawlers.pulchra) {
-      this.crawlers.pulchra = new PulchraCrawler(this.request, this.figureRepository);
-    }
-    return this.crawlers.pulchra;
   }
 
   get tokyofigureCrawler(): TokyofigureCrawler {

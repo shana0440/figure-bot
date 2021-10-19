@@ -14,7 +14,6 @@ const crawlers = [
   container.fnexCrawler,
   container.goodsmileCrawler,
   container.kotobukiyaCrawler,
-  container.pulchraCrawler,
   container.tokyofigureCrawler,
   container.broccoliCrawler,
   container.hobbyjapanCrawler,
