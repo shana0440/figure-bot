@@ -14,7 +14,7 @@ export class Response {
   }
 
   asJSON<T>(): T {
-    return JSON.parse(this.resp);
+    return typeof this.resp === 'string' ? JSON.parse(this.resp) : this.resp;
   }
 
   asHTML(): cheerio.Root {
