@@ -1,5 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
 import * as Lowdb from 'lowdb';
 import * as Memory from 'lowdb/adapters/Memory';
 
@@ -30,12 +28,7 @@ describe('FigureRepository', () => {
     const repo = new FigureRepository(db);
     repo.save(figures);
 
-    expect(
-      db
-        .read()
-        .get('figures')
-        .value()
-    ).deep.equals(figures);
+    expect(db.read().get('figures').value()).toStrictEqual(figures);
   });
 
   it('filter saved figures', () => {
@@ -45,7 +38,7 @@ describe('FigureRepository', () => {
     repo.save([figures[0]]);
     const nonSavedFigures = repo.filterSavedFigures(figures);
 
-    expect(nonSavedFigures).deep.equals([figures[1]]);
+    expect(nonSavedFigures).toStrictEqual([figures[1]]);
   });
 
   it('filter saved figure urls', () => {
@@ -56,6 +49,6 @@ describe('FigureRepository', () => {
     const urls = figures.map((it) => it.url);
     const nonSavedFigureURLs = repo.filterSavedFigureURLs(urls);
 
-    expect(nonSavedFigureURLs).deep.equals([figures[1].url]);
+    expect(nonSavedFigureURLs).toStrictEqual([figures[1].url]);
   });
 });

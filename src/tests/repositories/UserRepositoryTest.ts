@@ -1,5 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
 import * as Lowdb from 'lowdb';
 import * as Memory from 'lowdb/adapters/Memory';
 
@@ -24,13 +22,7 @@ describe('UserRepository', () => {
     const repo = new UserRepository(db);
     repo.save(users[0]);
 
-    expect(
-      db
-        .read()
-        .get('users')
-        .find(users[0])
-        .value()
-    ).deep.equals(users[0]);
+    expect(db.read().get('users').find(users[0]).value()).toStrictEqual(users[0]);
   });
 
   it('delete', () => {
@@ -40,13 +32,7 @@ describe('UserRepository', () => {
     repo.save(users[0]);
     repo.delete(users[0]);
 
-    expect(
-      db
-        .read()
-        .get('users')
-        .find(users[0])
-        .value()
-    ).to.be.undefined;
+    expect(db.read().get('users').find(users[0]).value()).toBeUndefined();
   });
 
   it('list', () => {
@@ -57,6 +43,6 @@ describe('UserRepository', () => {
     repo.save(users[1]);
     const lineUsers = repo.list('line');
 
-    expect(lineUsers).deep.equals([users[0]]);
+    expect(lineUsers).toStrictEqual([users[0]]);
   });
 });

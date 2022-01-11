@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { KotobukiyaCrawler } from '../../../crawlers/KotobukiyaCrawler';
 import { KotobukiyaMockHTMLRequest } from './KotobukiyaMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -13,7 +10,7 @@ describe('KotobukiyaCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.kotobukiya.co.jp/product/product-0000003566/',
             name: 'ジェネ（ステラメモリーズVer.）',
@@ -51,7 +48,7 @@ describe('KotobukiyaCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.kotobukiya.co.jp/product/product-0000003566/',
             name: 'ジェネ（ステラメモリーズVer.）',

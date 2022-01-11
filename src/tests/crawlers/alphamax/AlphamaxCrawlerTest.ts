@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { AlphamaxCrawler } from '../../../crawlers/AlphamaxCrawler';
 import { AlphamaxMockHTMLRequest } from './AlphamaxMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -12,7 +9,7 @@ describe('AlphamaxCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://alphamax.jp/ja-JP/Products/detail/ax0226chocola',
             name: 'ショコラ チャイナドレスedition illustration by さより STD Ver.',
@@ -78,7 +75,7 @@ describe('AlphamaxCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://alphamax.jp/ja-JP/Products/detail/ax0165jeanne',
             name: 'ショコラ チャイナドレスedition illustration by さより STD Ver.',

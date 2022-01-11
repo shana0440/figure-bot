@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { AniplexPlusCrawler } from '../../../crawlers/AniplexPlusCrawler';
 import { AniplexPlusMockRequest } from './AniplexPlusMockRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -13,7 +10,7 @@ describe('AniplexPlusCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.aniplexplus.com/itemChCRrJqq.html',
             name: '1/8スケールフィギュア　Fate/EXTRA CCC「キャスター」',
@@ -51,7 +48,7 @@ describe('AniplexPlusCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.aniplexplus.com/itemChCRrJqq.html',
             name: '1/8スケールフィギュア　Fate/EXTRA CCC「キャスター」',

@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { HobbyjapanCrawler } from '../../../crawlers/HobbyjapanCrawler';
 import { HobbyjapanMockHTMLRequest } from './HobbyjapanMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -13,7 +10,7 @@ describe('HobbyjapanCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://hobbyjapan.co.jp/ltd_items/hj20200301/',
             name: 'エリザベート＝バートリー渚の鮮血魔嬢',
@@ -49,7 +46,7 @@ describe('HobbyjapanCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://hobbyjapan.co.jp/ltd_items/hj20200301/',
             name: 'エリザベート＝バートリー渚の鮮血魔嬢',

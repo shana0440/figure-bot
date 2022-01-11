@@ -1,11 +1,9 @@
-import 'mocha';
-import { expect } from 'chai';
 import { ValidationError } from 'yup';
 
 import { figureSchema } from '../../schemas/figureSchema';
 
-describe('figureSchema', function() {
-  it('not allow empty string', function() {
+describe('figureSchema', function () {
+  it('not allow empty string', function () {
     expect(() => {
       figureSchema.validateSync({
         name: '',
@@ -14,6 +12,6 @@ describe('figureSchema', function() {
         publishAt: '',
         url: '',
       });
-    }).throw(ValidationError);
+    }).toThrow(ValidationError);
   });
 });

@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { AoshimaCrawler } from '../../../crawlers/AoshimaCrawler';
 import { AoshimaMockHTMLRequest } from './AoshimaMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -13,7 +10,7 @@ describe('AoshimaCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'http://www.aoshima-bk.co.jp/product/4905083106204/',
             name: 'Fate/Grand Order 1/7 謎のヒロインX オルタ',
@@ -49,7 +46,7 @@ describe('AoshimaCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'http://www.aoshima-bk.co.jp/product/4905083106204/',
             name: 'Fate/Grand Order 1/7 謎のヒロインX オルタ',

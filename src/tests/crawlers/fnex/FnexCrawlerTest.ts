@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { FnexCrawler } from '../../../crawlers/FnexCrawler';
 import { FnexMockHTMLRequest } from './FnexMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -13,7 +10,7 @@ describe('FnexCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://fnex.jp/products/detail.php?product_id=52',
             name: 'やはり俺の青春ラブコメはまちがっている。完 雪ノ下雪乃 -白無垢- 1/7スケールフィギュア',
@@ -70,7 +67,7 @@ describe('FnexCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://fnex.jp/products/detail.php?product_id=52',
             name: 'やはり俺の青春ラブコメはまちがっている。完 雪ノ下雪乃 -白無垢- 1/7スケールフィギュア',

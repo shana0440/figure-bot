@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { AlterCrawler } from '../../../crawlers/AlterCrawler';
 import { AlterMockHTMLRequest } from './AlterMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -13,7 +10,7 @@ describe('AlterCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://alter-web.jp/products/262/',
             name: '春日野 穹　Ending Ver.',
@@ -56,7 +53,7 @@ describe('AlterCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://alter-web.jp/products/261/',
             name: '春日野 穹　Ending Ver.',

@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { TokyofigureCrawler } from '../../../crawlers/TokyofigureCrawler';
 import { TokyofigureMockHTMLRequest } from './TokyofigureMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -13,7 +10,7 @@ describe('TokyofigureCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://tokyofigure.jp/products/detail.php?product_id=133',
             name: 'バニラ  レースクイーン ver.',
@@ -49,7 +46,7 @@ describe('TokyofigureCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://tokyofigure.jp/products/detail.php?product_id=133',
             name: 'バニラ  レースクイーン ver.',

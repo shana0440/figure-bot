@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { BroccoliCrawler } from '../../../crawlers/BroccoliCrawler';
 import { BroccoliMockHTMLRequest } from './BroccoliMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -12,11 +9,10 @@ describe('BroccoliCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.broccoli.co.jp/hobby/figure47-zx_azumi/',
-            name:
-              'Z/X -Zillions of enemy X-「各務原 あづみ」1/7スケールフィギュア Z/X -Zillions of enemy X- 「各務原 あづみ」',
+            name: 'Z/X -Zillions of enemy X-「各務原 あづみ」1/7スケールフィギュア Z/X -Zillions of enemy X- 「各務原 あづみ」',
             cover: 'https://www.broccoli.co.jp/resource/data/figure/figure47-zx_azumi/gallery/02.jpg',
             price: '19,000円＋税',
             publishAt: '2020年7月予定',
@@ -51,11 +47,10 @@ describe('BroccoliCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.broccoli.co.jp/hobby/figure47-zx_azumi/',
-            name:
-              'Z/X -Zillions of enemy X-「各務原 あづみ」1/7スケールフィギュア Z/X -Zillions of enemy X- 「各務原 あづみ」',
+            name: 'Z/X -Zillions of enemy X-「各務原 あづみ」1/7スケールフィギュア Z/X -Zillions of enemy X- 「各務原 あづみ」',
             cover: 'https://www.broccoli.co.jp/resource/data/figure/figure47-zx_azumi/gallery/02.jpg',
             price: '19,000円＋税',
             publishAt: '2020年7月予定',

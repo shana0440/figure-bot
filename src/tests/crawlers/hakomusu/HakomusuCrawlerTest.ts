@@ -1,6 +1,3 @@
-import 'mocha';
-import { expect } from 'chai';
-
 import { HakomusuCrawler } from '../../../crawlers/HakomusuCrawler';
 import { HakomusuMockHTMLRequest } from './HakomusuMockHTMLRequest';
 import { MockFigureRepoitory } from '../MockFigureRepository';
@@ -12,7 +9,7 @@ describe('HakomusuCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.hakomusu.jp/figure18.html',
             name: '時崎 狂三',
@@ -50,7 +47,7 @@ describe('HakomusuCrawler', () => {
     crawler
       .fetchFigures()
       .then((figures) => {
-        expect(figures).deep.equals([
+        expect(figures).toStrictEqual([
           {
             url: 'https://www.hakomusu.jp/figure18.html',
             name: '時崎 狂三',
