@@ -1,5 +1,5 @@
-import { queueScheduler, Observable, of } from 'rxjs';
-import { mergeMap, map, reduce, mergeAll, observeOn, filter, catchError } from 'rxjs/operators';
+import { queueScheduler, Observable, of, firstValueFrom } from 'rxjs';
+import { mergeMap, map, reduce, observeOn, filter, catchError } from 'rxjs/operators';
 import * as Sentry from '@sentry/node';
 
 import { FigureCrawler } from './FigureCrawler';
@@ -18,11 +18,11 @@ export class AoshimaCrawler implements FigureCrawler {
   }
 
   async fetchFigures() {
-    return this.request
+    const source = this.request
       .request('http://www.aoshima-bk.co.jp/product/?s=&brand=&category=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2')
       .pipe(
         map((resp) => resp.asHTML()),
-        map(($) => {
+        mergeMap(($) => {
           const links = $('.item-list > li > a:nth-child(1)')
             .map((i, it) => $(it).attr('href'))
             .get();
@@ -30,7 +30,6 @@ export class AoshimaCrawler implements FigureCrawler {
           console.info(`${this.name}: fetch ${links.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
-        mergeAll<string>(),
         mergeMap<string, Observable<[string, cheerio.Root]>>((url) =>
           this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
@@ -41,9 +40,7 @@ export class AoshimaCrawler implements FigureCrawler {
           const coverSrc = $('.img > img:nth-child(1)').attr('src') || '';
           const cover = coverSrc.replace('http://', 'https://');
           const price = $('.itemData > dl:nth-child(2) > dd:nth-child(10)').text();
-          const publishAt = $('.itemData > dl:nth-child(2) > dd:nth-child(8)')
-            .text()
-            .trim();
+          const publishAt = $('.itemData > dl:nth-child(2) > dd:nth-child(8)').text().trim();
           const figure: Figure = {
             url,
             name,
@@ -59,7 +56,7 @@ export class AoshimaCrawler implements FigureCrawler {
         }),
         filter((it): it is Figure => it != null),
         reduce<Figure, Figure[]>((acc, it) => [...acc, it], [])
-      )
-      .toPromise();
+      );
+    return firstValueFrom(source);
   }
 }

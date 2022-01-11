@@ -1,5 +1,5 @@
-import { queueScheduler, Observable, of } from 'rxjs';
-import { mergeMap, map, mergeAll, observeOn, reduce, filter, catchError } from 'rxjs/operators';
+import { queueScheduler, Observable, of, firstValueFrom } from 'rxjs';
+import { mergeMap, map, observeOn, reduce, filter, catchError } from 'rxjs/operators';
 import * as Sentry from '@sentry/node';
 
 import { FigureCrawler } from './FigureCrawler';
@@ -19,13 +19,13 @@ export class GoodSmileCrawler implements FigureCrawler {
 
   async fetchFigures() {
     const url = 'https://www.goodsmile.info/zh/products/category/scale/announced';
-    return this.request
+    const source = this.request
       .request(url, {
         cookie: 'age_verification_ok=true;',
       })
       .pipe(
         map((resp) => resp.asHTML()),
-        map(($) => {
+        mergeMap(($) => {
           const links = $('.hitBox a:not([target="_blank"])')
             .map((i, it) => $(it).attr('href'))
             .get();
@@ -33,7 +33,6 @@ export class GoodSmileCrawler implements FigureCrawler {
           console.info(`${this.name}: fetch ${links.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
-        mergeAll<string>(),
         mergeMap<string, Observable<[string, cheerio.Root]>>((url) =>
           this.request
             .request(url, {
@@ -45,10 +44,7 @@ export class GoodSmileCrawler implements FigureCrawler {
         map(([url, $]) => {
           const name = $('.title').text();
           const cover = 'https:' + $('#itemZoom1 > div:nth-child(1) > a:nth-child(2) > img:nth-child(1)').attr('src');
-          const price = $('#itemBox dt:contains("價格")')
-            .next()
-            .text()
-            .replace(/\s/g, '');
+          const price = $('#itemBox dt:contains("價格")').next().text().replace(/\s/g, '');
           const publishAt = $('dd.release_date').text();
           const figure: Figure = {
             url,
@@ -65,7 +61,7 @@ export class GoodSmileCrawler implements FigureCrawler {
         }),
         filter((it): it is Figure => it != null),
         reduce<Figure, Figure[]>((acc, it) => [...acc, it], [])
-      )
-      .toPromise();
+      );
+    return firstValueFrom(source);
   }
 }

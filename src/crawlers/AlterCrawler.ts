@@ -1,5 +1,5 @@
-import { concat, queueScheduler, Observable, of } from 'rxjs';
-import { mergeMap, map, reduce, mergeAll, observeOn, catchError, filter } from 'rxjs/operators';
+import { concat, queueScheduler, Observable, of, firstValueFrom } from 'rxjs';
+import { mergeMap, map, reduce, observeOn, catchError, filter } from 'rxjs/operators';
 import * as Sentry from '@sentry/node';
 
 import { FigureCrawler } from './FigureCrawler';
@@ -25,7 +25,7 @@ export class AlterCrawler implements FigureCrawler {
       const year = thisYear + i;
       const request = this.request.request(`${host}/figure/?yy=${year}&mm=`).pipe(
         map((resp) => resp.asHTML()),
-        map(($) => {
+        mergeMap(($) => {
           const links = $('figure a')
             .map((i, it) => host + $(it).attr('href'))
             .get();
@@ -33,7 +33,6 @@ export class AlterCrawler implements FigureCrawler {
           console.info(`${this.name}: fetch ${links.length} figures.`);
           return this.figureRepo.filterSavedFigureURLs(links);
         }),
-        mergeAll<string>(),
         mergeMap<string, Observable<[string, cheerio.Root]>>((url) =>
           this.request.request(url).pipe(map((resp) => [url, resp.asHTML()]))
         ),
@@ -65,8 +64,7 @@ export class AlterCrawler implements FigureCrawler {
       );
       requests.push(request);
     }
-    return concat(...requests)
-      .pipe(reduce((acc, it) => [...acc, ...it]))
-      .toPromise();
+    const source = concat(...requests).pipe(reduce((acc, it) => [...acc, ...it]));
+    return firstValueFrom(source);
   }
 }
