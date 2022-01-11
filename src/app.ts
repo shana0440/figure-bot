@@ -12,7 +12,7 @@ import { Container } from './Container';
 
 const app = new Koa();
 
-const morganOptiosn = ((config) => {
+const morganOptions = ((config) => {
   if (config.isProduction()) {
     return {
       stream: rfs.createStream('access.log', {
@@ -24,7 +24,7 @@ const morganOptiosn = ((config) => {
   return {};
 })(config);
 
-app.use(morgan('common', morganOptiosn));
+app.use(morgan('common', morganOptions));
 app.use(bodyParser());
 
 const container = new Container(config);

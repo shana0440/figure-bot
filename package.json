@@ -46,7 +46,7 @@
     "koa-morgan": "^1.0.1",
     "koa-route": "^3.2.0",
     "lowdb": "^1.0.0",
-    "rotating-file-stream": "^2.0.2",
+    "rotating-file-stream": "^3.0.2",
     "rxjs": "^6.5.4",
     "yup": "^0.28.1"
   }
