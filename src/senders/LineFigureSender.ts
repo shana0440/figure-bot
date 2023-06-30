@@ -61,7 +61,7 @@ function generateFlexMessage(figure: Figure): FlexMessage {
       url: figure.cover,
       size: 'full',
       aspectRatio: '20:13',
-      aspectMode: 'cover',
+      aspectMode: 'fit',
     },
     body: {
       type: 'box',
