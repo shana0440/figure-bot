@@ -19,10 +19,10 @@ export class KotobukiyaCrawler implements FigureCrawler {
 
   async fetchFigures() {
     const host = 'https://www.kotobukiya.co.jp';
-    const source = this.request.request(`${host}/product-category/figure/`).pipe(
+    const source = this.request.request(`${host}/product/figures/female-character-figures/`).pipe(
       map((resp) => resp.asHTML()),
       mergeMap(($) => {
-        const links = $('.product-item')
+        const links = $('.productList_item a')
           .map((i, it) => host + $(it).attr('href'))
           .get();
 
@@ -34,10 +34,10 @@ export class KotobukiyaCrawler implements FigureCrawler {
       ),
       observeOn(queueScheduler),
       map(([url, $]) => {
-        const name = $('.product-title h1').text();
-        const cover = host + $('.product-main img').attr('src');
-        const price = $('.product-data dl dd:nth-child(12)').text();
-        const publishAt = $('.product-data dl dd:nth-child(6)').text();
+        const name = $('.pageHeader02_title').text();
+        const cover = host + $('.detailSlider_thumbs img').attr('src');
+        const price = $('.detailHeader_set-price dd span:nth-child(1)').text().replace(/\s/g, '');
+        const publishAt = $('.detailHeader_set-release dd').text().replace(/\s/g, '');
         const figure: Figure = {
           url,
           name,
