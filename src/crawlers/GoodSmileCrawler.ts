@@ -18,7 +18,8 @@ export class GoodSmileCrawler implements FigureCrawler {
   }
 
   async fetchFigures() {
-    const url = 'https://www.goodsmile.info/zh/products/category/scale/announced';
+    const host = 'https://goodsmileshop.com';
+    const url = `${host}/tw/%E9%A1%9E%E5%88%A5%E6%A0%B9%E7%9B%AE%E9%8C%84/%E6%AF%94%E4%BE%8B%E6%A8%A1%E5%9E%8B/c/91?sort=postingDate&q=%3AmaxEndDateProduct`;
     const source = this.request
       .request(url, {
         cookie: 'age_verification_ok=true;',
@@ -26,8 +27,8 @@ export class GoodSmileCrawler implements FigureCrawler {
       .pipe(
         map((resp) => resp.asHTML()),
         mergeMap(($) => {
-          const links = $('.hitBox a:not([target="_blank"])')
-            .map((i, it) => $(it).attr('href'))
+          const links = $('.productGrid .group a')
+            .map((i, it) => host + $(it).attr('href'))
             .get();
 
           console.info(`${this.name}: fetch ${links.length} figures.`);
@@ -42,10 +43,10 @@ export class GoodSmileCrawler implements FigureCrawler {
         ),
         observeOn(queueScheduler),
         map(([url, $]) => {
-          const name = $('.title').text();
-          const cover = 'https:' + $('#itemZoom1 > div:nth-child(1) > a:nth-child(2) > img:nth-child(1)').attr('src');
-          const price = $('#itemBox dt:contains("價格")').next().text().replace(/\s/g, '');
-          const publishAt = $('dd.release_date').text();
+          const name = $('th:contains("商品名稱")').next().text();
+          const cover = host + $('#imageLink > img').attr('data-original');
+          const price = $('.qty div:contains("價格")').next().text().replace(/\s/g, '');
+          const publishAt = $('th:contains("發售日")').next().text().replace(/\s/g, '');
           const figure: Figure = {
             url,
             name,
