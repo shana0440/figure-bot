@@ -19,7 +19,7 @@ export class AniplexPlusCrawler implements FigureCrawler {
 
   async fetchFigures() {
     const host = 'https://www.aniplexplus.com';
-    const url = `${host}/on/demandware.store/Sites-ANX-Site/ja_JP/Search-UpdateGrid?cgid=titlelist&prefn1=productMediaCode&prefv1=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2&start=0&sz=365&selectedUrl=${host}/on/demandware.store/Sites-ANX-Site/ja_JP/Search-UpdateGrid?cgid=titlelist&prefn1=productMediaCode&prefv1=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2&start=0&sz=365`;
+    const url = `https://online.aniplex.co.jp/on/demandware.store/Sites-ANX-Site/ja_JP/Search-UpdateGrid?cgid=titlelist&prefn1=productMediaCode&prefv1=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2&start=0&sz=365&selectedUrl=$%7Bhost%7D/on/demandware.store/Sites-ANX-Site/ja_JP/Search-UpdateGrid?cgid=titlelist&prefn1=productMediaCode&prefv1=%E3%83%95%E3%82%A3%E3%82%AE%E3%83%A5%E3%82%A2&start=0&sz=365`;
     const source = this.request.request(url).pipe(
       map((resp) => resp.asHTML()),
       mergeMap(($) => {
